@@ -23,5 +23,14 @@
 hs_err_pid*
 
 # Project
+GlobalWaves - Etapa1.md
+
 .idea
 *.iml
+*.txt
+
+/input
+/out
+/ref
+/result
+
