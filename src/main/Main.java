@@ -2,9 +2,11 @@ package main;
 
 import checker.Checker;
 import checker.CheckerConstants;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import fileio.input.CommandInput;
 import fileio.input.LibraryInput;
 
 import java.io.File;
@@ -12,10 +14,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 
 /**
- * The entry point to this homework. It runs the checker that tests your implentation.
+ * The entry point to this homework. It runs the checker that tests your implementation.
  */
 public final class Main {
     static final String LIBRARY_PATH = CheckerConstants.TESTS_PATH + "library/library.json";
@@ -74,6 +77,10 @@ public final class Main {
         ArrayNode outputs = objectMapper.createArrayNode();
 
         // TODO add your implementation
+        File inputFile = new File(CheckerConstants.TESTS_PATH + filePathInput);
+
+        List<CommandInput> commands = objectMapper.readValue(inputFile,
+                                        new TypeReference<List<CommandInput>>() { });
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePathOutput), outputs);
