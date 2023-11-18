@@ -17,7 +17,7 @@ public class Song {
     public Song() {
     }
 
-    public Song(SongInput songInput) {
+    public Song(final SongInput songInput) {
         this.name = songInput.getName();
         this.duration = songInput.getDuration();
         this.album = songInput.getAlbum();

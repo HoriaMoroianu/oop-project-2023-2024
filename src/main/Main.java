@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import entities.Database;
 import fileio.input.CommandInput;
 import fileio.input.LibraryInput;
 
@@ -81,6 +82,7 @@ public final class Main {
 
         List<CommandInput> commands = objectMapper.readValue(inputFile,
                                         new TypeReference<List<CommandInput>>() { });
+        Database.getDatabase().loadDatabase(library);
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePathOutput), outputs);
