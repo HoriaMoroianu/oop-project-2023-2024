@@ -1,7 +1,12 @@
 package commands;
 
+import entities.AudioPlayable;
 import entities.Filter;
+import entities.Library;
+import entities.Song;
 import fileio.input.CommandInput;
+
+import java.util.ArrayList;
 
 public class Search extends Command {
     private String type;
@@ -19,6 +24,7 @@ public class Search extends Command {
             case "song":
                 // Array-Song
                 // aplica filtre pe fiecare melodie
+
                 break;
             case "playlist":
                 // Array-Song
@@ -29,5 +35,14 @@ public class Search extends Command {
                 // aplica filtre pe fiecare podcast
                 break;
         }
+    }
+
+    private ArrayList<AudioPlayable> searchSongs(ArrayList<Song> songs) {
+        ArrayList<AudioPlayable> foundSongs = new ArrayList<>();
+        songs.stream()
+                .filter(song -> filter.filterByName(song))
+                .filter(song -> filter.filterByAlbum(song))
+                .filter(song -> filter.filterByGenre(song));
+        return null;
     }
 }

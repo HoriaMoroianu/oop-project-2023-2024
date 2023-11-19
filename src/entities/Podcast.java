@@ -2,16 +2,15 @@ package entities;
 
 import fileio.input.EpisodeInput;
 import fileio.input.PodcastInput;
+import lombok.Getter;
 
 import java.util.ArrayList;
 
-public class Podcast {
+@Getter
+public class Podcast implements AudioPlayable {
     private String name;
     private String owner;
     private ArrayList<Episode> episodes = new ArrayList<>();
-
-    public Podcast() {
-    }
 
     public Podcast(final PodcastInput podcastInput) {
         name = podcastInput.getName();

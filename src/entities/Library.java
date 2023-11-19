@@ -11,6 +11,7 @@ public final class Library {
     private static Library instance = null;
     private final ArrayList<Song> songs = new ArrayList<>();
     private final ArrayList<Podcast> podcasts = new ArrayList<>();
+    private final ArrayList<Playlist> playlists = new ArrayList<>();
     private final ArrayList<User> users = new ArrayList<>();
 
     private Library() {
