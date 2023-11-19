@@ -18,13 +18,13 @@ public class Song {
     }
 
     public Song(final SongInput songInput) {
-        this.name = songInput.getName();
-        this.duration = songInput.getDuration();
-        this.album = songInput.getAlbum();
-        this.tags = songInput.getTags();
-        this.lyrics = songInput.getLyrics();
-        this.genre = songInput.getGenre();
-        this.releaseYear = songInput.getReleaseYear();
-        this.artist = songInput.getArtist();
+        name = songInput.getName();
+        duration = songInput.getDuration();
+        album = songInput.getAlbum();
+        tags = songInput.getTags();
+        lyrics = songInput.getLyrics();
+        genre = songInput.getGenre();
+        releaseYear = songInput.getReleaseYear();
+        artist = songInput.getArtist();
     }
 }

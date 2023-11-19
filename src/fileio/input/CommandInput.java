@@ -10,7 +10,7 @@ public final class CommandInput {
     private String username;
     private Integer timestamp;
     private String type;
-    private FiltersInput filters;
+    private FilterInput filter;
     private Integer itemNumber;
     private String playlistName;
     private Integer playlistId;

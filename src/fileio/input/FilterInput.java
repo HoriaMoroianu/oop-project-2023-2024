@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 @Getter @Setter @NoArgsConstructor
-public final class FiltersInput {
+public final class FilterInput {
     private String name;
     private String album;
     private ArrayList<String> tags;

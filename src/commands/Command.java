@@ -8,9 +8,9 @@ public abstract class Command {
     private Integer timestamp;
 
     public Command(final CommandInput commandInput) {
-        this.command = commandInput.getCommand();
-        this.username = commandInput.getUsername();
-        this.timestamp = commandInput.getTimestamp();
+        command = commandInput.getCommand();
+        username = commandInput.getUsername();
+        timestamp = commandInput.getTimestamp();
     }
 
     public abstract void executeCommand();

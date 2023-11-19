@@ -11,8 +11,8 @@ public class User {
     }
 
     public User(final UserInput userInput) {
-        this.username = userInput.getUsername();
-        this.age = userInput.getAge();
-        this.city = userInput.getCity();
+        username = userInput.getUsername();
+        age = userInput.getAge();
+        city = userInput.getCity();
     }
 }
