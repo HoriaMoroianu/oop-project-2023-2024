@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 
 @Getter
-public class Filter {
+public final class Filter {
     private String name;
     private String album;
     private ArrayList<String> tags;
@@ -17,7 +17,7 @@ public class Filter {
     private String owner;
 
     public Filter(final FilterInput filterInput) {
-        name= filterInput.getName();
+        name = filterInput.getName();
         album = filterInput.getAlbum();
         tags = filterInput.getTags();
         lyrics = filterInput.getLyrics();
@@ -27,41 +27,39 @@ public class Filter {
         owner = filterInput.getOwner();
     }
 
-    public boolean filterByName(Song song) {
+    public boolean filterByName(final Song song) {
         return name == null || song.getName().startsWith(name);
     }
-    public boolean filterByName(Playlist playlist) {
+    public boolean filterByName(final Playlist playlist) {
         return name == null || playlist.getName().startsWith(name);
     }
-    public boolean filterByName(Podcast podcast) {
+    public boolean filterByName(final Podcast podcast) {
         return name == null || podcast.getName().startsWith(name);
     }
-
-    public boolean filterByOwner(Playlist playlist) {
+    public boolean filterByOwner(final Playlist playlist) {
         return owner == null || playlist.getOwner().equals(owner);
     }
-    public boolean filterByOwner(Podcast podcast) {
+    public boolean filterByOwner(final Podcast podcast) {
         return owner == null || podcast.getOwner().equals(owner);
     }
-
-    public boolean filterByAlbum(Song song) {
+    public boolean filterByAlbum(final Song song) {
         return album == null || song.getAlbum().equals(album);
     }
-    public boolean filterByTags(Song song) {
+    public boolean filterByTags(final Song song) {
         return tags == null || song.getTags().containsAll(tags);
     }
-    public boolean filterByLyrics(Song song) {
+    public boolean filterByLyrics(final Song song) {
         return lyrics == null || song.getLyrics().contains(lyrics);
     }
-    public boolean filterByGenre(Song song) {
-        return genre == null || song.getGenre().equals(genre);
+    public boolean filterByGenre(final Song song) {
+        return genre == null || song.getGenre().equalsIgnoreCase(genre);
     }
-    public boolean filterByArtist(Song song) {
+    public boolean filterByArtist(final Song song) {
         return artist == null || song.getArtist().equals(artist);
     }
-    public boolean filterByReleaseYear(Song song) {
+    public boolean filterByReleaseYear(final Song song) {
         return releaseYear == null || (releaseYear.startsWith("<")
-                ? song.getReleaseYear() < Integer.parseInt(releaseYear)
-                : song.getReleaseYear() > Integer.parseInt(releaseYear));
+                ? song.getReleaseYear() < Integer.parseInt(releaseYear.substring(1))
+                : song.getReleaseYear() > Integer.parseInt(releaseYear.substring(1)));
     }
 }

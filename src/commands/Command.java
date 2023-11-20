@@ -1,17 +1,20 @@
 package commands;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import fileio.input.CommandInput;
+import lombok.Getter;
 
+@Getter
 public abstract class Command {
     private String command;
-    private String username;
+    private String user;
     private Integer timestamp;
 
     public Command(final CommandInput commandInput) {
         command = commandInput.getCommand();
-        username = commandInput.getUsername();
+        user = commandInput.getUsername();
         timestamp = commandInput.getTimestamp();
     }
 
-    public abstract void executeCommand();
+    public abstract ObjectNode executeCommand();
 }
