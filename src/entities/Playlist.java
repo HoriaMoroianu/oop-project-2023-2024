@@ -1,6 +1,6 @@
 package entities;
 
-public class Playlist implements AudioPlayable {
+public class Playlist extends AudioPlayable {
     private String name;
     private String owner;
 

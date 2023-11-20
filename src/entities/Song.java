@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 
 @Getter
-public class Song implements AudioPlayable {
+public class Song extends AudioPlayable {
     private String name;
     private Integer duration;
     private String album;

@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 
 @Getter
-public class Podcast implements AudioPlayable {
+public class Podcast extends AudioPlayable {
     private String name;
     private String owner;
     private ArrayList<Episode> episodes = new ArrayList<>();

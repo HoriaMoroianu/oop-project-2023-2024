@@ -1,14 +1,14 @@
 package entities;
 
-import fileio.input.SongInput;
+import lombok.Getter;
 
 import java.util.ArrayList;
 
-public class SearchBar {
+public final class SearchBar {
+    @Getter
     private ArrayList<AudioPlayable> audioPlayables = new ArrayList<>();
 
-    public void updateSearchBar(ArrayList<AudioPlayable> audioPlayables) {
+    public void updateSearchBar(final ArrayList<AudioPlayable> audioPlayables) {
         this.audioPlayables = audioPlayables;
     }
-
 }

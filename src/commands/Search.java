@@ -2,8 +2,8 @@ package commands;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import entities.AudioPlayable;
 import entities.Filter;
 import entities.Library;
 import entities.Playlist;
@@ -32,52 +32,58 @@ public final class Search extends Command {
     @Override
     public ObjectNode executeCommand() {
         // TODO scoate sursa din player
+        ArrayList<AudioPlayable> audioPlayables = new ArrayList<>();
+
         switch (type) {
             case "song":
-                ArrayList<Song> songs = searchSongs(Library.getLibrary().getSongs());
-                message = "Search returned " + songs.size() + " results";
-                songs.forEach(song -> results.add(song.getName()));
+                audioPlayables = searchSongs(Library.getLibrary().getSongs());
                 break;
             case "podcast":
-                ArrayList<Podcast> podcasts = searchPodcast(Library.getLibrary().getPodcasts());
-                message = "Search returned " + podcasts.size() + " results";
-                podcasts.forEach(podcast -> results.add(podcast.getName()));
+                audioPlayables = searchPodcast(Library.getLibrary().getPodcasts());
                 break;
             case "playlist":
                 // TODO playlist al userului sau public
-                ArrayList<Playlist> playlists = searchPlaylist(Library.getLibrary().getPlaylists());
+                audioPlayables = searchPlaylist(Library.getLibrary().getPlaylists());
                 break;
             default:
                 break;
         }
-        // TODO output
+        message = "Search returned " + audioPlayables.size() + " results";
+        audioPlayables.forEach(audioPlayable -> results.add(audioPlayable.getName()));
+
+        Library.getLibrary()
+            .getUsers()
+            .get(this.getUsername())
+            .getSearchBar()
+            .updateSearchBar(audioPlayables);
+
         return new ObjectMapper().valueToTree(this);
     }
 
-    private ArrayList<Song> searchSongs(final ArrayList<Song> songs) {
+    private ArrayList<AudioPlayable> searchSongs(final ArrayList<Song> songs) {
         return songs.stream()
-                    .filter(filter::filterByName)
-                    .filter(filter::filterByAlbum)
-                    .filter(filter::filterByTags)
-                    .filter(filter::filterByLyrics)
-                    .filter(filter::filterByGenre)
-                    .filter(filter::filterByReleaseYear)
-                    .filter(filter::filterByArtist)
-                    .limit(maxSearchResults)
-                    .collect(Collectors.toCollection(ArrayList::new));
+            .filter(filter::filterByName)
+            .filter(filter::filterByAlbum)
+            .filter(filter::filterByTags)
+            .filter(filter::filterByLyrics)
+            .filter(filter::filterByGenre)
+            .filter(filter::filterByReleaseYear)
+            .filter(filter::filterByArtist)
+            .limit(maxSearchResults)
+            .collect(Collectors.toCollection(ArrayList::new));
     }
-    private ArrayList<Podcast> searchPodcast(final ArrayList<Podcast> podcasts) {
+    private ArrayList<AudioPlayable> searchPodcast(final ArrayList<Podcast> podcasts) {
         return podcasts.stream()
-                       .filter(filter::filterByName)
-                       .filter(filter::filterByOwner)
-                       .limit(maxSearchResults)
-                       .collect(Collectors.toCollection(ArrayList::new));
+            .filter(filter::filterByName)
+            .filter(filter::filterByOwner)
+            .limit(maxSearchResults)
+            .collect(Collectors.toCollection(ArrayList::new));
     }
-    private ArrayList<Playlist> searchPlaylist(final ArrayList<Playlist> playlists) {
+    private ArrayList<AudioPlayable> searchPlaylist(final ArrayList<Playlist> playlists) {
         return playlists.stream()
-                        .filter(filter::filterByName)
-                        .filter(filter::filterByOwner)
-                        .limit(maxSearchResults)
-                        .collect(Collectors.toCollection(ArrayList::new));
+            .filter(filter::filterByName)
+            .filter(filter::filterByOwner)
+            .limit(maxSearchResults)
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 }

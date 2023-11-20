@@ -1,4 +1,5 @@
 package entities;
 
-public interface AudioPlayable {
+public abstract class AudioPlayable {
+    public abstract String getName();
 }

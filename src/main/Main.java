@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import commands.Command;
 import commands.Search;
+import commands.Select;
 import entities.Library;
 import fileio.input.CommandInput;
 import fileio.input.LibraryInput;
@@ -90,6 +91,9 @@ public final class Main {
             switch (commandInput.getCommand()) {
                 case "search":
                     commandArrayList.add(new Search(commandInput));
+                    break;
+                case "select":
+                    commandArrayList.add(new Select(commandInput));
                     break;
                 default:
                     break;
