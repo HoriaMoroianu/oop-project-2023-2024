@@ -4,11 +4,15 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 
+@Getter
 public final class SearchBar {
-    @Getter
-    private ArrayList<AudioPlayable> audioPlayables = new ArrayList<>();
+    private ArrayList<AudioPlayable> searchResults = new ArrayList<>();
+    private AudioPlayable selectedAudio;
 
-    public void updateSearchBar(final ArrayList<AudioPlayable> audioPlayables) {
-        this.audioPlayables = audioPlayables;
+    public void setSearchResults(final ArrayList<AudioPlayable> audioPlayables) {
+        this.searchResults = audioPlayables;
+    }
+    public void setSelectedAudio(final AudioPlayable selectedAudio) {
+        this.selectedAudio = selectedAudio;
     }
 }

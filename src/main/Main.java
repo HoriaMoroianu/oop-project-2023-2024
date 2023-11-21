@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import commands.Command;
+import commands.Load;
 import commands.Search;
 import commands.Select;
 import entities.Library;
@@ -84,22 +85,18 @@ public final class Main {
         // TODO add your implementation
         File inputFile = new File(CheckerConstants.TESTS_PATH + filePathInput);
         List<CommandInput> commands = objectMapper.readValue(inputFile, new TypeReference<>() { });
-        Library.getLibrary().loadLibrary(library);
 
         ArrayList<Command> commandArrayList = new ArrayList<>();
         for (CommandInput commandInput : commands) {
             switch (commandInput.getCommand()) {
-                case "search":
-                    commandArrayList.add(new Search(commandInput));
-                    break;
-                case "select":
-                    commandArrayList.add(new Select(commandInput));
-                    break;
-                default:
-                    break;
+                case "search" -> commandArrayList.add(new Search(commandInput));
+                case "select" -> commandArrayList.add(new Select(commandInput));
+                case "load" -> commandArrayList.add(new Load(commandInput));
+                default -> { }
             }
         }
 
+        Library.getLibrary().loadLibrary(library);
         commandArrayList.stream().map(Command::executeCommand).forEach(outputs::add);
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();

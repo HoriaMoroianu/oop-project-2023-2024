@@ -55,7 +55,7 @@ public final class Search extends Command {
             .getUsers()
             .get(this.getUsername())
             .getSearchBar()
-            .updateSearchBar(audioPlayables);
+            .setSearchResults(audioPlayables);
 
         return new ObjectMapper().valueToTree(this);
     }

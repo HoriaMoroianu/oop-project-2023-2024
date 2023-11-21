@@ -8,11 +8,11 @@ import lombok.Getter;
 @Getter
 public abstract class Command {
     private String command;
+    private Integer timestamp;
 
     @JsonProperty("user")
     private String username;
-
-    private Integer timestamp;
+    // TODO 'message' here?
 
     public Command(final CommandInput commandInput) {
         command = commandInput.getCommand();

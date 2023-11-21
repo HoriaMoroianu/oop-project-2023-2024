@@ -9,6 +9,7 @@ public class User {
     private String city;
     @Getter
     private SearchBar searchBar;
+    @Getter
     private MusicPlayer musicPlayer;
 
     public User(final UserInput userInput) {

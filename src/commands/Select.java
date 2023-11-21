@@ -1,10 +1,10 @@
 package commands;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entities.AudioPlayable;
 import entities.Library;
+import entities.SearchBar;
 import fileio.input.CommandInput;
 import lombok.Getter;
 
@@ -22,23 +22,26 @@ public final class Select extends Command {
 
     @Override
     public ObjectNode executeCommand() {
-        ArrayList<AudioPlayable> audioPlayables =
-                Library.getLibrary().getUsers()
-                        .get(this.getUsername())
-                        .getSearchBar()
-                        .getAudioPlayables();
+        SearchBar searchBar = Library.getLibrary().getUsers()
+                                    .get(this.getUsername())
+                                    .getSearchBar();
 
-        if (audioPlayables.isEmpty()) {
+        ArrayList<AudioPlayable> searchResults = searchBar.getSearchResults();
+
+        if (searchResults.isEmpty()) {
             message = "Please conduct a search before making a selection.";
             return new ObjectMapper().valueToTree(this);
         }
 
-        if (itemNumber > audioPlayables.size()) {
+        if (itemNumber > searchResults.size()) {
             message = "The selected ID is too high.";
             return new ObjectMapper().valueToTree(this);
         }
 
-        message = "Successfully selected " + audioPlayables.get(itemNumber - 1).getName() + ".";
+        searchBar.setSelectedAudio(searchResults.get(itemNumber - 1));
+        searchResults.clear();
+
+        message = "Successfully selected " + searchBar.getSelectedAudio().getName() + ".";
         return new ObjectMapper().valueToTree(this);
     }
 }
