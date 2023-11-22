@@ -12,13 +12,12 @@ import java.util.HashMap;
 @Getter
 public final class Library {
     private static Library instance = null;
+    private Integer timestamp;
+
     private final ArrayList<Song> songs = new ArrayList<>();
     private final ArrayList<Podcast> podcasts = new ArrayList<>();
     private final ArrayList<Playlist> playlists = new ArrayList<>();
     private final HashMap<String, User> users = new HashMap<>();
-
-    private Library() {
-    }
 
     /**
      * Lazy Singleton Pattern
@@ -46,5 +45,16 @@ public final class Library {
         for (final UserInput userInput : libraryInput.getUsers()) {
             users.put(userInput.getUsername(), new User(userInput));
         }
+    }
+
+    public void clearLibrary() {
+        songs.clear();
+        podcasts.clear();
+        playlists.clear();
+        users.clear();
+    }
+
+    public void setTimestamp(final Integer timestamp) {
+        this.timestamp = timestamp;
     }
 }

@@ -8,8 +8,10 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import commands.Command;
 import commands.Load;
+import commands.PlayPause;
 import commands.Search;
 import commands.Select;
+import commands.Status;
 import entities.Library;
 import fileio.input.CommandInput;
 import fileio.input.LibraryInput;
@@ -86,18 +88,22 @@ public final class Main {
         File inputFile = new File(CheckerConstants.TESTS_PATH + filePathInput);
         List<CommandInput> commands = objectMapper.readValue(inputFile, new TypeReference<>() { });
 
-        ArrayList<Command> commandArrayList = new ArrayList<>();
+        ArrayList<Command> executableCommands = new ArrayList<>();
+
         for (CommandInput commandInput : commands) {
             switch (commandInput.getCommand()) {
-                case "search" -> commandArrayList.add(new Search(commandInput));
-                case "select" -> commandArrayList.add(new Select(commandInput));
-                case "load" -> commandArrayList.add(new Load(commandInput));
+                case "search" -> executableCommands.add(new Search(commandInput));
+                case "select" -> executableCommands.add(new Select(commandInput));
+                case "load" -> executableCommands.add(new Load(commandInput));
+                case "status" -> executableCommands.add(new Status(commandInput));
+                case "playPause" -> executableCommands.add(new PlayPause(commandInput));
                 default -> { }
             }
         }
 
         Library.getLibrary().loadLibrary(library);
-        commandArrayList.stream().map(Command::executeCommand).forEach(outputs::add);
+        executableCommands.stream().map(Command::performCommand).forEach(outputs::add);
+        Library.getLibrary().clearLibrary();
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePathOutput), outputs);

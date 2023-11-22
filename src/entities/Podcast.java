@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 
 @Getter
-public class Podcast extends AudioPlayable {
+public class Podcast implements AudioTrack {
     private String name;
     private String owner;
     private ArrayList<Episode> episodes = new ArrayList<>();
@@ -18,5 +18,13 @@ public class Podcast extends AudioPlayable {
         for (final EpisodeInput episodeInput : podcastInput.getEpisodes()) {
             episodes.add(new Episode(episodeInput));
         }
+    }
+
+    @Override
+    public AudioFile getAudioFile() {
+
+        // TODO afla episodul curent
+
+        return episodes.get(0);
     }
 }

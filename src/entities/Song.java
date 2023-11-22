@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 
 @Getter
-public class Song extends AudioPlayable {
+public class Song implements AudioFile, AudioTrack {
     private String name;
     private Integer duration;
     private String album;
@@ -25,5 +25,10 @@ public class Song extends AudioPlayable {
         genre = songInput.getGenre();
         releaseYear = songInput.getReleaseYear();
         artist = songInput.getArtist();
+    }
+
+    @Override
+    public AudioFile getAudioFile() {
+        return this;
     }
 }

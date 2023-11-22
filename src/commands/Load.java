@@ -24,13 +24,13 @@ public final class Load extends Command {
 
         // TODO empty audio collection
 
-        if (searchBar.getSelectedAudio() == null) {
+        if (searchBar.getSelectedTrack() == null) {
             message = "Please select a source before attempting to load.";
             return new ObjectMapper().valueToTree(this);
         }
 
-        user.getMusicPlayer().setTrack(searchBar.getSelectedAudio());
-        searchBar.setSelectedAudio(null);
+        user.getMusicPlayer().setTrack(searchBar.getSelectedTrack());
+        searchBar.setSelectedTrack(null);
 
         message = "Playback loaded successfully.";
         return new ObjectMapper().valueToTree(this);

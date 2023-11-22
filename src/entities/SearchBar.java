@@ -6,13 +6,13 @@ import java.util.ArrayList;
 
 @Getter
 public final class SearchBar {
-    private ArrayList<AudioPlayable> searchResults = new ArrayList<>();
-    private AudioPlayable selectedAudio;
+    private ArrayList<AudioTrack> searchResults = new ArrayList<>();
+    private AudioTrack selectedTrack;
 
-    public void setSearchResults(final ArrayList<AudioPlayable> audioPlayables) {
-        this.searchResults = audioPlayables;
+    public void setSearchResults(final ArrayList<AudioTrack> audioTracks) {
+        this.searchResults = audioTracks;
     }
-    public void setSelectedAudio(final AudioPlayable selectedAudio) {
-        this.selectedAudio = selectedAudio;
+    public void setSelectedTrack(final AudioTrack selectedTrack) {
+        this.selectedTrack = selectedTrack;
     }
 }

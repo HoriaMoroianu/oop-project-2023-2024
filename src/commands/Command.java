@@ -2,6 +2,7 @@ package commands;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import entities.Library;
 import fileio.input.CommandInput;
 import lombok.Getter;
 
@@ -12,6 +13,7 @@ public abstract class Command {
 
     @JsonProperty("user")
     private String username;
+
     // TODO 'message' here?
 
     public Command(final CommandInput commandInput) {
@@ -20,5 +22,10 @@ public abstract class Command {
         timestamp = commandInput.getTimestamp();
     }
 
-    public abstract ObjectNode executeCommand();
+    public ObjectNode performCommand() {
+        Library.getLibrary().setTimestamp(timestamp);
+        return executeCommand();
+    }
+
+    protected abstract ObjectNode executeCommand();
 }

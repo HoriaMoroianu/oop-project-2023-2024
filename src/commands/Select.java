@@ -2,7 +2,7 @@ package commands;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import entities.AudioPlayable;
+import entities.AudioTrack;
 import entities.Library;
 import entities.SearchBar;
 import fileio.input.CommandInput;
@@ -26,7 +26,7 @@ public final class Select extends Command {
                                     .get(this.getUsername())
                                     .getSearchBar();
 
-        ArrayList<AudioPlayable> searchResults = searchBar.getSearchResults();
+        ArrayList<AudioTrack> searchResults = searchBar.getSearchResults();
 
         if (searchResults.isEmpty()) {
             message = "Please conduct a search before making a selection.";
@@ -38,10 +38,10 @@ public final class Select extends Command {
             return new ObjectMapper().valueToTree(this);
         }
 
-        searchBar.setSelectedAudio(searchResults.get(itemNumber - 1));
+        searchBar.setSelectedTrack(searchResults.get(itemNumber - 1));
         searchResults.clear();
 
-        message = "Successfully selected " + searchBar.getSelectedAudio().getName() + ".";
+        message = "Successfully selected " + searchBar.getSelectedTrack().getName() + ".";
         return new ObjectMapper().valueToTree(this);
     }
 }

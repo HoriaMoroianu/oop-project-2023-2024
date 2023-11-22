@@ -3,7 +3,7 @@ package commands;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import entities.AudioPlayable;
+import entities.AudioTrack;
 import entities.Filter;
 import entities.Library;
 import entities.Playlist;
@@ -31,36 +31,38 @@ public final class Search extends Command {
 
     @Override
     public ObjectNode executeCommand() {
+
         // TODO scoate sursa din player
-        ArrayList<AudioPlayable> audioPlayables = new ArrayList<>();
+
+        ArrayList<AudioTrack> audioTracks = new ArrayList<>();
 
         switch (type) {
             case "song":
-                audioPlayables = searchSongs(Library.getLibrary().getSongs());
+                audioTracks = searchSongs(Library.getLibrary().getSongs());
                 break;
             case "podcast":
-                audioPlayables = searchPodcast(Library.getLibrary().getPodcasts());
+                audioTracks = searchPodcast(Library.getLibrary().getPodcasts());
                 break;
             case "playlist":
                 // TODO playlist al userului sau public
-                audioPlayables = searchPlaylist(Library.getLibrary().getPlaylists());
+                audioTracks = searchPlaylist(Library.getLibrary().getPlaylists());
                 break;
             default:
                 break;
         }
-        message = "Search returned " + audioPlayables.size() + " results";
-        audioPlayables.forEach(audioPlayable -> results.add(audioPlayable.getName()));
+        message = "Search returned " + audioTracks.size() + " results";
+        audioTracks.forEach(audioPlayable -> results.add(audioPlayable.getName()));
 
         Library.getLibrary()
             .getUsers()
             .get(this.getUsername())
             .getSearchBar()
-            .setSearchResults(audioPlayables);
+            .setSearchResults(audioTracks);
 
         return new ObjectMapper().valueToTree(this);
     }
 
-    private ArrayList<AudioPlayable> searchSongs(final ArrayList<Song> songs) {
+    private ArrayList<AudioTrack> searchSongs(final ArrayList<Song> songs) {
         return songs.stream()
             .filter(filter::filterByName)
             .filter(filter::filterByAlbum)
@@ -72,14 +74,14 @@ public final class Search extends Command {
             .limit(maxSearchResults)
             .collect(Collectors.toCollection(ArrayList::new));
     }
-    private ArrayList<AudioPlayable> searchPodcast(final ArrayList<Podcast> podcasts) {
+    private ArrayList<AudioTrack> searchPodcast(final ArrayList<Podcast> podcasts) {
         return podcasts.stream()
             .filter(filter::filterByName)
             .filter(filter::filterByOwner)
             .limit(maxSearchResults)
             .collect(Collectors.toCollection(ArrayList::new));
     }
-    private ArrayList<AudioPlayable> searchPlaylist(final ArrayList<Playlist> playlists) {
+    private ArrayList<AudioTrack> searchPlaylist(final ArrayList<Playlist> playlists) {
         return playlists.stream()
             .filter(filter::filterByName)
             .filter(filter::filterByOwner)
