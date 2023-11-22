@@ -15,4 +15,8 @@ public final class SearchBar {
     public void setSelectedTrack(final AudioTrack selectedTrack) {
         this.selectedTrack = selectedTrack;
     }
+    public void emptyBar() {
+        searchResults.clear();
+        selectedTrack = null;
+    }
 }

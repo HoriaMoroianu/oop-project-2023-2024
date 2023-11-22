@@ -8,6 +8,7 @@ import entities.Filter;
 import entities.Library;
 import entities.Playlist;
 import entities.Podcast;
+import entities.SearchBar;
 import entities.Song;
 import fileio.input.CommandInput;
 import lombok.Getter;
@@ -34,6 +35,12 @@ public final class Search extends Command {
 
         // TODO scoate sursa din player
 
+        SearchBar searchBar = Library.getLibrary()
+                .getUsers()
+                .get(this.getUsername())
+                .getSearchBar();
+
+        searchBar.emptyBar();
         ArrayList<AudioTrack> audioTracks = new ArrayList<>();
 
         switch (type) {
@@ -52,12 +59,7 @@ public final class Search extends Command {
         }
         message = "Search returned " + audioTracks.size() + " results";
         audioTracks.forEach(audioPlayable -> results.add(audioPlayable.getName()));
-
-        Library.getLibrary()
-            .getUsers()
-            .get(this.getUsername())
-            .getSearchBar()
-            .setSearchResults(audioTracks);
+        searchBar.setSearchResults(audioTracks);
 
         return new ObjectMapper().valueToTree(this);
     }

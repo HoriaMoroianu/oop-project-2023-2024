@@ -2,11 +2,12 @@ package entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.Setter;
 
 public final class MusicPlayer {
-    @Getter
+    @Getter @Setter
     private String name;
-    @Getter
+    @Getter @Setter
     private Integer remainedTime;
     @Getter
     private String repeat;
@@ -17,6 +18,7 @@ public final class MusicPlayer {
 
     @Getter @JsonIgnore
     private AudioTrack loadedTrack;
+    @Getter @Setter @JsonIgnore
     private AudioFile audioFile;
     private Integer lastUpdateTime;
 
@@ -25,7 +27,7 @@ public final class MusicPlayer {
 
         name = audioTrack.getName();
         loadedTrack = audioTrack;
-        audioFile = loadedTrack.getAudioFile();
+        audioFile = loadedTrack.findAudioFile();
         remainedTime = audioFile.getDuration();
 
         repeat = "No Repeat";
@@ -36,16 +38,20 @@ public final class MusicPlayer {
     }
 
     public void updateMusicPlayer() {
-        // TODO ajunge la momentul curent din playlist
+        // TODO ajunge la momentul curent din playlist / podcast
+        if (loadedTrack == null) {
+            return; // Nothing to update
+        }
 
         int currentTime = Library.getLibrary().getTimestamp();
         int timePassedPlaying = !paused ? (currentTime - lastUpdateTime) : 0;
 
-        remainedTime = Math.max(remainedTime - timePassedPlaying, 0);
+        // TODO audioFile + remainedTime
+        loadedTrack.updateAudioFile(this, timePassedPlaying);
+
         if (remainedTime == 0) {
             removeTrack();
         }
-
         lastUpdateTime = currentTime;
     }
 

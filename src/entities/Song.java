@@ -28,7 +28,17 @@ public class Song implements AudioFile, AudioTrack {
     }
 
     @Override
-    public AudioFile getAudioFile() {
+    public AudioFile findAudioFile() {
         return this;
+    }
+
+    @Override
+    public void updateAudioFile(final MusicPlayer musicPlayer, final int timePassed) {
+        // TODO repeat + shuffle
+        int remainedTime = Math.max(musicPlayer.getRemainedTime() - timePassed, 0);
+
+        musicPlayer.setAudioFile(this);
+        musicPlayer.setName(this.name);
+        musicPlayer.setRemainedTime(remainedTime);
     }
 }

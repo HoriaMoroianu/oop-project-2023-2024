@@ -30,7 +30,6 @@ public final class Load extends Command {
         }
 
         user.getMusicPlayer().setTrack(searchBar.getSelectedTrack());
-        searchBar.setSelectedTrack(null);
 
         message = "Playback loaded successfully.";
         return new ObjectMapper().valueToTree(this);

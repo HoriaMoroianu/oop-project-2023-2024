@@ -15,10 +15,8 @@ public final class PlayPause extends Command {
 
     @Override
     public ObjectNode executeCommand() {
-        MusicPlayer musicPlayer = Library.getLibrary()
-                .getUsers()
-                .get(this.getUsername())
-                .getMusicPlayer();
+        MusicPlayer musicPlayer =
+                Library.getLibrary().getUsers().get(this.getUsername()).getMusicPlayer();
 
         musicPlayer.updateMusicPlayer();
 

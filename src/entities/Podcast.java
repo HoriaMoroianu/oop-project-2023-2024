@@ -21,10 +21,13 @@ public class Podcast implements AudioTrack {
     }
 
     @Override
-    public AudioFile getAudioFile() {
-
-        // TODO afla episodul curent
-
+    public AudioFile findAudioFile() {
+        // TODO de unde am ramas
         return episodes.get(0);
+    }
+
+    @Override
+    public void updateAudioFile(final MusicPlayer musicPlayer, final int timePassed) {
+
     }
 }

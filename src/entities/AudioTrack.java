@@ -2,5 +2,6 @@ package entities;
 
 public interface AudioTrack {
     String getName();
-    AudioFile getAudioFile();
+    AudioFile findAudioFile();
+    void updateAudioFile(MusicPlayer musicPlayer, int timePassed);
 }

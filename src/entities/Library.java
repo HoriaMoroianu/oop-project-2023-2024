@@ -57,4 +57,8 @@ public final class Library {
     public void setTimestamp(final Integer timestamp) {
         this.timestamp = timestamp;
     }
+
+    public void addPlaylist(final Playlist playlist) {
+        playlists.add(playlist);
+    }
 }
