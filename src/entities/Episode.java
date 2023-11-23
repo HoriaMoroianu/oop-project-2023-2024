@@ -18,11 +18,6 @@ public class Episode implements AudioFile {
         return duration;
     }
 
-    @Override
-    public Integer getDuration(final Integer watchTime) {
-        return watchTime == null ? getDuration() : (getDuration() - watchTime);
-    }
-
     public String getName() {
         return name;
     }

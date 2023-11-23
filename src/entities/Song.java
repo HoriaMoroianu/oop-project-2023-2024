@@ -28,22 +28,36 @@ public class Song implements AudioFile, AudioTrack {
     }
 
     @Override
-    public AudioFile findAudioFile(final Integer watchTime) {
+    public AudioFile loadAudioFile(final Integer watchTime) {
         return this;
     }
 
     @Override
     public void updateAudioFile(final MusicPlayer musicPlayer, final int timePassed) {
-        // TODO repeat + shuffle
-        int remainedTime = Math.max(musicPlayer.getRemainedTime() - timePassed, 0);
+        ArrayList<AudioFile> playQueue = new ArrayList<>();
+        playQueue.add(this);
 
-        musicPlayer.setAudioFile(this);
-        musicPlayer.setName(this.name);
-        musicPlayer.setRemainedTime(remainedTime);
-    }
+        if (musicPlayer.repeatState() == 1 && timePassed > musicPlayer.getRemainedTime()) {
+            musicPlayer.setRepeat(0);
+            playQueue.add(musicPlayer.getAudioFile());
+        }
 
-    @Override
-    public Integer getDuration(final Integer watchTime) {
-        return getDuration();
+        switch (musicPlayer.repeatState()) {
+            case 0:
+                simulatePlayQueue(musicPlayer, playQueue, timePassed);
+                break;
+            case 1:
+                playQueue.add(this);
+                simulatePlayQueue(musicPlayer, playQueue, timePassed);
+                break;
+            case 2:
+                int remainedTime = simulatePlayQueue(musicPlayer, playQueue, timePassed);
+                if (remainedTime != 0) {
+                    musicPlayer.setRemainedTime(duration - remainedTime % duration);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

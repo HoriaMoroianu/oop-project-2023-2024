@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Podcast implements AudioTrack {
     private String name;
     private String owner;
-    private ArrayList<Episode> episodes = new ArrayList<>();
+    private ArrayList<AudioFile> episodes = new ArrayList<>();
     private ArrayList<Integer> elapsedTime = new ArrayList<>();
 
     public Podcast(final PodcastInput podcastInput) {
@@ -26,7 +26,7 @@ public class Podcast implements AudioTrack {
     }
 
     @Override
-    public AudioFile findAudioFile(final Integer watchTime) {
+    public AudioFile loadAudioFile(final Integer watchTime) {
         if (watchTime == null) {
             return episodes.get(0);
         }
@@ -41,25 +41,33 @@ public class Podcast implements AudioTrack {
 
     @Override
     public void updateAudioFile(final MusicPlayer musicPlayer, int timePassed) {
-        int currentEpisodeIndex = episodes.indexOf((Episode) musicPlayer.getAudioFile());
-        int timeUntilNext;
+        ArrayList<AudioFile> playQueue = new ArrayList<>(episodes);
 
-        for (; currentEpisodeIndex < episodes.size(); currentEpisodeIndex++) {
-            // Calculate time until next episode starts
-            timeUntilNext =
-                    currentEpisodeIndex == episodes.indexOf((Episode) musicPlayer.getAudioFile())
-                    ? musicPlayer.getRemainedTime()
-                    : episodes.get(currentEpisodeIndex).getDuration();
+        switch (musicPlayer.repeatState()) {
+            case 0:
+                simulatePlayQueue(musicPlayer, playQueue, timePassed);
+                break;
 
-            if (timeUntilNext - timePassed > 0) {
-                // Keep current episode
-                musicPlayer.setAudioFile(episodes.get(currentEpisodeIndex));
-                musicPlayer.setName(episodes.get(currentEpisodeIndex).getName());
-                musicPlayer.setRemainedTime(timeUntilNext - timePassed);
-                return;
-            }
-            timePassed = timePassed - timeUntilNext;
+            case 1:
+                playQueue.add(episodes.indexOf(musicPlayer.getAudioFile()),
+                            musicPlayer.getAudioFile());
+                simulatePlayQueue(musicPlayer, playQueue, timePassed);
+                musicPlayer.setRepeat(0);
+                break;
+
+            case 2:
+                if (timePassed <= musicPlayer.getRemainedTime()) {
+                    musicPlayer.setRemainedTime(musicPlayer.getRemainedTime() - timePassed);
+                    return;
+                }
+
+                timePassed -= musicPlayer.getRemainedTime();
+                int audioFileDuration = musicPlayer.getAudioFile().getDuration();
+                musicPlayer.setRemainedTime(audioFileDuration - timePassed % audioFileDuration);
+                break;
+
+            default:
+                break;
         }
-        musicPlayer.setRemainedTime(0);
     }
 }

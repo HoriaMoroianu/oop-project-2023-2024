@@ -12,6 +12,7 @@ import commands.CreatePlaylist;
 import commands.Like;
 import commands.Load;
 import commands.PlayPause;
+import commands.Repeat;
 import commands.Search;
 import commands.Select;
 import commands.ShowPlaylists;
@@ -104,6 +105,7 @@ public final class Main {
                 case "playPause" -> executableCommands.add(new PlayPause(commandInput));
                 case "createPlaylist" -> executableCommands.add(new CreatePlaylist(commandInput));
                 case "like" -> executableCommands.add(new Like(commandInput));
+                case "repeat" -> executableCommands.add(new Repeat(commandInput));
                 case "showPlaylists" -> executableCommands.add(new ShowPlaylists(commandInput));
                 case "showPreferredSongs" -> executableCommands
                         .add(new ShowPreferredSongs(commandInput));

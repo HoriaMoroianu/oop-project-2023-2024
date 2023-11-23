@@ -3,7 +3,13 @@ package commands;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import entities.*;
+import entities.AudioTrack;
+import entities.Filter;
+import entities.Library;
+import entities.Playlist;
+import entities.Podcast;
+import entities.Song;
+import entities.User;
 import fileio.input.CommandInput;
 import lombok.Getter;
 
@@ -26,7 +32,6 @@ public final class Search extends Command {
 
     @Override
     public ObjectNode executeCommand() {
-        // TODO scoate sursa din player
         User user = Library.getLibrary().getUsers().get(this.getUsername());
         user.getMusicPlayer().removeTrack();
 

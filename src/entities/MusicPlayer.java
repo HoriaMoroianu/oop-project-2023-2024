@@ -11,8 +11,8 @@ public final class MusicPlayer {
     private String name;
     @Getter @Setter
     private Integer remainedTime;
-    @Getter
-    private String repeat;
+    @Setter
+    private Integer repeat;
     @Getter
     private boolean shuffle;
     @Getter
@@ -31,10 +31,10 @@ public final class MusicPlayer {
 
         name = audioTrack.getName();
         loadedTrack = audioTrack;
-        audioFile = loadedTrack.findAudioFile(podcastHistory.get(name));
+        audioFile = loadedTrack.loadAudioFile(podcastHistory.get(name));
         remainedTime = audioFile.getDuration(podcastHistory.get(name));
 
-        repeat = "No Repeat";
+        repeat = 0;
         shuffle = false;
         paused = false;
         lastUpdateTime = Library.getLibrary().getTimestamp();
@@ -66,7 +66,7 @@ public final class MusicPlayer {
         audioFile = null;
         remainedTime = 0;
 
-        repeat = "No Repeat";
+        repeat = 0;
         shuffle = false;
         paused = true;
 
@@ -86,9 +86,31 @@ public final class MusicPlayer {
 
         // Time from the start of the podcast to the end of the current episode
         int elapsedTime = podcast.getElapsedTime()
-                .get(podcast.getEpisodes().indexOf((Episode) audioFile));
+                .get(podcast.getEpisodes().indexOf(audioFile));
 
         // Stores viewing time from the beginning of the podcast until now
         podcastHistory.put(podcast.getName(), elapsedTime - remainedTime);
+    }
+
+    public String getRepeat() {
+        if (repeat == 0) {
+            return "No Repeat";
+        }
+        if (loadedTrack.getClass() == Playlist.class) {
+            return (repeat == 1) ? "Repeat All" : "Repeat Current Song";
+        } else {
+            return (repeat == 1) ? "Repeat Once" : "Repeat Infinite";
+        }
+    }
+
+    public Integer repeatState() {
+        return repeat;
+    }
+
+    public void changeRepeat() {
+        repeat++;
+        if (repeat > 2) {
+            repeat = 0;
+        }
     }
 }

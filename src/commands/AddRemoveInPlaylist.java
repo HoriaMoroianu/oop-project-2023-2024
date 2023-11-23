@@ -22,7 +22,6 @@ public final class AddRemoveInPlaylist extends Command {
 
     @Override
     protected ObjectNode executeCommand() {
-        // TODO: selectedTrack sau MusicPlayer -> audioFile?
         User user = Library.getLibrary().getUsers().get(this.getUsername());
         user.getMusicPlayer().updateMusicPlayer();
         AudioFile loadedAudio = user.getMusicPlayer().getAudioFile();
@@ -46,7 +45,7 @@ public final class AddRemoveInPlaylist extends Command {
             playlist.getSongs().remove(loadedAudio);
             message = "Successfully removed from playlist.";
         } else {
-            playlist.getSongs().add((Song) loadedAudio);
+            playlist.getSongs().add(loadedAudio);
             message = "Successfully added to playlist.";
         }
 

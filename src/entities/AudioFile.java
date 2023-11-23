@@ -1,6 +1,10 @@
 package entities;
 
 public interface AudioFile {
+    // TODO clasa abstracta?
+    String getName();
     Integer getDuration();
-    Integer getDuration(Integer watchTime);
+    default Integer getDuration(Integer watchTime) {
+        return watchTime == null ? getDuration() : (getDuration() - watchTime);
+    }
 }

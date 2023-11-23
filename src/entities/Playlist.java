@@ -6,19 +6,20 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 
+@Getter
 public class Playlist implements AudioTrack {
     private String name;
+
     @JsonProperty("songs")
     private ArrayList<String> songsNames = new ArrayList<>();
-    @Getter
+
     private String visibility;
-    @Getter
     private Integer followers;
 
-    @Getter @JsonIgnore
+    @JsonIgnore
     private String owner;
-    @Getter @JsonIgnore
-    private ArrayList<Song> songs = new ArrayList<>();
+    @JsonIgnore
+    private ArrayList<AudioFile> songs = new ArrayList<>();
 
     public Playlist(final String name, final String owner) {
         this.name = name;
@@ -28,7 +29,7 @@ public class Playlist implements AudioTrack {
     }
 
     @Override
-    public AudioFile findAudioFile(final Integer watchTime) {
+    public AudioFile loadAudioFile(final Integer watchTime) {
         return songs.get(0);
     }
 
@@ -38,27 +39,28 @@ public class Playlist implements AudioTrack {
     }
 
     @Override
-    public void updateAudioFile(final MusicPlayer musicPlayer, int timePassed) {
-        int currentSongIndex = songs.indexOf((Song) musicPlayer.getAudioFile());
-        int timeUntilNext;
+    public void updateAudioFile(final MusicPlayer musicPlayer, final int timePassed) {
+        ArrayList<AudioFile> playQueue = new ArrayList<>(songs);
 
-        for (; currentSongIndex < songs.size(); currentSongIndex++, timePassed -= timeUntilNext) {
-            // Calculate time until next song starts
-            timeUntilNext = currentSongIndex == songs.indexOf((Song) musicPlayer.getAudioFile())
-                    ? musicPlayer.getRemainedTime() : songs.get(currentSongIndex).getDuration();
-
-            if (timeUntilNext - timePassed > 0) {
-                // Keep current song
-                musicPlayer.setAudioFile(songs.get(currentSongIndex));
-                musicPlayer.setName(songs.get(currentSongIndex).getName());
-                musicPlayer.setRemainedTime(timeUntilNext - timePassed);
-                return;
-            }
+        switch (musicPlayer.repeatState()) {
+            case 0:
+                simulatePlayQueue(musicPlayer, playQueue, timePassed);
+                break;
+            case 1:
+                int remainedTime = simulatePlayQueue(musicPlayer, playQueue, timePassed);
+                while (remainedTime != 0) {
+                    musicPlayer.setAudioFile(songs.get(0));
+                    musicPlayer.setRemainedTime(songs.get(0).getDuration());
+                    remainedTime = simulatePlayQueue(musicPlayer, songs, remainedTime);
+                }
+                break;
+            case 2:
+                playQueue.add(songs.indexOf(musicPlayer.getAudioFile()),
+                        musicPlayer.getAudioFile());
+                simulatePlayQueue(musicPlayer, playQueue, timePassed);
+                break;
+            default:
+                break;
         }
-        musicPlayer.setRemainedTime(0);
-    }
-
-    public String getName() {
-        return name;
     }
 }
