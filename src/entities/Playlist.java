@@ -28,7 +28,7 @@ public class Playlist implements AudioTrack {
     }
 
     @Override
-    public AudioFile findAudioFile() {
+    public AudioFile findAudioFile(final Integer watchTime) {
         return songs.get(0);
     }
 

@@ -3,13 +3,7 @@ package commands;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import entities.AudioTrack;
-import entities.Filter;
-import entities.Library;
-import entities.Playlist;
-import entities.Podcast;
-import entities.SearchBar;
-import entities.Song;
+import entities.*;
 import fileio.input.CommandInput;
 import lombok.Getter;
 
@@ -32,17 +26,11 @@ public final class Search extends Command {
 
     @Override
     public ObjectNode executeCommand() {
-
         // TODO scoate sursa din player
+        User user = Library.getLibrary().getUsers().get(this.getUsername());
+        user.getMusicPlayer().removeTrack();
 
-        SearchBar searchBar = Library.getLibrary()
-                .getUsers()
-                .get(this.getUsername())
-                .getSearchBar();
-
-        searchBar.emptyBar();
         ArrayList<AudioTrack> audioTracks = new ArrayList<>();
-
         switch (type) {
             case "song":
                 audioTracks = searchSongs(Library.getLibrary().getSongs());
@@ -59,7 +47,7 @@ public final class Search extends Command {
         }
         message = "Search returned " + audioTracks.size() + " results";
         audioTracks.forEach(audioPlayable -> results.add(audioPlayable.getName()));
-        searchBar.setSearchResults(audioTracks);
+        user.getSearchBar().setSearchResults(audioTracks);
 
         return new ObjectMapper().valueToTree(this);
     }

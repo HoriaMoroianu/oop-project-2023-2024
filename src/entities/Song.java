@@ -28,7 +28,7 @@ public class Song implements AudioFile, AudioTrack {
     }
 
     @Override
-    public AudioFile findAudioFile() {
+    public AudioFile findAudioFile(final Integer watchTime) {
         return this;
     }
 
@@ -40,5 +40,10 @@ public class Song implements AudioFile, AudioTrack {
         musicPlayer.setAudioFile(this);
         musicPlayer.setName(this.name);
         musicPlayer.setRemainedTime(remainedTime);
+    }
+
+    @Override
+    public Integer getDuration(final Integer watchTime) {
+        return getDuration();
     }
 }

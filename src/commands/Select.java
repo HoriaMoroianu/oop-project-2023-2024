@@ -22,9 +22,8 @@ public final class Select extends Command {
 
     @Override
     public ObjectNode executeCommand() {
-        SearchBar searchBar = Library.getLibrary().getUsers()
-                                    .get(this.getUsername())
-                                    .getSearchBar();
+        SearchBar searchBar =
+                Library.getLibrary().getUsers().get(this.getUsername()).getSearchBar();
 
         ArrayList<AudioTrack> searchResults = searchBar.getSearchResults();
 
