@@ -48,7 +48,10 @@ public class Song implements AudioFile, AudioTrack {
 
         switch (musicPlayer.repeatState()) {
             case 0:
-                simulatePlayQueue(musicPlayer, playQueue, timePassed);
+                if (simulatePlayQueue(musicPlayer, playQueue, timePassed)
+                        != musicPlayer.getRemainedTime()) {
+                    musicPlayer.setRemainedTime(0);
+                }
                 break;
             case 1:
                 playQueue.add(this);
@@ -56,7 +59,7 @@ public class Song implements AudioFile, AudioTrack {
                 break;
             case 2:
                 int remainedTime = simulatePlayQueue(musicPlayer, playQueue, timePassed);
-                if (remainedTime != 0) {
+                if (remainedTime != musicPlayer.getRemainedTime()) {
                     musicPlayer.setRemainedTime(duration - remainedTime % duration);
                 }
                 break;

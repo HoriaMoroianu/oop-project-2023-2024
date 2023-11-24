@@ -5,6 +5,8 @@ import fileio.input.PodcastInput;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 @Getter
 public class Podcast implements AudioTrack {
@@ -45,7 +47,10 @@ public class Podcast implements AudioTrack {
 
         switch (musicPlayer.repeatState()) {
             case 0:
-                simulatePlayQueue(musicPlayer, playQueue, timePassed);
+                if (simulatePlayQueue(musicPlayer, playQueue, timePassed)
+                        != musicPlayer.getRemainedTime()) {
+                    musicPlayer.setRemainedTime(0);
+                }
                 break;
 
             case 1:
@@ -73,7 +78,11 @@ public class Podcast implements AudioTrack {
 
     @Override
     public boolean atFirstAudioFile(final MusicPlayer musicPlayer) {
-        return musicPlayer.getAudioFile().equals(episodes.get(0));
+        ArrayList<AudioFile> playQueue = new ArrayList<>(episodes);
+        if (musicPlayer.isShuffle()) {
+            Collections.shuffle(playQueue, new Random(musicPlayer.getSeed()));
+        }
+        return musicPlayer.getAudioFile().equals(playQueue.get(0));
     }
 
     @Override

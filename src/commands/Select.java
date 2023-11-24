@@ -26,6 +26,7 @@ public final class Select extends Command {
                 Library.getLibrary().getUsers().get(this.getUsername()).getSearchBar();
 
         ArrayList<AudioTrack> searchResults = searchBar.getSearchResults();
+        searchBar.setSelectedTrack(null);
 
         if (!searchBar.isSearchConducted()) {
             message = "Please conduct a search before making a selection.";

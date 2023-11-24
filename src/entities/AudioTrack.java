@@ -24,11 +24,10 @@ public interface AudioTrack {
                 musicPlayer.setAudioFile(file);
                 musicPlayer.setName(file.getName());
                 musicPlayer.setRemainedTime(timeUntilNextFile - timePassed);
-                return 0;
+                return timeUntilNextFile - timePassed;
             }
             timePassed -= timeUntilNextFile;
         }
-        musicPlayer.setRemainedTime(0);
         return timePassed;
     }
 }

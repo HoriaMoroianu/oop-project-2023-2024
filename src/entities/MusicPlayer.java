@@ -165,7 +165,6 @@ public final class MusicPlayer {
         if (shuffle) {
             Collections.shuffle(playQueue, new Random(seed));
         }
-
         audioFile = playQueue.get(playQueue.indexOf(audioFile) - 1);
         remainedTime = audioFile.getDuration();
         name = audioFile.getName();

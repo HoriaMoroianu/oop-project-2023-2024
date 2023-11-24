@@ -54,11 +54,14 @@ public class Playlist implements AudioTrack {
 
         switch (musicPlayer.repeatState()) {
             case 0:
-                simulatePlayQueue(musicPlayer, playQueue, timePassed);
+                if (simulatePlayQueue(musicPlayer, playQueue, timePassed)
+                        != musicPlayer.getRemainedTime()) {
+                    musicPlayer.setRemainedTime(0);
+                }
                 break;
             case 1:
                 int remainedTime = simulatePlayQueue(musicPlayer, playQueue, timePassed);
-                while (remainedTime != 0) {
+                while (remainedTime != musicPlayer.getRemainedTime()) {
                     musicPlayer.setAudioFile(playQueue.get(0));
                     musicPlayer.setRemainedTime(playQueue.get(0).getDuration());
                     remainedTime = simulatePlayQueue(musicPlayer, playQueue, remainedTime);
@@ -76,7 +79,11 @@ public class Playlist implements AudioTrack {
 
     @Override
     public boolean atFirstAudioFile(final MusicPlayer musicPlayer) {
-        return musicPlayer.getAudioFile().equals(songs.get(0));
+        ArrayList<AudioFile> playQueue = new ArrayList<>(songs);
+        if (musicPlayer.isShuffle()) {
+            Collections.shuffle(playQueue, new Random(musicPlayer.getSeed()));
+        }
+        return musicPlayer.getAudioFile().equals(playQueue.get(0));
     }
 
     @Override
