@@ -1,7 +1,6 @@
-package entities;
+package entities.audio_collections;
 
 public interface AudioFile {
-    // TODO clasa abstracta?
     String getName();
     Integer getDuration();
     default Integer getDuration(Integer watchTime) {

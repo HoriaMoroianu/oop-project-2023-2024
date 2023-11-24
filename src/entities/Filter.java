@@ -1,5 +1,8 @@
 package entities;
 
+import entities.audio_collections.Playlist;
+import entities.audio_collections.Podcast;
+import entities.audio_collections.Song;
 import fileio.input.FilterInput;
 import lombok.Getter;
 

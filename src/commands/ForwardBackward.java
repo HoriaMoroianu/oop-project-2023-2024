@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entities.Library;
 import entities.MusicPlayer;
-import entities.Podcast;
+import entities.audio_collections.Podcast;
 import fileio.input.CommandInput;
 
 public final class ForwardBackward extends Command {

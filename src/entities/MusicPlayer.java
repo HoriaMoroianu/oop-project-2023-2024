@@ -1,6 +1,10 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import entities.audio_collections.AudioFile;
+import entities.audio_collections.AudioTrack;
+import entities.audio_collections.Playlist;
+import entities.audio_collections.Podcast;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -110,8 +114,6 @@ public final class MusicPlayer {
         }
     }
 
-    // TODO se presupune ca s-a dat update inainte
-    // TODO verifica paused
     public void nextAudioFile() {
         loadedTrack.updateAudioFile(this, remainedTime);
         paused = false;
@@ -124,8 +126,7 @@ public final class MusicPlayer {
     }
 
     public void previousAudioFile() {
-        if (loadedTrack.atFirstAudioFile(this)
-                || audioFile.getDuration() > remainedTime) {
+        if (atFirstAudioFile() || audioFile.getDuration() > remainedTime) {
             remainedTime = audioFile.getDuration();
         } else {
             loadPreviousAudioFile();
@@ -168,5 +169,32 @@ public final class MusicPlayer {
         audioFile = playQueue.get(playQueue.indexOf(audioFile) - 1);
         remainedTime = audioFile.getDuration();
         name = audioFile.getName();
+    }
+
+    private boolean atFirstAudioFile() {
+        ArrayList<AudioFile> playQueue = new ArrayList<>(loadedTrack.loadAudioList());
+        if (shuffle) {
+            Collections.shuffle(playQueue, new Random(seed));
+        }
+        return audioFile.equals(playQueue.get(0));
+    }
+
+    public int simulatePlayQueue(final ArrayList<AudioFile> audioFiles, final int timeSinceUpdate) {
+        int startIndex = audioFiles.indexOf(audioFile);
+        int timePassed = timeSinceUpdate;
+        int timeUntilNextFile = -1;
+
+        for (AudioFile file : audioFiles.subList(startIndex, audioFiles.size())) {
+            timeUntilNextFile = (timeUntilNextFile == -1) ? remainedTime : file.getDuration();
+
+            if (timeUntilNextFile - timePassed > 0) {
+                audioFile = file;
+                name = audioFile.getName();
+                remainedTime = timeUntilNextFile - timePassed;
+                return timeUntilNextFile - timePassed;
+            }
+            timePassed -= timeUntilNextFile;
+        }
+        return timePassed;
     }
 }

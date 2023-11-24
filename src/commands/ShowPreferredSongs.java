@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entities.Library;
-import entities.Song;
+import entities.audio_collections.Song;
 import fileio.input.CommandInput;
 import lombok.Getter;
 

@@ -3,7 +3,7 @@ package commands;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entities.Library;
-import entities.Playlist;
+import entities.audio_collections.Playlist;
 import entities.SearchBar;
 import entities.User;
 import fileio.input.CommandInput;

@@ -1,5 +1,6 @@
-package entities;
+package entities.audio_collections;
 
+import entities.MusicPlayer;
 import fileio.input.EpisodeInput;
 import fileio.input.PodcastInput;
 import lombok.Getter;
@@ -47,7 +48,7 @@ public class Podcast implements AudioTrack {
 
         switch (musicPlayer.repeatState()) {
             case 0:
-                if (simulatePlayQueue(musicPlayer, playQueue, timePassed)
+                if (musicPlayer.simulatePlayQueue(playQueue, timePassed)
                         != musicPlayer.getRemainedTime()) {
                     musicPlayer.setRemainedTime(0);
                 }
@@ -56,7 +57,7 @@ public class Podcast implements AudioTrack {
             case 1:
                 playQueue.add(playQueue.indexOf(musicPlayer.getAudioFile()),
                             musicPlayer.getAudioFile());
-                simulatePlayQueue(musicPlayer, playQueue, timePassed);
+                musicPlayer.simulatePlayQueue(playQueue, timePassed);
                 musicPlayer.setRepeat(0);
                 break;
 
@@ -74,15 +75,6 @@ public class Podcast implements AudioTrack {
             default:
                 break;
         }
-    }
-
-    @Override
-    public boolean atFirstAudioFile(final MusicPlayer musicPlayer) {
-        ArrayList<AudioFile> playQueue = new ArrayList<>(episodes);
-        if (musicPlayer.isShuffle()) {
-            Collections.shuffle(playQueue, new Random(musicPlayer.getSeed()));
-        }
-        return musicPlayer.getAudioFile().equals(playQueue.get(0));
     }
 
     @Override

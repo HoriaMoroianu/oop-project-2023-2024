@@ -2,10 +2,10 @@ package commands;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import entities.AudioFile;
+import entities.audio_collections.AudioFile;
 import entities.Library;
-import entities.Playlist;
-import entities.Song;
+import entities.audio_collections.Playlist;
+import entities.audio_collections.Song;
 import entities.User;
 import fileio.input.CommandInput;
 

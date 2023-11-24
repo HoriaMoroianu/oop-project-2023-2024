@@ -1,10 +1,14 @@
 package entities;
 
+import entities.audio_collections.Playlist;
+import entities.audio_collections.Podcast;
+import entities.audio_collections.Song;
 import fileio.input.LibraryInput;
 import fileio.input.PodcastInput;
 import fileio.input.SongInput;
 import fileio.input.UserInput;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +16,7 @@ import java.util.HashMap;
 @Getter
 public final class Library {
     private static Library instance = null;
+    @Setter
     private Integer timestamp;
 
     private final ArrayList<Song> songs = new ArrayList<>();
@@ -20,13 +25,31 @@ public final class Library {
     private final HashMap<String, User> users = new HashMap<>();
 
     /**
-     * Lazy Singleton Pattern
+     * @return Library instance
      */
     public static Library getLibrary() {
         if (instance == null) {
             instance = new Library();
         }
         return instance;
+    }
+
+    /**
+     * Adds this playlist into the database
+     * @param playlist user created playlist
+     */
+    public void addPlaylist(final Playlist playlist) {
+        playlists.add(playlist);
+    }
+
+    /**
+     * Clears all data from library
+     */
+    public void clearLibrary() {
+        songs.clear();
+        podcasts.clear();
+        playlists.clear();
+        users.clear();
     }
 
     /**
@@ -45,20 +68,5 @@ public final class Library {
         for (final UserInput userInput : libraryInput.getUsers()) {
             users.put(userInput.getUsername(), new User(userInput));
         }
-    }
-
-    public void clearLibrary() {
-        songs.clear();
-        podcasts.clear();
-        playlists.clear();
-        users.clear();
-    }
-
-    public void setTimestamp(final Integer timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public void addPlaylist(final Playlist playlist) {
-        playlists.add(playlist);
     }
 }

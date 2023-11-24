@@ -6,27 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import commands.AddRemoveInPlaylist;
-import commands.Command;
-import commands.CreatePlaylist;
-import commands.FollowPlaylist;
-import commands.ForwardBackward;
-import commands.GetTopPlaylists;
-import commands.GetTopSongs;
-import commands.Like;
-import commands.Load;
-import commands.Next;
-import commands.PlayPause;
-import commands.Previous;
-import commands.Repeat;
-import commands.Search;
-import commands.Select;
-import commands.ShowPlaylists;
-import commands.ShowPreferredSongs;
-import commands.Shuffle;
-import commands.Status;
-import commands.SwitchVisibility;
-import entities.Library;
+import entities.AppControl;
 import fileio.input.CommandInput;
 import fileio.input.LibraryInput;
 
@@ -35,7 +15,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -98,45 +77,10 @@ public final class Main {
 
         ArrayNode outputs = objectMapper.createArrayNode();
 
-        // TODO add your implementation
         File inputFile = new File(CheckerConstants.TESTS_PATH + filePathInput);
         List<CommandInput> commands = objectMapper.readValue(inputFile, new TypeReference<>() { });
 
-        ArrayList<Command> executableCommands = new ArrayList<>();
-
-        for (CommandInput commandInput : commands) {
-            switch (commandInput.getCommand()) {
-                case "search" -> executableCommands.add(new Search(commandInput));
-                case "select" -> executableCommands.add(new Select(commandInput));
-                case "load" -> executableCommands.add(new Load(commandInput));
-                case "status" -> executableCommands.add(new Status(commandInput));
-                case "playPause" -> executableCommands.add(new PlayPause(commandInput));
-                case "createPlaylist" -> executableCommands.add(new CreatePlaylist(commandInput));
-                case "like" -> executableCommands.add(new Like(commandInput));
-                case "repeat" -> executableCommands.add(new Repeat(commandInput));
-                case "shuffle" -> executableCommands.add(new Shuffle(commandInput));
-                case "showPlaylists" -> executableCommands.add(new ShowPlaylists(commandInput));
-                case "follow" -> executableCommands.add(new FollowPlaylist(commandInput));
-                case "next" -> executableCommands.add(new Next(commandInput));
-                case "prev" -> executableCommands.add(new Previous(commandInput));
-                case "forward", "backward" -> executableCommands
-                        .add(new ForwardBackward(commandInput));
-                case "getTop5Songs" -> executableCommands.add(new GetTopSongs(commandInput));
-                case "getTop5Playlists" -> executableCommands
-                        .add(new GetTopPlaylists(commandInput));
-                case "switchVisibility" -> executableCommands
-                        .add(new SwitchVisibility(commandInput));
-                case "showPreferredSongs" -> executableCommands
-                        .add(new ShowPreferredSongs(commandInput));
-                case "addRemoveInPlaylist" -> executableCommands
-                        .add(new AddRemoveInPlaylist(commandInput));
-                default -> { }
-            }
-        }
-
-        Library.getLibrary().loadLibrary(library);
-        executableCommands.stream().map(Command::performCommand).forEach(outputs::add);
-        Library.getLibrary().clearLibrary();
+        AppControl.getAppControl().runApp(library, commands, outputs);
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePathOutput), outputs);

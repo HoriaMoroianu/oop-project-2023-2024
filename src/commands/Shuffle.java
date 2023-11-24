@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entities.Library;
 import entities.MusicPlayer;
-import entities.Playlist;
+import entities.audio_collections.Playlist;
 import fileio.input.CommandInput;
 
 public final class Shuffle extends Command {

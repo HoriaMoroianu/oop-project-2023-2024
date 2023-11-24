@@ -1,7 +1,8 @@
-package entities;
+package entities.audio_collections;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import entities.MusicPlayer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -54,36 +55,27 @@ public class Playlist implements AudioTrack {
 
         switch (musicPlayer.repeatState()) {
             case 0:
-                if (simulatePlayQueue(musicPlayer, playQueue, timePassed)
+                if (musicPlayer.simulatePlayQueue(playQueue, timePassed)
                         != musicPlayer.getRemainedTime()) {
                     musicPlayer.setRemainedTime(0);
                 }
                 break;
             case 1:
-                int remainedTime = simulatePlayQueue(musicPlayer, playQueue, timePassed);
+                int remainedTime = musicPlayer.simulatePlayQueue(playQueue, timePassed);
                 while (remainedTime != musicPlayer.getRemainedTime()) {
                     musicPlayer.setAudioFile(playQueue.get(0));
                     musicPlayer.setRemainedTime(playQueue.get(0).getDuration());
-                    remainedTime = simulatePlayQueue(musicPlayer, playQueue, remainedTime);
+                    remainedTime = musicPlayer.simulatePlayQueue(playQueue, remainedTime);
                 }
                 break;
             case 2:
                 playQueue.add(playQueue.indexOf(musicPlayer.getAudioFile()),
                         musicPlayer.getAudioFile());
-                simulatePlayQueue(musicPlayer, playQueue, timePassed);
+                musicPlayer.simulatePlayQueue(playQueue, timePassed);
                 break;
             default:
                 break;
         }
-    }
-
-    @Override
-    public boolean atFirstAudioFile(final MusicPlayer musicPlayer) {
-        ArrayList<AudioFile> playQueue = new ArrayList<>(songs);
-        if (musicPlayer.isShuffle()) {
-            Collections.shuffle(playQueue, new Random(musicPlayer.getSeed()));
-        }
-        return musicPlayer.getAudioFile().equals(playQueue.get(0));
     }
 
     @Override

@@ -1,10 +1,10 @@
-package entities;
+package entities.audio_collections;
 
 import fileio.input.EpisodeInput;
 
 public class Episode implements AudioFile {
-    private String name;
-    private Integer duration;
+    private final String name;
+    private final Integer duration;
     private String description;
 
     public Episode(final EpisodeInput episodeInput) {
