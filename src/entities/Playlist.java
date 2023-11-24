@@ -3,6 +3,7 @@ package entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 
@@ -13,7 +14,9 @@ public class Playlist implements AudioTrack {
     @JsonProperty("songs")
     private ArrayList<String> songsNames = new ArrayList<>();
 
+    @Setter
     private String visibility;
+    @Setter
     private Integer followers;
 
     @JsonIgnore
@@ -34,6 +37,7 @@ public class Playlist implements AudioTrack {
     }
 
     public ArrayList<String> getSongsNames() {
+        songsNames.clear();
         songs.forEach(song -> songsNames.add(song.getName()));
         return songsNames;
     }

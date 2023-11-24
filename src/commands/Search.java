@@ -44,8 +44,7 @@ public final class Search extends Command {
                 audioTracks = searchPodcast(Library.getLibrary().getPodcasts());
                 break;
             case "playlist":
-                // TODO playlist al userului sau public
-                audioTracks = searchPlaylist(Library.getLibrary().getPlaylists());
+                audioTracks = searchPlaylist(userAccessiblePlaylists(user));
                 break;
             default:
                 break;
@@ -82,5 +81,16 @@ public final class Search extends Command {
             .filter(filter::filterByOwner)
             .limit(maxSearchResults)
             .collect(Collectors.toCollection(ArrayList::new));
+    }
+    private ArrayList<Playlist> userAccessiblePlaylists(final User user) {
+        ArrayList<Playlist> playlists = new ArrayList<>();
+
+        for (Playlist playlist : Library.getLibrary().getPlaylists()) {
+            if (playlist.getOwner().equals(getUsername())
+                    || playlist.getVisibility().equals("public")) {
+                playlists.add(playlist);
+            }
+        }
+        return playlists;
     }
 }

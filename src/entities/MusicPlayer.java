@@ -90,9 +90,9 @@ public final class MusicPlayer {
         paused = !paused;
     }
 
-    public void updateShuffle(final Integer seed) {
+    public void updateShuffle(final Integer shuffleSeed) {
         shuffle = !shuffle;
-        this.seed = seed;
+        seed = shuffleSeed;
     }
 
     public String getRepeat() {
@@ -111,9 +111,6 @@ public final class MusicPlayer {
     }
 
     public void changeRepeat() {
-        repeat++;
-        if (repeat > 2) {
-            repeat = 0;
-        }
+        repeat = (repeat != 2) ? repeat + 1 : 0;
     }
 }

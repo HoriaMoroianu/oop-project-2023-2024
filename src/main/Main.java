@@ -97,6 +97,9 @@ public final class Main {
                 case "repeat" -> executableCommands.add(new Repeat(commandInput));
                 case "shuffle" -> executableCommands.add(new Shuffle(commandInput));
                 case "showPlaylists" -> executableCommands.add(new ShowPlaylists(commandInput));
+                case "follow" -> executableCommands.add(new FollowPlaylist(commandInput));
+                case "switchVisibility" -> executableCommands
+                        .add(new SwitchVisibility(commandInput));
                 case "showPreferredSongs" -> executableCommands
                         .add(new ShowPreferredSongs(commandInput));
                 case "addRemoveInPlaylist" -> executableCommands

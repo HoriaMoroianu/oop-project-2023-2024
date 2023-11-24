@@ -30,7 +30,7 @@ public final class CreatePlaylist extends Command {
             }
         }
 
-        Playlist playlist = new Playlist(playlistName, getUsername());
+        Playlist playlist = new Playlist(playlistName, this.getUsername());
         user.getPlaylists().add(playlist);
         Library.getLibrary().addPlaylist(playlist);
 

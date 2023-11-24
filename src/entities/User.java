@@ -18,6 +18,8 @@ public class User {
     private ArrayList<Playlist> playlists = new ArrayList<>();
     @Getter
     private ArrayList<Song> likedSongs = new ArrayList<>();
+    @Getter
+    private ArrayList<Playlist> followedPlaylists = new ArrayList<>();
 
     public User(final UserInput userInput) {
         username = userInput.getUsername();

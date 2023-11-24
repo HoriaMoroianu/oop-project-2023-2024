@@ -27,7 +27,7 @@ public final class Select extends Command {
 
         ArrayList<AudioTrack> searchResults = searchBar.getSearchResults();
 
-        if (searchResults.isEmpty()) {
+        if (!searchBar.isSearchConducted()) {
             message = "Please conduct a search before making a selection.";
             return new ObjectMapper().valueToTree(this);
         }
@@ -38,7 +38,7 @@ public final class Select extends Command {
         }
 
         searchBar.setSelectedTrack(searchResults.get(itemNumber - 1));
-        searchResults.clear();
+        searchBar.clearSearchResults();
 
         message = "Successfully selected " + searchBar.getSelectedTrack().getName() + ".";
         return new ObjectMapper().valueToTree(this);
