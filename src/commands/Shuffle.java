@@ -6,12 +6,9 @@ import entities.Library;
 import entities.MusicPlayer;
 import entities.Playlist;
 import fileio.input.CommandInput;
-import lombok.Getter;
 
 public final class Shuffle extends Command {
-    @Getter
-    private String message;
-    private Integer seed;
+    private final Integer seed;
 
     public Shuffle(final CommandInput commandInput) {
         super(commandInput);
@@ -20,9 +17,7 @@ public final class Shuffle extends Command {
 
     @Override
     protected ObjectNode executeCommand() {
-        MusicPlayer musicPlayer =
-                Library.getLibrary().getUsers().get(this.getUsername()).getMusicPlayer();
-
+        MusicPlayer musicPlayer = Library.getLibrary().getUsers().get(username).getMusicPlayer();
         musicPlayer.updateMusicPlayer();
 
         if (musicPlayer.getLoadedTrack() == null) {

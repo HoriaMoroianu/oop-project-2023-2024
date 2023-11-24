@@ -8,19 +8,17 @@ import entities.Podcast;
 import fileio.input.CommandInput;
 
 public final class ForwardBackward extends Command {
-    private String message;
     public ForwardBackward(final CommandInput commandInput) {
         super(commandInput);
     }
 
     @Override
     protected ObjectNode executeCommand() {
-        MusicPlayer musicPlayer =
-                Library.getLibrary().getUsers().get(this.getUsername()).getMusicPlayer();
+        MusicPlayer musicPlayer = Library.getLibrary().getUsers().get(username).getMusicPlayer();
         musicPlayer.updateMusicPlayer();
 
         if (musicPlayer.getLoadedTrack() == null) {
-            message = getCommand().equals("forward")
+            message = command.equals("forward")
                     ? "Please load a source before attempting to forward."
                     : "Please select a source before rewinding.";
             return new ObjectMapper().valueToTree(this);
@@ -31,7 +29,7 @@ public final class ForwardBackward extends Command {
             return new ObjectMapper().valueToTree(this);
         }
 
-        switch (getCommand()) {
+        switch (command) {
             case "forward":
                 musicPlayer.skippForward();
                 message = "Skipped forward successfully.";
@@ -44,9 +42,5 @@ public final class ForwardBackward extends Command {
                 break;
         }
         return new ObjectMapper().valueToTree(this);
-    }
-
-    public String getMessage() {
-        return message;
     }
 }

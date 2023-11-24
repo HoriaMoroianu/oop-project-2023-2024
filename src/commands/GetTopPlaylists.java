@@ -6,12 +6,14 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import entities.Library;
 import entities.Playlist;
 import fileio.input.CommandInput;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public final class GetTopPlaylists extends Command {
+    @Getter
     private final ArrayList<String> result = new ArrayList<>();
     private final int maxResults = 5;
     public GetTopPlaylists(final CommandInput commandInput) {
@@ -31,9 +33,5 @@ public final class GetTopPlaylists extends Command {
         playlists.stream().limit(maxResults).forEach(playlist -> result.add(playlist.getName()));
 
         return new ObjectMapper().valueToTree(this);
-    }
-
-    public ArrayList<String> getResult() {
-        return result;
     }
 }

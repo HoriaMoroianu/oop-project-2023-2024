@@ -6,13 +6,9 @@ import entities.Library;
 import entities.Playlist;
 import entities.User;
 import fileio.input.CommandInput;
-import lombok.Getter;
 
 public final class CreatePlaylist extends Command {
-
-    private String playlistName;
-    @Getter
-    private String message;
+    private final String playlistName;
 
     public CreatePlaylist(final CommandInput commandInput) {
         super(commandInput);
@@ -21,7 +17,7 @@ public final class CreatePlaylist extends Command {
 
     @Override
     protected ObjectNode executeCommand() {
-        User user = Library.getLibrary().getUsers().get(this.getUsername());
+        User user = Library.getLibrary().getUsers().get(username);
 
         for (Playlist playlist : user.getPlaylists()) {
             if (playlist.getName().equals(playlistName)) {

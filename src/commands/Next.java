@@ -7,15 +7,13 @@ import entities.MusicPlayer;
 import fileio.input.CommandInput;
 
 public final class Next extends Command {
-    private String message;
     public Next(final CommandInput commandInput) {
         super(commandInput);
     }
 
     @Override
     protected ObjectNode executeCommand() {
-        MusicPlayer musicPlayer =
-                Library.getLibrary().getUsers().get(this.getUsername()).getMusicPlayer();
+        MusicPlayer musicPlayer = Library.getLibrary().getUsers().get(username).getMusicPlayer();
         musicPlayer.updateMusicPlayer();
 
         if (musicPlayer.getLoadedTrack() == null) {
@@ -24,15 +22,12 @@ public final class Next extends Command {
         }
 
         musicPlayer.nextAudioFile();
+
         message = (musicPlayer.getLoadedTrack() == null)
                 ? "Please load a source before skipping to the next track."
                 : "Skipped to next track successfully. "
                     + "The current track is " + musicPlayer.getAudioFile().getName() + ".";
 
         return new ObjectMapper().valueToTree(this);
-    }
-
-    public String getMessage() {
-        return message;
     }
 }

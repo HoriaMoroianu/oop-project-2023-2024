@@ -6,14 +6,11 @@ import entities.AudioTrack;
 import entities.Library;
 import entities.SearchBar;
 import fileio.input.CommandInput;
-import lombok.Getter;
 
 import java.util.ArrayList;
 
 public final class Select extends Command {
-    private Integer itemNumber;
-    @Getter
-    private String message;
+    private final Integer itemNumber;
 
     public Select(final CommandInput commandInput) {
         super(commandInput);
@@ -22,8 +19,7 @@ public final class Select extends Command {
 
     @Override
     public ObjectNode executeCommand() {
-        SearchBar searchBar =
-                Library.getLibrary().getUsers().get(this.getUsername()).getSearchBar();
+        SearchBar searchBar = Library.getLibrary().getUsers().get(username).getSearchBar();
 
         ArrayList<AudioTrack> searchResults = searchBar.getSearchResults();
         searchBar.setSelectedTrack(null);

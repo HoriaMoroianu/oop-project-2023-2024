@@ -7,17 +7,13 @@ import entities.MusicPlayer;
 import fileio.input.CommandInput;
 
 public final class PlayPause extends Command {
-    private String message;
-
     public PlayPause(final CommandInput commandInput) {
         super(commandInput);
     }
 
     @Override
     public ObjectNode executeCommand() {
-        MusicPlayer musicPlayer =
-                Library.getLibrary().getUsers().get(this.getUsername()).getMusicPlayer();
-
+        MusicPlayer musicPlayer = Library.getLibrary().getUsers().get(username).getMusicPlayer();
         musicPlayer.updateMusicPlayer();
 
         if (musicPlayer.getLoadedTrack() == null) {
@@ -31,9 +27,5 @@ public final class PlayPause extends Command {
 
         musicPlayer.updatePlayPause();
         return new ObjectMapper().valueToTree(this);
-    }
-
-    public String getMessage() {
-        return message;
     }
 }

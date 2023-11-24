@@ -9,14 +9,13 @@ import entities.User;
 import fileio.input.CommandInput;
 
 public final class FollowPlaylist extends Command {
-    private String message;
     public FollowPlaylist(final CommandInput commandInput) {
         super(commandInput);
     }
 
     @Override
     protected ObjectNode executeCommand() {
-        User user = Library.getLibrary().getUsers().get(this.getUsername());
+        User user = Library.getLibrary().getUsers().get(username);
         SearchBar searchBar = user.getSearchBar();
 
         if (searchBar.getSelectedTrack() == null) {
@@ -45,9 +44,5 @@ public final class FollowPlaylist extends Command {
             message = "Playlist followed successfully.";
         }
         return new ObjectMapper().valueToTree(this);
-    }
-
-    public String getMessage() {
-        return message;
     }
 }

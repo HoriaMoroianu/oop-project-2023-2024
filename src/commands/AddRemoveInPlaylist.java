@@ -8,12 +8,9 @@ import entities.Playlist;
 import entities.Song;
 import entities.User;
 import fileio.input.CommandInput;
-import lombok.Getter;
 
 public final class AddRemoveInPlaylist extends Command {
-    private int playlistId;
-    @Getter
-    private String message;
+    private final int playlistId;
 
     public AddRemoveInPlaylist(final CommandInput commandInput) {
         super(commandInput);
@@ -22,7 +19,7 @@ public final class AddRemoveInPlaylist extends Command {
 
     @Override
     protected ObjectNode executeCommand() {
-        User user = Library.getLibrary().getUsers().get(this.getUsername());
+        User user = Library.getLibrary().getUsers().get(username);
         user.getMusicPlayer().updateMusicPlayer();
         AudioFile loadedAudio = user.getMusicPlayer().getAudioFile();
 
@@ -48,7 +45,6 @@ public final class AddRemoveInPlaylist extends Command {
             playlist.getSongs().add(loadedAudio);
             message = "Successfully added to playlist.";
         }
-
         return new ObjectMapper().valueToTree(this);
     }
 }

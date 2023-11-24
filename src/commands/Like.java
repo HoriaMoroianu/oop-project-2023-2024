@@ -7,19 +7,15 @@ import entities.Library;
 import entities.Song;
 import entities.User;
 import fileio.input.CommandInput;
-import lombok.Getter;
 
 public final class Like extends Command {
-    @Getter
-    private String message;
-
     public Like(final CommandInput commandInput) {
         super(commandInput);
     }
 
     @Override
     protected ObjectNode executeCommand() {
-        User user = Library.getLibrary().getUsers().get(this.getUsername());
+        User user = Library.getLibrary().getUsers().get(username);
         user.getMusicPlayer().updateMusicPlayer();
         AudioFile loadedAudio = user.getMusicPlayer().getAudioFile();
 

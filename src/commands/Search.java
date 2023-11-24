@@ -16,13 +16,14 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-@Getter @JsonIgnoreProperties({ "type", "filter", "maxSearchResults" })
+@JsonIgnoreProperties({ "type", "filter", "maxSearchResults" })
 public final class Search extends Command {
-    private String type;
-    private Filter filter;
-    private String message;
-    private ArrayList<String> results = new ArrayList<>();
+    private final String type;
+    private final Filter filter;
     private final int maxSearchResults = 5;
+
+    @Getter
+    private final ArrayList<String> results = new ArrayList<>();
 
     public Search(final CommandInput commandInput) {
         super(commandInput);
@@ -32,7 +33,7 @@ public final class Search extends Command {
 
     @Override
     public ObjectNode executeCommand() {
-        User user = Library.getLibrary().getUsers().get(this.getUsername());
+        User user = Library.getLibrary().getUsers().get(username);
         user.getMusicPlayer().removeTrack();
 
         ArrayList<AudioTrack> audioTracks = new ArrayList<>();
@@ -44,7 +45,7 @@ public final class Search extends Command {
                 audioTracks = searchPodcast(Library.getLibrary().getPodcasts());
                 break;
             case "playlist":
-                audioTracks = searchPlaylist(userAccessiblePlaylists(user));
+                audioTracks = searchPlaylist(userAccessiblePlaylists());
                 break;
             default:
                 break;
@@ -54,6 +55,18 @@ public final class Search extends Command {
         user.getSearchBar().setSearchResults(audioTracks);
 
         return new ObjectMapper().valueToTree(this);
+    }
+
+    private ArrayList<Playlist> userAccessiblePlaylists() {
+        ArrayList<Playlist> userAccessible = new ArrayList<>();
+
+        for (Playlist playlist : Library.getLibrary().getPlaylists()) {
+            if (playlist.getOwner().equals(username)
+                    || playlist.getVisibility().equals("public")) {
+                userAccessible.add(playlist);
+            }
+        }
+        return userAccessible;
     }
 
     private ArrayList<AudioTrack> searchSongs(final ArrayList<Song> songs) {
@@ -68,6 +81,7 @@ public final class Search extends Command {
             .limit(maxSearchResults)
             .collect(Collectors.toCollection(ArrayList::new));
     }
+
     private ArrayList<AudioTrack> searchPodcast(final ArrayList<Podcast> podcasts) {
         return podcasts.stream()
             .filter(filter::filterByName)
@@ -75,22 +89,12 @@ public final class Search extends Command {
             .limit(maxSearchResults)
             .collect(Collectors.toCollection(ArrayList::new));
     }
+
     private ArrayList<AudioTrack> searchPlaylist(final ArrayList<Playlist> playlists) {
         return playlists.stream()
             .filter(filter::filterByName)
             .filter(filter::filterByOwner)
             .limit(maxSearchResults)
             .collect(Collectors.toCollection(ArrayList::new));
-    }
-    private ArrayList<Playlist> userAccessiblePlaylists(final User user) {
-        ArrayList<Playlist> playlists = new ArrayList<>();
-
-        for (Playlist playlist : Library.getLibrary().getPlaylists()) {
-            if (playlist.getOwner().equals(getUsername())
-                    || playlist.getVisibility().equals("public")) {
-                playlists.add(playlist);
-            }
-        }
-        return playlists;
     }
 }

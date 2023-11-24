@@ -8,13 +8,12 @@ import lombok.Getter;
 
 @Getter
 public abstract class Command {
-    private String command;
-    private Integer timestamp;
+    protected final String command;
+    protected final Integer timestamp;
 
     @JsonProperty("user")
-    private String username;
-
-    // TODO 'message' here?
+    protected String username;
+    protected String message;
 
     public Command(final CommandInput commandInput) {
         command = commandInput.getCommand();
@@ -22,6 +21,10 @@ public abstract class Command {
         timestamp = commandInput.getTimestamp();
     }
 
+    /**
+     * Updates the application timestamp and executes this command
+     * @return ObjectNode that contains the output of the command
+     */
     public ObjectNode performCommand() {
         Library.getLibrary().setTimestamp(timestamp);
         return executeCommand();

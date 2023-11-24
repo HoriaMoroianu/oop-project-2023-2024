@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class Song implements AudioFile, AudioTrack {
@@ -75,6 +76,6 @@ public class Song implements AudioFile, AudioTrack {
 
     @Override
     public ArrayList<AudioFile> loadAudioList() {
-        return null;
+        return new ArrayList<>(List.of(this));
     }
 }

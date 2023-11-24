@@ -8,8 +8,8 @@ import entities.User;
 import fileio.input.CommandInput;
 
 public final class SwitchVisibility extends Command {
-    private String message;
-    private Integer playlistId;
+    private final Integer playlistId;
+
     public SwitchVisibility(final CommandInput commandInput) {
         super(commandInput);
         playlistId = commandInput.getPlaylistId();
@@ -17,7 +17,7 @@ public final class SwitchVisibility extends Command {
 
     @Override
     protected ObjectNode executeCommand() {
-        User user = Library.getLibrary().getUsers().get(this.getUsername());
+        User user = Library.getLibrary().getUsers().get(username);
 
         if (user.getPlaylists().size() < playlistId) {
             message = "The specified playlist ID is too high.";
@@ -33,9 +33,5 @@ public final class SwitchVisibility extends Command {
             message = "Visibility status updated successfully to public.";
         }
         return new ObjectMapper().valueToTree(this);
-    }
-
-    public String getMessage() {
-        return message;
     }
 }
