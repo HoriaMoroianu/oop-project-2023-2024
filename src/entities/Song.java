@@ -2,6 +2,7 @@ package entities;
 
 import fileio.input.SongInput;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,8 @@ public class Song implements AudioFile, AudioTrack {
     private String genre;
     private Integer releaseYear;
     private String artist;
+    @Setter
+    private Integer likesReceived;
 
     public Song(final SongInput songInput) {
         name = songInput.getName();
@@ -25,6 +28,7 @@ public class Song implements AudioFile, AudioTrack {
         genre = songInput.getGenre();
         releaseYear = songInput.getReleaseYear();
         artist = songInput.getArtist();
+        likesReceived = 0;
     }
 
     @Override

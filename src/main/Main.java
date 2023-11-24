@@ -98,6 +98,9 @@ public final class Main {
                 case "shuffle" -> executableCommands.add(new Shuffle(commandInput));
                 case "showPlaylists" -> executableCommands.add(new ShowPlaylists(commandInput));
                 case "follow" -> executableCommands.add(new FollowPlaylist(commandInput));
+                case "getTop5Songs" -> executableCommands.add(new GetTopSongs(commandInput));
+                case "getTop5Playlists" -> executableCommands
+                        .add(new GetTopPlaylists(commandInput));
                 case "switchVisibility" -> executableCommands
                         .add(new SwitchVisibility(commandInput));
                 case "showPreferredSongs" -> executableCommands

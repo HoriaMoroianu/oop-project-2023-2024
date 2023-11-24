@@ -32,11 +32,15 @@ public final class Like extends Command {
             return new ObjectMapper().valueToTree(this);
         }
 
-        if (user.getLikedSongs().contains(loadedAudio)) {
-            user.getLikedSongs().remove(loadedAudio);
+        Song song = (Song) loadedAudio;
+
+        if (user.getLikedSongs().contains(song)) {
+            song.setLikesReceived(song.getLikesReceived() - 1);
+            user.getLikedSongs().remove(song);
             message = "Unlike registered successfully.";
         } else {
-            user.getLikedSongs().add((Song) loadedAudio);
+            song.setLikesReceived(song.getLikesReceived() + 1);
+            user.getLikedSongs().add(song);
             message = "Like registered successfully.";
         }
         return new ObjectMapper().valueToTree(this);
