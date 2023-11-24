@@ -6,6 +6,8 @@ public interface AudioTrack {
     String getName();
     AudioFile loadAudioFile(Integer watchTime);
     void updateAudioFile(MusicPlayer musicPlayer, int timePassed);
+    boolean atFirstAudioFile(MusicPlayer musicPlayer);
+    ArrayList<AudioFile> loadAudioList();
 
     default int simulatePlayQueue(MusicPlayer musicPlayer, ArrayList<AudioFile> audioFiles,
                                   int timePassed) {

@@ -3,6 +3,7 @@ package commands;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entities.Library;
+import entities.User;
 import fileio.input.CommandInput;
 import lombok.Getter;
 
@@ -24,6 +25,11 @@ public abstract class Command {
 
     public ObjectNode performCommand() {
         Library.getLibrary().setTimestamp(timestamp);
+        // TODO REFACTOR THIS:
+        User user = Library.getLibrary().getUsers().get(username);
+        if (user != null) {
+            user.getMusicPlayer().updateMusicPlayer();
+        }
         return executeCommand();
     }
 

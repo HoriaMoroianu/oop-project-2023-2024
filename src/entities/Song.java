@@ -64,4 +64,14 @@ public class Song implements AudioFile, AudioTrack {
                 break;
         }
     }
+
+    @Override
+    public boolean atFirstAudioFile(final MusicPlayer musicPlayer) {
+        return true;
+    }
+
+    @Override
+    public ArrayList<AudioFile> loadAudioList() {
+        return null;
+    }
 }

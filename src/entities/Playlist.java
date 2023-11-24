@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 @Getter
 public class Playlist implements AudioTrack {
@@ -57,18 +59,28 @@ public class Playlist implements AudioTrack {
             case 1:
                 int remainedTime = simulatePlayQueue(musicPlayer, playQueue, timePassed);
                 while (remainedTime != 0) {
-                    musicPlayer.setAudioFile(songs.get(0));
-                    musicPlayer.setRemainedTime(songs.get(0).getDuration());
-                    remainedTime = simulatePlayQueue(musicPlayer, songs, remainedTime);
+                    musicPlayer.setAudioFile(playQueue.get(0));
+                    musicPlayer.setRemainedTime(playQueue.get(0).getDuration());
+                    remainedTime = simulatePlayQueue(musicPlayer, playQueue, remainedTime);
                 }
                 break;
             case 2:
-                playQueue.add(songs.indexOf(musicPlayer.getAudioFile()),
+                playQueue.add(playQueue.indexOf(musicPlayer.getAudioFile()),
                         musicPlayer.getAudioFile());
                 simulatePlayQueue(musicPlayer, playQueue, timePassed);
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean atFirstAudioFile(final MusicPlayer musicPlayer) {
+        return musicPlayer.getAudioFile().equals(songs.get(0));
+    }
+
+    @Override
+    public ArrayList<AudioFile> loadAudioList() {
+        return songs;
     }
 }

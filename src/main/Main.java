@@ -98,6 +98,10 @@ public final class Main {
                 case "shuffle" -> executableCommands.add(new Shuffle(commandInput));
                 case "showPlaylists" -> executableCommands.add(new ShowPlaylists(commandInput));
                 case "follow" -> executableCommands.add(new FollowPlaylist(commandInput));
+                case "next" -> executableCommands.add(new Next(commandInput));
+                case "prev" -> executableCommands.add(new Previous(commandInput));
+                case "forward", "backward" -> executableCommands
+                        .add(new ForwardBackward(commandInput));
                 case "getTop5Songs" -> executableCommands.add(new GetTopSongs(commandInput));
                 case "getTop5Playlists" -> executableCommands
                         .add(new GetTopPlaylists(commandInput));

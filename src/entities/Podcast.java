@@ -49,7 +49,7 @@ public class Podcast implements AudioTrack {
                 break;
 
             case 1:
-                playQueue.add(episodes.indexOf(musicPlayer.getAudioFile()),
+                playQueue.add(playQueue.indexOf(musicPlayer.getAudioFile()),
                             musicPlayer.getAudioFile());
                 simulatePlayQueue(musicPlayer, playQueue, timePassed);
                 musicPlayer.setRepeat(0);
@@ -69,5 +69,15 @@ public class Podcast implements AudioTrack {
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean atFirstAudioFile(final MusicPlayer musicPlayer) {
+        return musicPlayer.getAudioFile().equals(episodes.get(0));
+    }
+
+    @Override
+    public ArrayList<AudioFile> loadAudioList() {
+        return episodes;
     }
 }
