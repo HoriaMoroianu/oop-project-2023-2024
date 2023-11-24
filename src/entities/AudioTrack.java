@@ -7,7 +7,6 @@ public interface AudioTrack {
     AudioFile loadAudioFile(Integer watchTime);
     void updateAudioFile(MusicPlayer musicPlayer, int timePassed);
 
-    // TODO nume de functie
     default int simulatePlayQueue(MusicPlayer musicPlayer, ArrayList<AudioFile> audioFiles,
                                   int timePassed) {
         AudioFile currentPlayedFile = musicPlayer.getAudioFile();

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
-import java.util.ArrayList;
+import java.util.*;
 
 @Getter
 public class Playlist implements AudioTrack {
@@ -41,6 +41,10 @@ public class Playlist implements AudioTrack {
     @Override
     public void updateAudioFile(final MusicPlayer musicPlayer, final int timePassed) {
         ArrayList<AudioFile> playQueue = new ArrayList<>(songs);
+
+        if (musicPlayer.isShuffle()) {
+            Collections.shuffle(playQueue, new Random(musicPlayer.getSeed()));
+        }
 
         switch (musicPlayer.repeatState()) {
             case 0:

@@ -6,18 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import commands.AddRemoveInPlaylist;
-import commands.Command;
-import commands.CreatePlaylist;
-import commands.Like;
-import commands.Load;
-import commands.PlayPause;
-import commands.Repeat;
-import commands.Search;
-import commands.Select;
-import commands.ShowPlaylists;
-import commands.ShowPreferredSongs;
-import commands.Status;
+import commands.*;
 import entities.Library;
 import fileio.input.CommandInput;
 import fileio.input.LibraryInput;
@@ -106,6 +95,7 @@ public final class Main {
                 case "createPlaylist" -> executableCommands.add(new CreatePlaylist(commandInput));
                 case "like" -> executableCommands.add(new Like(commandInput));
                 case "repeat" -> executableCommands.add(new Repeat(commandInput));
+                case "shuffle" -> executableCommands.add(new Shuffle(commandInput));
                 case "showPlaylists" -> executableCommands.add(new ShowPlaylists(commandInput));
                 case "showPreferredSongs" -> executableCommands
                         .add(new ShowPreferredSongs(commandInput));

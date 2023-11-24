@@ -22,11 +22,12 @@ public final class MusicPlayer {
     private AudioTrack loadedTrack;
     @Getter @Setter @JsonIgnore
     private AudioFile audioFile;
+    @Getter @JsonIgnore
+    private Integer seed;
     private Integer lastUpdateTime;
     private final HashMap<String, Integer> podcastHistory = new HashMap<>();
 
     public void setTrack(final AudioTrack audioTrack) {
-        // TODO podcast episode + remained time + scoate melodia curenta
         savePodcastHistory();
 
         name = audioTrack.getName();
@@ -41,15 +42,12 @@ public final class MusicPlayer {
     }
 
     public void updateMusicPlayer() {
-        // TODO ajunge la momentul curent din podcast
         if (loadedTrack == null) {
             return; // Nothing to update
         }
-
         int currentTime = Library.getLibrary().getTimestamp();
         int timePassedPlaying = !paused ? (currentTime - lastUpdateTime) : 0;
 
-        // TODO audioFile + remainedTime
         loadedTrack.updateAudioFile(this, timePassedPlaying);
 
         if (remainedTime == 0) {
@@ -73,15 +71,11 @@ public final class MusicPlayer {
         lastUpdateTime = Library.getLibrary().getTimestamp();
     }
 
-    public void updatePlayPause() {
-        paused = !paused;
-    }
-
     private void savePodcastHistory() {
         if (loadedTrack == null || loadedTrack.getClass() != Podcast.class) {
             return;
         }
-        updateMusicPlayer(); // TODO verifica daca e corect in urmatoarele teste
+        updateMusicPlayer();
         Podcast podcast = (Podcast) loadedTrack;
 
         // Time from the start of the podcast to the end of the current episode
@@ -90,6 +84,15 @@ public final class MusicPlayer {
 
         // Stores viewing time from the beginning of the podcast until now
         podcastHistory.put(podcast.getName(), elapsedTime - remainedTime);
+    }
+
+    public void updatePlayPause() {
+        paused = !paused;
+    }
+
+    public void updateShuffle(final Integer seed) {
+        shuffle = !shuffle;
+        this.seed = seed;
     }
 
     public String getRepeat() {
