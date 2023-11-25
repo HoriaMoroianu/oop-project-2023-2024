@@ -6,15 +6,13 @@ import fileio.input.PodcastInput;
 import lombok.Getter;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
 
 @Getter
 public class Podcast implements AudioTrack {
-    private String name;
-    private String owner;
-    private ArrayList<AudioFile> episodes = new ArrayList<>();
-    private ArrayList<Integer> elapsedTime = new ArrayList<>();
+    private final String name;
+    private final String owner;
+    private final ArrayList<AudioFile> episodes = new ArrayList<>();
+    private final ArrayList<Integer> elapsedTime = new ArrayList<>();
 
     public Podcast(final PodcastInput podcastInput) {
         name = podcastInput.getName();
@@ -28,12 +26,23 @@ public class Podcast implements AudioTrack {
         }
     }
 
+    /**
+     * @return podcast episodes as the audio file list of current track
+     */
+    @Override
+    public ArrayList<AudioFile> loadAudioList() {
+        return episodes;
+    }
+
+    /**
+     * @param watchTime the watched time from the beginning of current audio track
+     * @return episode from the current podcast after the specified watchTime passes
+     */
     @Override
     public AudioFile loadAudioFile(final Integer watchTime) {
         if (watchTime == null) {
             return episodes.get(0);
         }
-
         for (int i = 0; i < elapsedTime.size(); i++) {
             if (watchTime < elapsedTime.get(i)) {
                 return episodes.get(i);
@@ -42,43 +51,43 @@ public class Podcast implements AudioTrack {
         return episodes.get(0);
     }
 
+    /**
+     * Updates the audio file in the music player
+     * taking into account the repeat status.
+     * @param musicPlayer for updating the audio file
+     * @param timeSinceUpdate since last update
+     */
     @Override
-    public void updateAudioFile(final MusicPlayer musicPlayer, int timePassed) {
+    public void updateAudioFile(final MusicPlayer musicPlayer, final int timeSinceUpdate) {
         ArrayList<AudioFile> playQueue = new ArrayList<>(episodes);
+        int timePassed = timeSinceUpdate;
 
-        switch (musicPlayer.repeatState()) {
-            case 0:
+        switch (musicPlayer.getRepeat()) {
+            case "No Repeat":
                 if (musicPlayer.simulatePlayQueue(playQueue, timePassed)
                         != musicPlayer.getRemainedTime()) {
+                    // Reached the end of playQueue after the simulation
                     musicPlayer.setRemainedTime(0);
                 }
                 break;
-
-            case 1:
+            case "Repeat Once":
+                // Current episode is added to the playQueue once more
                 playQueue.add(playQueue.indexOf(musicPlayer.getAudioFile()),
                             musicPlayer.getAudioFile());
                 musicPlayer.simulatePlayQueue(playQueue, timePassed);
                 musicPlayer.setRepeat(0);
                 break;
-
-            case 2:
+            case "Repeat Infinite":
                 if (timePassed <= musicPlayer.getRemainedTime()) {
                     musicPlayer.setRemainedTime(musicPlayer.getRemainedTime() - timePassed);
                     return;
                 }
-
                 timePassed -= musicPlayer.getRemainedTime();
                 int audioFileDuration = musicPlayer.getAudioFile().getDuration();
-                musicPlayer.setRemainedTime(audioFileDuration - timePassed % audioFileDuration);
+                musicPlayer.setRemainedTime(audioFileDuration - (timePassed % audioFileDuration));
                 break;
-
             default:
                 break;
         }
-    }
-
-    @Override
-    public ArrayList<AudioFile> loadAudioList() {
-        return episodes;
     }
 }

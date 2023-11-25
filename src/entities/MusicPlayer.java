@@ -35,7 +35,11 @@ public final class MusicPlayer {
     private final int skippTime = 90;
     private final HashMap<String, Integer> podcastHistory = new HashMap<>();
 
-    public void setTrack(final AudioTrack audioTrack) {
+    /**
+     * Loads audioTrack into this musicPlayer
+     * @param audioTrack the track that is loaded
+     */
+    public void loadTrack(final AudioTrack audioTrack) {
         savePodcastHistory();
 
         name = audioTrack.getName();
@@ -49,21 +53,9 @@ public final class MusicPlayer {
         lastUpdateTime = Library.getLibrary().getTimestamp();
     }
 
-    public void updateMusicPlayer() {
-        if (loadedTrack == null) {
-            return; // Nothing to update
-        }
-        int currentTime = Library.getLibrary().getTimestamp();
-        int timePassedPlaying = !paused ? (currentTime - lastUpdateTime) : 0;
-
-        loadedTrack.updateAudioFile(this, timePassedPlaying);
-
-        if (remainedTime == 0) {
-            removeTrack();
-        }
-        lastUpdateTime = currentTime;
-    }
-
+    /**
+     * Removes the current loaded track
+     */
     public void removeTrack() {
         savePodcastHistory();
 
@@ -79,6 +71,28 @@ public final class MusicPlayer {
         lastUpdateTime = Library.getLibrary().getTimestamp();
     }
 
+    /**
+     * Updates the loaded track in this musicPlayer
+     */
+    public void updateMusicPlayer() {
+        if (loadedTrack == null) {
+            return;
+        }
+        int currentTime = Library.getLibrary().getTimestamp();
+        int timePassedPlaying = !paused ? (currentTime - lastUpdateTime) : 0;
+
+        loadedTrack.updateAudioFile(this, timePassedPlaying);
+
+        if (remainedTime == 0) {
+            removeTrack();
+        }
+        lastUpdateTime = currentTime;
+    }
+
+
+    /**
+     * Saves in history the view-time of the current loaded track if it's a podcast
+     */
     private void savePodcastHistory() {
         if (loadedTrack == null || loadedTrack.getClass() != Podcast.class) {
             return;
@@ -94,15 +108,111 @@ public final class MusicPlayer {
         podcastHistory.put(podcast.getName(), elapsedTime - remainedTime);
     }
 
+    /**
+     * Simulates the passage of time through the current track
+     * @param audioFiles the audio files contained in the current track
+     * @param timeSinceUpdate the time passed since the last update
+     * @return the remaining time of the current file if we
+     *         have simulated up to the current moment;
+     *         the time left after reaching the end of the track
+     */
+    public int simulatePlayQueue(final ArrayList<AudioFile> audioFiles, final int timeSinceUpdate) {
+        int startIndex = audioFiles.indexOf(audioFile);
+        int timePassed = timeSinceUpdate;
+        int timeUntilNextFile = -1;
+
+        for (AudioFile file : audioFiles.subList(startIndex, audioFiles.size())) {
+            timeUntilNextFile = (timeUntilNextFile == -1) ? remainedTime : file.getDuration();
+
+            if (timeUntilNextFile - timePassed > 0) {
+                audioFile = file;
+                name = audioFile.getName();
+                remainedTime = timeUntilNextFile - timePassed;
+                return timeUntilNextFile - timePassed;
+            }
+            timePassed -= timeUntilNextFile;
+        }
+        return timePassed;
+    }
+
+    /**
+     * Skip to the next audio file considering
+     * that all its remaining time has passed.
+     */
+    public void nextAudioFile() {
+        loadedTrack.updateAudioFile(this, remainedTime);
+        paused = false;
+
+        if (remainedTime == 0) {
+            removeTrack();
+        }
+        lastUpdateTime = Library.getLibrary().getTimestamp();
+    }
+
+    /**
+     * Skip at the beginning of this audio
+     * file or to the previous one.
+     */
+    public void previousAudioFile() {
+        if (atFirstAudioFile() || audioFile.getDuration() > remainedTime) {
+            remainedTime = audioFile.getDuration(); //restart the current file
+        } else {
+            loadPreviousAudioFile();
+        }
+        paused = false;
+        lastUpdateTime = Library.getLibrary().getTimestamp();
+    }
+
+    /**
+     * Advances in time with a set skipTime
+     */
+    public void skipForward() {
+        if (remainedTime < skippTime) {
+            loadedTrack.updateAudioFile(this, remainedTime); // next file
+        } else {
+            loadedTrack.updateAudioFile(this, skippTime);
+        }
+        lastUpdateTime = Library.getLibrary().getTimestamp();
+    }
+
+    /**
+     * Goes back in time with a set skipTime
+     */
+    public void skipBackward() {
+        if (audioFile.getDuration() - remainedTime < skippTime) {
+            remainedTime = audioFile.getDuration(); //restart the current file
+        } else {
+            remainedTime += skippTime;
+        }
+        lastUpdateTime = Library.getLibrary().getTimestamp();
+    }
+
+    /**
+     * Switch the current play/pause state of this music player
+     */
     public void updatePlayPause() {
         paused = !paused;
     }
 
+    /**
+     * Switch to the next repeat state
+     */
+    public void changeRepeat() {
+        repeat = (repeat != 2) ? repeat + 1 : 0;
+    }
+
+    /**
+     * Switch the current shuffle state of this music player
+     * @param shuffleSeed new seed for shuffling
+     */
     public void updateShuffle(final Integer shuffleSeed) {
         shuffle = !shuffle;
         seed = shuffleSeed;
     }
 
+    /**
+     * @return coded repeat state
+     */
     public String getRepeat() {
         if (repeat == 0) {
             return "No Repeat";
@@ -112,53 +222,6 @@ public final class MusicPlayer {
         } else {
             return (repeat == 1) ? "Repeat Once" : "Repeat Infinite";
         }
-    }
-
-    public void nextAudioFile() {
-        loadedTrack.updateAudioFile(this, remainedTime);
-        paused = false;
-
-        if (remainedTime == 0) {
-            removeTrack();
-        }
-
-        lastUpdateTime = Library.getLibrary().getTimestamp();
-    }
-
-    public void previousAudioFile() {
-        if (atFirstAudioFile() || audioFile.getDuration() > remainedTime) {
-            remainedTime = audioFile.getDuration();
-        } else {
-            loadPreviousAudioFile();
-        }
-        paused = false;
-        lastUpdateTime = Library.getLibrary().getTimestamp();
-    }
-
-    public Integer repeatState() {
-        return repeat;
-    }
-
-    public void changeRepeat() {
-        repeat = (repeat != 2) ? repeat + 1 : 0;
-    }
-
-    public void skippForward() {
-        if (remainedTime < skippTime) {
-            loadedTrack.updateAudioFile(this, remainedTime);
-        } else {
-            loadedTrack.updateAudioFile(this, skippTime);
-        }
-        lastUpdateTime = Library.getLibrary().getTimestamp();
-    }
-
-    public void skippBackward() {
-        if (audioFile.getDuration() - remainedTime < skippTime) {
-            remainedTime = audioFile.getDuration();
-        } else {
-            remainedTime += skippTime;
-        }
-        lastUpdateTime = Library.getLibrary().getTimestamp();
     }
 
     private void loadPreviousAudioFile() {
@@ -177,24 +240,5 @@ public final class MusicPlayer {
             Collections.shuffle(playQueue, new Random(seed));
         }
         return audioFile.equals(playQueue.get(0));
-    }
-
-    public int simulatePlayQueue(final ArrayList<AudioFile> audioFiles, final int timeSinceUpdate) {
-        int startIndex = audioFiles.indexOf(audioFile);
-        int timePassed = timeSinceUpdate;
-        int timeUntilNextFile = -1;
-
-        for (AudioFile file : audioFiles.subList(startIndex, audioFiles.size())) {
-            timeUntilNextFile = (timeUntilNextFile == -1) ? remainedTime : file.getDuration();
-
-            if (timeUntilNextFile - timePassed > 0) {
-                audioFile = file;
-                name = audioFile.getName();
-                remainedTime = timeUntilNextFile - timePassed;
-                return timeUntilNextFile - timePassed;
-            }
-            timePassed -= timeUntilNextFile;
-        }
-        return timePassed;
     }
 }

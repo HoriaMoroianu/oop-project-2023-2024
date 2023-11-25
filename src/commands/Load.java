@@ -27,7 +27,7 @@ public final class Load extends Command {
             return new ObjectMapper().valueToTree(this);
         }
 
-        user.getMusicPlayer().setTrack(searchBar.getSelectedTrack());
+        user.getMusicPlayer().loadTrack(searchBar.getSelectedTrack());
         searchBar.setSelectedTrack(null);
         message = "Playback loaded successfully.";
 

@@ -33,39 +33,55 @@ public class Song implements AudioFile, AudioTrack {
         likesReceived = 0;
     }
 
+    /**
+     * @param watchTime the watched time from the beginning of current audio track
+     * @return this song as the first audio file for current track
+     */
     @Override
     public AudioFile loadAudioFile(final Integer watchTime) {
         return this;
     }
 
+    /**
+     * @return this song as the audio file list of current track
+     */
     @Override
     public ArrayList<AudioFile> loadAudioList() {
         return new ArrayList<>(List.of(this));
     }
 
+    /**
+     * Updates the audio file in the music player
+     * taking into account the repeat status.
+     * @param musicPlayer for updating the audio file
+     * @param timePassed  since last update
+     */
     @Override
     public void updateAudioFile(final MusicPlayer musicPlayer, final int timePassed) {
         ArrayList<AudioFile> playQueue = new ArrayList<>();
         playQueue.add(this);
 
-        switch (musicPlayer.repeatState()) {
-            case 0:
+        switch (musicPlayer.getRepeat()) {
+            case "No Repeat":
                 if (musicPlayer.simulatePlayQueue(playQueue, timePassed)
                         != musicPlayer.getRemainedTime()) {
+                    // Reached the end of playQueue after the simulation
                     musicPlayer.setRemainedTime(0);
                 }
                 break;
-            case 1:
+            case "Repeat Once":
                 if (timePassed > musicPlayer.getRemainedTime()) {
                     musicPlayer.setRepeat(0);
-                    playQueue.add(musicPlayer.getAudioFile()); // extra song for repeat once
+                    // Add extra song for repeat once
+                    playQueue.add(musicPlayer.getAudioFile());
                 }
                 musicPlayer.simulatePlayQueue(playQueue, timePassed);
                 break;
-            case 2:
+            case "Repeat Infinite":
                 int remainedTime = musicPlayer.simulatePlayQueue(playQueue, timePassed);
                 if (remainedTime != musicPlayer.getRemainedTime()) {
-                    musicPlayer.setRemainedTime(duration - remainedTime % duration);
+                    // Reached the end of playQueue after the simulation
+                    musicPlayer.setRemainedTime(duration - (remainedTime % duration));
                 }
                 break;
             default:

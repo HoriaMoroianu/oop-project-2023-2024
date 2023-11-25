@@ -1,9 +1,12 @@
 package entities.audio_collections;
 
 import fileio.input.EpisodeInput;
+import lombok.Getter;
 
 public class Episode implements AudioFile {
+    @Getter
     private final String name;
+    @Getter
     private final Integer duration;
     private String description;
 
@@ -11,14 +14,5 @@ public class Episode implements AudioFile {
         name = episodeInput.getName();
         duration = episodeInput.getDuration();
         description = episodeInput.getDescription();
-    }
-
-    @Override
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public String getName() {
-        return name;
     }
 }

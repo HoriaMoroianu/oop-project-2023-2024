@@ -31,11 +31,11 @@ public final class ForwardBackward extends Command {
 
         switch (command) {
             case "forward":
-                musicPlayer.skippForward();
+                musicPlayer.skipForward();
                 message = "Skipped forward successfully.";
                 break;
             case "backward":
-                musicPlayer.skippBackward();
+                musicPlayer.skipBackward();
                 message = "Rewound successfully.";
                 break;
             default:
