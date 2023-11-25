@@ -1,4 +1,4 @@
-package entities;
+package commands;
 
 import entities.audio_collections.Playlist;
 import entities.audio_collections.Podcast;

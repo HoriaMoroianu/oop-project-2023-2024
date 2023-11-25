@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entities.audio_collections.AudioTrack;
-import entities.Filter;
 import entities.Library;
 import entities.audio_collections.Playlist;
 import entities.audio_collections.Podcast;
