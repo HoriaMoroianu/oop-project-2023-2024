@@ -10,7 +10,7 @@ Datele de intrare sunt citite din fisierele .json si sunt trimise in `AppControl
 
 ### Structura:
 * pachetul `commands`: contine clasa abstracta `Command` ce reprezinta clasa-parinte pentru restul comenzilor. Celalte clase sunt specifice pentru fiecare comanda din aplicatie.
-* pachetul `entities` contine: 
+* pachetul `app` contine: 
 	* clasele Singleton `AppControl` si `Library` si clasa `User` ce are asociate celelate doua entitati `MusicPlayer`, in care este simulata rularea de fisiere audio si `SearchBar` pentru salvarea cautarilor efectuate de utilizator.  
 	* pachetul `audio_collections`: contine interfata `AudioFile`implementata de `Song` si `Episode` si interfata `AudioTrack` (pentru colectii de fisiere audio ce pot fi rulate in MusicPlayer) implementata de `Song`, `Podcast` si `Playlist`.
 

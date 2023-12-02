@@ -2,7 +2,7 @@ package commands;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import entities.Library;
+import app.admin.Library;
 import fileio.input.CommandInput;
 import lombok.Getter;
 
