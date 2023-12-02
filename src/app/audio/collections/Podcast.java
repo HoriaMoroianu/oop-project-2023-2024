@@ -1,7 +1,7 @@
 package app.audio.collections;
 
 import app.MusicPlayer;
-import app.audio.AudioFile;
+import app.audio.files.AudioFile;
 import app.audio.AudioTrack;
 import app.audio.files.Episode;
 import fileio.input.EpisodeInput;

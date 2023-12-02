@@ -1,7 +1,6 @@
 package app.audio.files;
 
 import app.MusicPlayer;
-import app.audio.AudioFile;
 import app.audio.AudioTrack;
 import fileio.input.SongInput;
 import lombok.Getter;
@@ -11,9 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class Song implements AudioFile, AudioTrack {
-    private final String name;
-    private final Integer duration;
+public class Song extends AudioFile implements AudioTrack {
     private final String album;
     private final ArrayList<String> tags;
     private final String lyrics;
@@ -24,8 +21,7 @@ public class Song implements AudioFile, AudioTrack {
     private Integer likesReceived;
 
     public Song(final SongInput songInput) {
-        name = songInput.getName();
-        duration = songInput.getDuration();
+        super(songInput.getName(), songInput.getDuration());
         album = songInput.getAlbum();
         tags = songInput.getTags();
         lyrics = songInput.getLyrics();

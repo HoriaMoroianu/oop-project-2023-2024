@@ -2,7 +2,7 @@ package app;
 
 import app.admin.Library;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import app.audio.AudioFile;
+import app.audio.files.AudioFile;
 import app.audio.AudioTrack;
 import app.audio.collections.Playlist;
 import app.audio.collections.Podcast;

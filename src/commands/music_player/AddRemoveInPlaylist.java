@@ -2,7 +2,7 @@ package commands.music_player;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import app.audio.AudioFile;
+import app.audio.files.AudioFile;
 import app.admin.Library;
 import app.audio.collections.Playlist;
 import app.audio.files.Song;
