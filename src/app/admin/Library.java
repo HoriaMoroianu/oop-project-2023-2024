@@ -25,6 +25,9 @@ public final class Library {
     private final ArrayList<Playlist> playlists = new ArrayList<>();
     private final HashMap<String, User> users = new HashMap<>();
 
+    private Library() {
+    }
+
     /**
      * @return Library instance
      */

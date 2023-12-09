@@ -80,7 +80,8 @@ public final class Main {
         File inputFile = new File(CheckerConstants.TESTS_PATH + filePathInput);
         List<CommandInput> commands = objectMapper.readValue(inputFile, new TypeReference<>() { });
 
-        AppControl.getAppControl().runApp(library, commands, outputs);
+        AppControl appControl = new AppControl();
+        appControl.runApp(library, commands, outputs);
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePathOutput), outputs);

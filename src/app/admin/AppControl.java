@@ -28,18 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class AppControl {
-    private static AppControl instance = null;
     private final ArrayList<Command> commands = new ArrayList<>();
-
-    /**
-     * @return AppControl instance
-     */
-    public static AppControl getAppControl() {
-        if (instance == null) {
-            instance = new AppControl();
-        }
-        return instance;
-    }
 
     /**
      * Loads the library, runs the commands and stores the result in the outputs
@@ -78,7 +67,7 @@ public final class AppControl {
                 case "shuffle" -> commands.add(new Shuffle(commandInput));
                 case "status" -> commands.add(new Status(commandInput));
                 case "switchVisibility" -> commands.add(new SwitchVisibility(commandInput));
-                default -> { }
+                default -> System.err.println("Unknown command!");
             }
         }
     }
