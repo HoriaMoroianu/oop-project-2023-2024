@@ -1,6 +1,6 @@
-package app.admin;
+package app.management;
 
-import app.User;
+import app.clients.User;
 import app.audio.collections.Playlist;
 import app.audio.collections.Podcast;
 import app.audio.files.Song;
@@ -24,6 +24,8 @@ public final class Library {
     private final ArrayList<Podcast> podcasts = new ArrayList<>();
     private final ArrayList<Playlist> playlists = new ArrayList<>();
     private final HashMap<String, User> users = new HashMap<>();
+
+    private final ArrayList<String> onlineUsers = new ArrayList<>();
 
     private Library() {
     }
@@ -54,6 +56,7 @@ public final class Library {
         podcasts.clear();
         playlists.clear();
         users.clear();
+        onlineUsers.clear();
     }
 
     /**

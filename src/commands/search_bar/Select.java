@@ -2,8 +2,8 @@ package commands.search_bar;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import app.audio.AudioTrack;
-import app.admin.Library;
+import app.audio.collections.AudioTrack;
+import app.management.Library;
 import app.SearchBar;
 import commands.Command;
 import fileio.input.CommandInput;

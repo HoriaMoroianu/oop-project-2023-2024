@@ -1,4 +1,4 @@
-package app.audio;
+package app.audio.collections;
 
 import app.MusicPlayer;
 import app.audio.files.AudioFile;

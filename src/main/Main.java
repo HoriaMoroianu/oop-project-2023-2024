@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import app.admin.AppControl;
+import app.management.AppControl;
 import fileio.input.CommandInput;
 import fileio.input.LibraryInput;
 

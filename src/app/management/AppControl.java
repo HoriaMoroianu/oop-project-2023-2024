@@ -1,11 +1,14 @@
-package app.admin;
+package app.management;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import commands.admin.AddUser;
+import commands.client.SwitchConnectionStatus;
 import commands.music_player.AddRemoveInPlaylist;
 import commands.Command;
 import commands.playlist.CreatePlaylist;
 import commands.playlist.FollowPlaylist;
 import commands.music_player.ForwardBackward;
+import commands.statistics.GetOnlineUsers;
 import commands.statistics.GetTopPlaylists;
 import commands.statistics.GetTopSongs;
 import commands.music_player.Like;
@@ -49,9 +52,11 @@ public final class AppControl {
         for (CommandInput commandInput : commandInputArrayList) {
             switch (commandInput.getCommand()) {
                 case "addRemoveInPlaylist" -> commands.add(new AddRemoveInPlaylist(commandInput));
+                case "addUser" -> commands.add(new AddUser(commandInput));
                 case "createPlaylist" -> commands.add(new CreatePlaylist(commandInput));
                 case "follow" -> commands.add(new FollowPlaylist(commandInput));
                 case "forward", "backward" -> commands.add(new ForwardBackward(commandInput));
+                case "getOnlineUsers" -> commands.add(new GetOnlineUsers(commandInput));
                 case "getTop5Playlists" -> commands.add(new GetTopPlaylists(commandInput));
                 case "getTop5Songs" -> commands.add(new GetTopSongs(commandInput));
                 case "like" -> commands.add(new Like(commandInput));
@@ -66,8 +71,9 @@ public final class AppControl {
                 case "showPreferredSongs" -> commands.add(new ShowPreferredSongs(commandInput));
                 case "shuffle" -> commands.add(new Shuffle(commandInput));
                 case "status" -> commands.add(new Status(commandInput));
+                case "switchConnectionStatus" -> commands.add(new SwitchConnectionStatus(commandInput));
                 case "switchVisibility" -> commands.add(new SwitchVisibility(commandInput));
-                default -> System.err.println("Unknown command!");
+                default -> System.err.println(commandInput.getCommand() + " command is unknown!");
             }
         }
     }

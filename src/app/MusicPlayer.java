@@ -1,9 +1,9 @@
 package app;
 
-import app.admin.Library;
+import app.management.Library;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import app.audio.files.AudioFile;
-import app.audio.AudioTrack;
+import app.audio.collections.AudioTrack;
 import app.audio.collections.Playlist;
 import app.audio.collections.Podcast;
 import lombok.Getter;
@@ -32,6 +32,8 @@ public final class MusicPlayer {
     private AudioFile audioFile;
     @Getter @JsonIgnore
     private Integer seed;
+    @Setter
+    private boolean online;
     private Integer lastUpdateTime;
     private final int skippTime = 90;
     private final HashMap<String, Integer> podcastHistory = new HashMap<>();
@@ -80,7 +82,7 @@ public final class MusicPlayer {
             return;
         }
         int currentTime = Library.getLibrary().getTimestamp();
-        int timePassedPlaying = !paused ? (currentTime - lastUpdateTime) : 0;
+        int timePassedPlaying = (!paused && online) ? (currentTime - lastUpdateTime) : 0;
 
         loadedTrack.updateAudioFile(this, timePassedPlaying);
 

@@ -2,10 +2,10 @@ package commands.playlist;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import app.admin.Library;
+import app.management.Library;
 import app.audio.collections.Playlist;
 import app.SearchBar;
-import app.User;
+import app.clients.User;
 import commands.Command;
 import fileio.input.CommandInput;
 

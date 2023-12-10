@@ -1,7 +1,7 @@
 package app.audio.files;
 
 import app.MusicPlayer;
-import app.audio.AudioTrack;
+import app.audio.collections.AudioTrack;
 import fileio.input.SongInput;
 import lombok.Getter;
 import lombok.Setter;

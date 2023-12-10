@@ -1,6 +1,6 @@
 package app;
 
-import app.audio.AudioTrack;
+import app.audio.collections.AudioTrack;
 import lombok.Getter;
 import lombok.Setter;
 
