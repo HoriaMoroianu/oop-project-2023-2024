@@ -46,43 +46,6 @@ public final class Filter {
         return name == null || audioTrack.getName().startsWith(name);
     }
 
-    // TODO: remove this
-//    /**
-//     * Tests if this song starts with the specified name filter.
-//     *
-//     * @param   song the song to be filtered.
-//     * @return  true if the song name starts with the text specified in the filter;
-//     *          false otherwise.
-//     *          Note also that true will be returned if the filter is null.
-//     */
-//    public boolean filterByName(final Song song) {
-//        return name == null || song.getName().startsWith(name);
-//    }
-//
-//    /**
-//     * Tests if this playlist starts with the specified name filter.
-//     *
-//     * @param   playlist the playlist to be filtered.
-//     * @return  true if the playlist name starts with the text specified in the filter;
-//     *          false otherwise.
-//     *          Note also that true will be returned if the filter is null.
-//     */
-//    public boolean filterByName(final Playlist playlist) {
-//        return name == null || playlist.getName().startsWith(name);
-//    }
-//
-//    /**
-//     * Tests if this podcast starts with the specified name filter.
-//     *
-//     * @param   podcast the podcast to be filtered.
-//     * @return  true if the podcast name starts with the text specified in the filter;
-//     *          false otherwise.
-//     *          Note also that true will be returned if the filter is null.
-//     */
-//    public boolean filterByName(final Podcast podcast) {
-//        return name == null || podcast.getName().startsWith(name);
-//    }
-
     /**
      * Tests if this playlist was created by the specified owner filter.
      *
@@ -119,6 +82,14 @@ public final class Filter {
         return owner == null || album.getOwner().equals(owner);
     }
 
+    /**
+     * Tests if this album description starts with the specified description text.
+     *
+     * @param   album the audioTrack to be filtered.
+     * @return  true if the album description starts with the text specified in the filter;
+     *          false otherwise.
+     *          Note also that true will be returned if the filter is null.
+     */
     public boolean filterByDescription(final Album album) {
         return description == null || album.getDescription().startsWith(description);
     }

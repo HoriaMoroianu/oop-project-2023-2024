@@ -1,6 +1,7 @@
 package app.clients;
 
 import app.MusicPlayer;
+import app.Page;
 import app.SearchBar;
 import app.audio.collections.Playlist;
 import app.audio.files.Song;
@@ -23,6 +24,7 @@ public class User extends Client {
 
     public User(final UserInput userInput) {
         super(userInput);
+        page = new Page(Page.Type.HOME);
         switchOnlineStatus();
     }
 

@@ -37,6 +37,8 @@ public final class Search extends Command {
         User user = Library.getLibrary().getUsers().get(username);
         user.getMusicPlayer().removeTrack();
 
+        // TODO: cauta artisti + hosti
+
         ArrayList<AudioTrack> audioTracks = new ArrayList<>();
         switch (type) {
             case "song":

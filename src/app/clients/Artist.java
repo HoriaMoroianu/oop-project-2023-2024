@@ -1,5 +1,6 @@
 package app.clients;
 
+import app.Page;
 import app.audio.collections.Album;
 import fileio.input.UserInput;
 import lombok.Getter;
@@ -12,6 +13,7 @@ public class Artist extends Client {
 
     public Artist(final UserInput userInput) {
         super(userInput);
+        page = new Page(Page.Type.ARTIST);
     }
 
     public ArrayList<String> getAlbumsNames() {

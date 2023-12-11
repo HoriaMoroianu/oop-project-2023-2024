@@ -48,15 +48,19 @@ public class AddAlbum extends Command {
         }
 
         ArrayList<Song> albumSongs = new ArrayList<>();
+        ArrayList<String> songNames = new ArrayList<>();
+
         for (SongInput songInput : songs) {
             Song song = new Song(songInput);
 
-            if (albumSongs.contains(song)) {
+            // TODO: trebuie verificat si in library ?
+            if (songNames.contains(song.getName())) {
                 message = username + " has the same song at least twice in this album.";
                 return new ObjectMapper().valueToTree(this);
             }
 
             albumSongs.add(song);
+            songNames.add(song.getName());
         }
 
         Album album = new Album(name, artist.getUsername(), releaseYear, description);

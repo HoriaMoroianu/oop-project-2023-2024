@@ -7,6 +7,7 @@ import commands.client.AddAlbum;
 import commands.client.SwitchConnectionStatus;
 import commands.music_player.AddRemoveInPlaylist;
 import commands.Command;
+import commands.page.PrintCurrentPage;
 import commands.playlist.CreatePlaylist;
 import commands.playlist.FollowPlaylist;
 import commands.music_player.ForwardBackward;
@@ -30,6 +31,7 @@ import fileio.input.CommandInput;
 import fileio.input.LibraryInput;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public final class AppControl {
@@ -67,6 +69,7 @@ public final class AppControl {
                 case "next" -> commands.add(new Next(commandInput));
                 case "playPause" -> commands.add(new PlayPause(commandInput));
                 case "prev" -> commands.add(new Previous(commandInput));
+                case "printCurrentPage" -> commands.add(new PrintCurrentPage(commandInput));
                 case "repeat" -> commands.add(new Repeat(commandInput));
                 case "search" -> commands.add(new Search(commandInput));
                 case "select" -> commands.add(new Select(commandInput));
