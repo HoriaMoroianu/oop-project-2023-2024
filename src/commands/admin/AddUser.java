@@ -1,5 +1,7 @@
 package commands.admin;
 
+import app.clients.Artist;
+import app.clients.Host;
 import app.clients.User;
 import app.management.Library;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +24,7 @@ public final class AddUser extends Command {
 
     @Override
     protected ObjectNode executeCommand() {
-        if (Library.getLibrary().getUsers().containsKey(username)) {
+        if (Library.getLibrary().getClient(username) != null) {
             message = "The username " + username + " is already taken.";
             return new ObjectMapper().valueToTree(this);
         }
@@ -32,14 +34,13 @@ public final class AddUser extends Command {
         userInput.setAge(age);
         userInput.setCity(city);
 
-        // TODO: other users
-
         switch (type) {
-            case "user":
-                Library.getLibrary().getUsers().put(username, new User(userInput));
-                break;
-            default:
+            case "user" -> Library.getLibrary().getUsers().put(username, new User(userInput));
+            case "artist" -> Library.getLibrary().getArtists().put(username, new Artist(userInput));
+            case "host" -> Library.getLibrary().getHosts().put(username, new Host(userInput));
+            default -> { }
         }
+
         message = "The username " + username + " has been added successfully.";
         return new ObjectMapper().valueToTree(this);
     }

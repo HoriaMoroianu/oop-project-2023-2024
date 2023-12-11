@@ -41,9 +41,9 @@ public abstract class Command {
     private ObjectNode userDisabled() {
         User user = Library.getLibrary().getUsers().get(username);
 
-        String userDisabledCommands = "search, select, load, playPause, repeat, shuffle, " +
-                "forward, backward, like, next, prev, createPlaylist, addRemoveInPlaylist, " +
-                "switchVisibility, follow, changePage, printCurrentPage";
+        String userDisabledCommands = "search, select, load, playPause, repeat, shuffle, "
+                + "forward, backward, like, next, prev, createPlaylist, addRemoveInPlaylist, "
+                + "switchVisibility, follow, changePage, printCurrentPage";
 
         if (user == null || user.isOnlineStatus() || !userDisabledCommands.contains(command)) {
             return null;

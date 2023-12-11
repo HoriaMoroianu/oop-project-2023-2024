@@ -1,5 +1,9 @@
 package app.management;
 
+import app.audio.collections.Album;
+import app.clients.Artist;
+import app.clients.Client;
+import app.clients.Host;
 import app.clients.User;
 import app.audio.collections.Playlist;
 import app.audio.collections.Podcast;
@@ -23,7 +27,11 @@ public final class Library {
     private final ArrayList<Song> songs = new ArrayList<>();
     private final ArrayList<Podcast> podcasts = new ArrayList<>();
     private final ArrayList<Playlist> playlists = new ArrayList<>();
+    private final ArrayList<Album> albums = new ArrayList<>();
+
     private final HashMap<String, User> users = new HashMap<>();
+    private final HashMap<String, Artist> artists = new HashMap<>();
+    private final HashMap<String, Host> hosts = new HashMap<>();
 
     private final ArrayList<String> onlineUsers = new ArrayList<>();
 
@@ -55,7 +63,11 @@ public final class Library {
         songs.clear();
         podcasts.clear();
         playlists.clear();
+        albums.clear();
+
         users.clear();
+        artists.clear();
+        hosts.clear();
         onlineUsers.clear();
     }
 
@@ -75,5 +87,20 @@ public final class Library {
         for (final UserInput userInput : libraryInput.getUsers()) {
             users.put(userInput.getUsername(), new User(userInput));
         }
+    }
+
+    public Client getClient(final String username) {
+        Client client = users.get(username);
+        if (client != null) {
+            return client;
+        }
+
+        client = artists.get(username);
+        if (client != null) {
+            return client;
+        }
+
+        client = hosts.get(username);
+        return client;
     }
 }

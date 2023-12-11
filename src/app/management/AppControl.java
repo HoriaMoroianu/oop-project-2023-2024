@@ -2,6 +2,8 @@ package app.management;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import commands.admin.AddUser;
+import commands.admin.ShowAlbums;
+import commands.client.AddAlbum;
 import commands.client.SwitchConnectionStatus;
 import commands.music_player.AddRemoveInPlaylist;
 import commands.Command;
@@ -52,6 +54,7 @@ public final class AppControl {
         for (CommandInput commandInput : commandInputArrayList) {
             switch (commandInput.getCommand()) {
                 case "addRemoveInPlaylist" -> commands.add(new AddRemoveInPlaylist(commandInput));
+                case "addAlbum" -> commands.add(new AddAlbum(commandInput));
                 case "addUser" -> commands.add(new AddUser(commandInput));
                 case "createPlaylist" -> commands.add(new CreatePlaylist(commandInput));
                 case "follow" -> commands.add(new FollowPlaylist(commandInput));
@@ -67,6 +70,7 @@ public final class AppControl {
                 case "repeat" -> commands.add(new Repeat(commandInput));
                 case "search" -> commands.add(new Search(commandInput));
                 case "select" -> commands.add(new Select(commandInput));
+                case "showAlbums" -> commands.add(new ShowAlbums(commandInput));
                 case "showPlaylists" -> commands.add(new ShowPlaylists(commandInput));
                 case "showPreferredSongs" -> commands.add(new ShowPreferredSongs(commandInput));
                 case "shuffle" -> commands.add(new Shuffle(commandInput));

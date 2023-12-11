@@ -1,7 +1,9 @@
 package app.clients;
 
 import fileio.input.UserInput;
+import lombok.Getter;
 
+@Getter
 public abstract class Client {
     protected final String username;
     protected final int age;

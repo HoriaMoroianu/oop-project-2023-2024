@@ -1,5 +1,7 @@
 package commands.search_bar;
 
+import app.audio.collections.Album;
+import app.audio.collections.AudioTrack;
 import app.audio.collections.Playlist;
 import app.audio.collections.Podcast;
 import app.audio.files.Song;
@@ -11,60 +13,75 @@ import java.util.ArrayList;
 @Getter
 public final class Filter {
     private final String name;
-    private final String album;
+    private final String albumName;
     private final ArrayList<String> tags;
     private final String lyrics;
     private final String genre;
     private final String releaseYear;
     private final String artist;
     private final String owner;
+    private final String description;
 
     public Filter(final FilterInput filterInput) {
         name = filterInput.getName();
-        album = filterInput.getAlbum();
+        albumName = filterInput.getAlbum();
         tags = filterInput.getTags();
         lyrics = filterInput.getLyrics();
         genre = filterInput.getGenre();
         releaseYear = filterInput.getReleaseYear();
         artist = filterInput.getArtist();
         owner = filterInput.getOwner();
+        description = filterInput.getDescription();
     }
 
     /**
-     * Tests if this song starts with the specified name filter.
+     * Tests if this audioTrack starts with the specified name filter.
      *
-     * @param   song the song to be filtered.
-     * @return  true if the song name starts with the text specified in the filter;
+     * @param   audioTrack the audioTrack to be filtered.
+     * @return  true if the audioTrack name starts with the text specified in the filter;
      *          false otherwise.
      *          Note also that true will be returned if the filter is null.
      */
-    public boolean filterByName(final Song song) {
-        return name == null || song.getName().startsWith(name);
+    public boolean filterByName(final AudioTrack audioTrack) {
+        return name == null || audioTrack.getName().startsWith(name);
     }
 
-    /**
-     * Tests if this playlist starts with the specified name filter.
-     *
-     * @param   playlist the playlist to be filtered.
-     * @return  true if the playlist name starts with the text specified in the filter;
-     *          false otherwise.
-     *          Note also that true will be returned if the filter is null.
-     */
-    public boolean filterByName(final Playlist playlist) {
-        return name == null || playlist.getName().startsWith(name);
-    }
-
-    /**
-     * Tests if this podcast starts with the specified name filter.
-     *
-     * @param   podcast the podcast to be filtered.
-     * @return  true if the podcast name starts with the text specified in the filter;
-     *          false otherwise.
-     *          Note also that true will be returned if the filter is null.
-     */
-    public boolean filterByName(final Podcast podcast) {
-        return name == null || podcast.getName().startsWith(name);
-    }
+    // TODO: remove this
+//    /**
+//     * Tests if this song starts with the specified name filter.
+//     *
+//     * @param   song the song to be filtered.
+//     * @return  true if the song name starts with the text specified in the filter;
+//     *          false otherwise.
+//     *          Note also that true will be returned if the filter is null.
+//     */
+//    public boolean filterByName(final Song song) {
+//        return name == null || song.getName().startsWith(name);
+//    }
+//
+//    /**
+//     * Tests if this playlist starts with the specified name filter.
+//     *
+//     * @param   playlist the playlist to be filtered.
+//     * @return  true if the playlist name starts with the text specified in the filter;
+//     *          false otherwise.
+//     *          Note also that true will be returned if the filter is null.
+//     */
+//    public boolean filterByName(final Playlist playlist) {
+//        return name == null || playlist.getName().startsWith(name);
+//    }
+//
+//    /**
+//     * Tests if this podcast starts with the specified name filter.
+//     *
+//     * @param   podcast the podcast to be filtered.
+//     * @return  true if the podcast name starts with the text specified in the filter;
+//     *          false otherwise.
+//     *          Note also that true will be returned if the filter is null.
+//     */
+//    public boolean filterByName(final Podcast podcast) {
+//        return name == null || podcast.getName().startsWith(name);
+//    }
 
     /**
      * Tests if this playlist was created by the specified owner filter.
@@ -91,6 +108,22 @@ public final class Filter {
     }
 
     /**
+     * Tests if this album was created by the specified owner filter.
+     *
+     * @param   album the album to be filtered.
+     * @return  true if the album was created by the specified owner in the filter;
+     *          false otherwise.
+     *          Note also that true will be returned if the filter is null.
+     */
+    public boolean filterByOwner(final Album album) {
+        return owner == null || album.getOwner().equals(owner);
+    }
+
+    public boolean filterByDescription(final Album album) {
+        return description == null || album.getDescription().startsWith(description);
+    }
+
+    /**
      * Tests if this song is part of specified album filter.
      *
      * @param   song the song to be filtered.
@@ -99,7 +132,7 @@ public final class Filter {
      *          Note also that true will be returned if the filter is null.
      */
     public boolean filterByAlbum(final Song song) {
-        return album == null || song.getAlbum().equals(album);
+        return albumName == null || song.getAlbum().equals(albumName);
     }
 
     /**

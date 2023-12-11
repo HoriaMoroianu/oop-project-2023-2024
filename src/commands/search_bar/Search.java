@@ -1,5 +1,6 @@
 package commands.search_bar;
 
+import app.audio.collections.Album;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -46,6 +47,9 @@ public final class Search extends Command {
                 break;
             case "playlist":
                 audioTracks = searchPlaylist(userAccessiblePlaylists());
+                break;
+            case "album":
+                audioTracks = searchAlbum(Library.getLibrary().getAlbums());
                 break;
             default:
                 break;
@@ -96,5 +100,14 @@ public final class Search extends Command {
             .filter(filter::filterByOwner)
             .limit(maxSearchResults)
             .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    private ArrayList<AudioTrack> searchAlbum(final ArrayList<Album> albums) {
+        return albums.stream()
+                .filter(filter::filterByName)
+                .filter(filter::filterByOwner)
+                .filter(filter::filterByDescription)
+                .limit(maxSearchResults)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }

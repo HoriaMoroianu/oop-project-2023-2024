@@ -1,5 +1,6 @@
 package commands.client;
 
+import app.clients.Client;
 import app.clients.User;
 import app.management.Library;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,22 +9,24 @@ import commands.Command;
 import fileio.input.CommandInput;
 
 public final class SwitchConnectionStatus extends Command {
-    public SwitchConnectionStatus(CommandInput commandInput) {
+    public SwitchConnectionStatus(final CommandInput commandInput) {
         super(commandInput);
     }
 
     @Override
     protected ObjectNode executeCommand() {
-        User user = Library.getLibrary().getUsers().get(username);
-
-        if (user == null) {
+        Client client = Library.getLibrary().getClient(username);
+        if (client == null) {
             message = "The username " + username + " doesn't exist.";
             return new ObjectMapper().valueToTree(this);
         }
 
-        // TODO: <username> is not a normal user.
+        if (client.getClass() != User.class) {
+            message = username + " is not a normal user.";
+            return new ObjectMapper().valueToTree(this);
+        }
 
-        user.switchOnlineStatus();
+        ((User) client).switchOnlineStatus();
         message = username + " has changed status successfully.";
         return new ObjectMapper().valueToTree(this);
     }

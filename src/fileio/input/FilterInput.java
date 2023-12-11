@@ -15,4 +15,5 @@ public final class FilterInput {
     private String releaseYear;
     private String artist;
     private String owner;
+    private String description;
 }

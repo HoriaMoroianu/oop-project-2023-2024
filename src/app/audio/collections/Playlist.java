@@ -13,18 +13,18 @@ import java.util.Random;
 
 @Getter
 public class Playlist implements AudioTrack {
-    private final String name;
+    protected final String name;
     @JsonProperty("songs")
-    private ArrayList<String> songsNames = new ArrayList<>();
+    protected ArrayList<String> songsNames = new ArrayList<>();
     @Setter
     private String visibility;
     @Setter
     private Integer followers;
 
     @JsonIgnore
-    private final String owner;
+    protected final String owner;
     @JsonIgnore
-    private final ArrayList<AudioFile> songs = new ArrayList<>();
+    protected final ArrayList<AudioFile> songs = new ArrayList<>();
 
     public Playlist(final String name, final String owner) {
         this.name = name;
