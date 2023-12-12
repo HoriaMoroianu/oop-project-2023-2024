@@ -2,7 +2,11 @@ package app;
 
 import app.audio.collections.Playlist;
 import app.audio.files.Song;
+import app.clients.Artist;
+import app.clients.Client;
 import app.clients.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 
@@ -14,13 +18,19 @@ public class Page {
         HOST
     }
 
+    @Getter @Setter
     private Type type;
+    @Getter @Setter
+    private Client pageOwner;
 
-    public Page(final Type type) {
+    public Page(final Type type, final Client pageOwner) {
         this.type = type;
+        this.pageOwner = pageOwner;
     }
 
-    public String printHomePage(final User user) {
+    public String printHomePage() {
+        User user = (User) pageOwner;
+
         ArrayList<String> likedSongsNames = new ArrayList<>();
         for (Song song : user.getLikedSongs()) {
             likedSongsNames.add(song.getName());
@@ -35,11 +45,27 @@ public class Page {
                 + "\n\nFollowed playlists:\n\t" + followedPlaylistsNames;
     }
 
-    public Type getType() {
-        return type;
-    }
+    public String printArtistPage() {
+        Artist artist = (Artist) pageOwner;
 
-    public void setType(Type type) {
-        this.type = type;
+        ArrayList<String> merchFormatting = new ArrayList<>();
+        for (Merch merch : artist.getMerches()) {
+            merchFormatting.add(
+                    merch.getName() + " - "
+                    + merch.getPrice() + ":\n\t"
+                    + merch.getDescription());
+        }
+
+        ArrayList<String> eventFormatting = new ArrayList<>();
+        for (Event event : artist.getEvents()) {
+            eventFormatting.add(
+                    event.getName() + " - "
+                            + event.getDate() + ":\n\t"
+                            + event.getDescription());
+        }
+
+        return "Albums:\n\t" + artist.getAlbumsNames()
+                + "\n\nMerch:\n\t" + merchFormatting
+                + "\n\nEvents:\n\t" + eventFormatting;
     }
 }

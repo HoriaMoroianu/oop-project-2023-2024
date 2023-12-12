@@ -89,6 +89,12 @@ public final class Library {
         }
     }
 
+
+    /**
+     * Search by name a client from the library
+     * @param username the name by which the client is searched
+     * @return the client with the searched name; null if it was not found
+     */
     public Client getClient(final String username) {
         Client client = users.get(username);
         if (client != null) {

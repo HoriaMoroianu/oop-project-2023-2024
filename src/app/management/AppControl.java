@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import commands.admin.AddUser;
 import commands.admin.ShowAlbums;
 import commands.client.AddAlbum;
+import commands.client.AddEvent;
+import commands.client.AddMerch;
 import commands.client.SwitchConnectionStatus;
 import commands.music_player.AddRemoveInPlaylist;
 import commands.Command;
@@ -31,7 +33,6 @@ import fileio.input.CommandInput;
 import fileio.input.LibraryInput;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public final class AppControl {
@@ -57,6 +58,8 @@ public final class AppControl {
             switch (commandInput.getCommand()) {
                 case "addRemoveInPlaylist" -> commands.add(new AddRemoveInPlaylist(commandInput));
                 case "addAlbum" -> commands.add(new AddAlbum(commandInput));
+                case "addEvent" -> commands.add(new AddEvent(commandInput));
+                case "addMerch" -> commands.add(new AddMerch(commandInput));
                 case "addUser" -> commands.add(new AddUser(commandInput));
                 case "createPlaylist" -> commands.add(new CreatePlaylist(commandInput));
                 case "follow" -> commands.add(new FollowPlaylist(commandInput));
@@ -78,7 +81,8 @@ public final class AppControl {
                 case "showPreferredSongs" -> commands.add(new ShowPreferredSongs(commandInput));
                 case "shuffle" -> commands.add(new Shuffle(commandInput));
                 case "status" -> commands.add(new Status(commandInput));
-                case "switchConnectionStatus" -> commands.add(new SwitchConnectionStatus(commandInput));
+                case "switchConnectionStatus"
+                        -> commands.add(new SwitchConnectionStatus(commandInput));
                 case "switchVisibility" -> commands.add(new SwitchVisibility(commandInput));
                 default -> System.err.println(commandInput.getCommand() + " command is unknown!");
             }

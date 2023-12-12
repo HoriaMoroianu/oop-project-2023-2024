@@ -1,6 +1,9 @@
 package commands.search_bar;
 
 import app.audio.collections.Album;
+import app.clients.Artist;
+import app.clients.Client;
+import app.clients.Host;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -15,6 +18,7 @@ import fileio.input.CommandInput;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 @JsonIgnoreProperties({ "type", "filter", "maxSearchResults" })
@@ -37,9 +41,9 @@ public final class Search extends Command {
         User user = Library.getLibrary().getUsers().get(username);
         user.getMusicPlayer().removeTrack();
 
-        // TODO: cauta artisti + hosti
-
         ArrayList<AudioTrack> audioTracks = new ArrayList<>();
+        ArrayList<Client> clients = new ArrayList<>();
+
         switch (type) {
             case "song":
                 audioTracks = searchSongs(Library.getLibrary().getSongs());
@@ -53,12 +57,25 @@ public final class Search extends Command {
             case "album":
                 audioTracks = searchAlbum(Library.getLibrary().getAlbums());
                 break;
+            case "artist":
+                clients = searchArtist(Library.getLibrary().getArtists());
+                break;
+            case "host":
+                clients = searchHost(Library.getLibrary().getHosts());
+                break;
             default:
                 break;
         }
-        message = "Search returned " + audioTracks.size() + " results";
-        audioTracks.forEach(audioPlayable -> results.add(audioPlayable.getName()));
-        user.getSearchBar().setSearchResults(audioTracks);
+
+        if ("song, playlist, podcast, album".contains(type)) {
+            message = "Search returned " + audioTracks.size() + " results";
+            audioTracks.forEach(audioTrack -> results.add(audioTrack.getName()));
+            user.getSearchBar().setSearchedTracks(audioTracks, type);
+        } else {
+            message = "Search returned " + clients.size() + " results";
+            clients.forEach(client -> results.add(client.getUsername()));
+            user.getSearchBar().setSearchedClients(clients, type);
+        }
 
         return new ObjectMapper().valueToTree(this);
     }
@@ -109,6 +126,20 @@ public final class Search extends Command {
                 .filter(filter::filterByName)
                 .filter(filter::filterByOwner)
                 .filter(filter::filterByDescription)
+                .limit(maxSearchResults)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    private ArrayList<Client> searchArtist(final HashMap<String, Artist> artists) {
+        return artists.values().stream()
+                .filter(filter::filterByName)
+                .limit(maxSearchResults)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    private ArrayList<Client> searchHost(final HashMap<String, Host> hosts) {
+        return hosts.values().stream()
+                .filter(filter::filterByName)
                 .limit(maxSearchResults)
                 .collect(Collectors.toCollection(ArrayList::new));
     }

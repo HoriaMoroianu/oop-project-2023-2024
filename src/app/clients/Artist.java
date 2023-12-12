@@ -1,6 +1,7 @@
 package app.clients;
 
-import app.Page;
+import app.Event;
+import app.Merch;
 import app.audio.collections.Album;
 import fileio.input.UserInput;
 import lombok.Getter;
@@ -10,16 +11,48 @@ import java.util.ArrayList;
 @Getter
 public class Artist extends Client {
     private final ArrayList<Album> albums = new ArrayList<>();
+    private final ArrayList<Event> events = new ArrayList<>();
+    private final ArrayList<Merch> merches = new ArrayList<>();
 
     public Artist(final UserInput userInput) {
         super(userInput);
-        page = new Page(Page.Type.ARTIST);
     }
 
+    /**
+     * Get a list with the names of all the albums of this artist
+     *
+     * @return the list with album's names
+     */
     public ArrayList<String> getAlbumsNames() {
         ArrayList<String> names = new ArrayList<>();
         for (Album album : albums) {
             names.add(album.getName());
+        }
+        return names;
+    }
+
+    /**
+     * Get a list with the names of all the events of this artist
+     *
+     * @return the list with event's names
+     */
+    public ArrayList<String> getEventsNames() {
+        ArrayList<String> names = new ArrayList<>();
+        for (Event event : events) {
+            names.add(event.getName());
+        }
+        return names;
+    }
+
+    /**
+     * Get a list with the names of all the merchandises of this artist
+     *
+     * @return the list with merchandise's names
+     */
+    public ArrayList<String> getMerchesNames() {
+        ArrayList<String> names = new ArrayList<>();
+        for (Merch merch : merches) {
+            names.add(merch.getName());
         }
         return names;
     }

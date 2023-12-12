@@ -21,13 +21,19 @@ public class User extends Client {
     private final ArrayList<Playlist> followedPlaylists = new ArrayList<>();
 
     private boolean onlineStatus;
+    private Page currentPage;
 
     public User(final UserInput userInput) {
         super(userInput);
-        page = new Page(Page.Type.HOME);
+        currentPage = new Page(Page.Type.HOME, this);
         switchOnlineStatus();
     }
 
+
+    /**
+     * Changes the online status of this user;
+     * if it is online it becomes offline and vice versa
+     */
     public void switchOnlineStatus() {
         if (onlineStatus) {
             onlineStatus = false;

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import commands.Command;
 import fileio.input.CommandInput;
 
-public class PrintCurrentPage extends Command {
+public final class PrintCurrentPage extends Command {
     public PrintCurrentPage(final CommandInput commandInput) {
         super(commandInput);
     }
@@ -16,19 +16,19 @@ public class PrintCurrentPage extends Command {
     @Override
     protected ObjectNode executeCommand() {
         User user = Library.getLibrary().getUsers().get(username);
-        Page page = user.getPage();
+        Page page = user.getCurrentPage();
 
         // TODO: restul de cazuri
 
         switch (page.getType()) {
             case HOME:
-                message = page.printHomePage(user);
+                message = page.printHomePage();
                 break;
             case LIKED_CONTENT:
                 message = null;
                 break;
             case ARTIST:
-                message = null;
+                message = page.printArtistPage();
                 break;
             case HOST:
                 message = null;

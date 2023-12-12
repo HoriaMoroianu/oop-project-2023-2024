@@ -12,7 +12,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 
 @Getter @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ShowAlbums extends Command {
+public final class ShowAlbums extends Command {
     private ArrayList<Album> result;
 
     public ShowAlbums(final CommandInput commandInput) {

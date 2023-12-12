@@ -13,7 +13,7 @@ import fileio.input.SongInput;
 
 import java.util.ArrayList;
 
-public class AddAlbum extends Command {
+public final class AddAlbum extends Command {
     private final String name;
     private final Integer releaseYear;
     private final String description;

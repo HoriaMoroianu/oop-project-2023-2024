@@ -5,6 +5,8 @@ import app.audio.collections.AudioTrack;
 import app.audio.collections.Playlist;
 import app.audio.collections.Podcast;
 import app.audio.files.Song;
+import app.clients.Artist;
+import app.clients.Host;
 import fileio.input.FilterInput;
 import lombok.Getter;
 
@@ -18,7 +20,7 @@ public final class Filter {
     private final String lyrics;
     private final String genre;
     private final String releaseYear;
-    private final String artist;
+    private final String artistName;
     private final String owner;
     private final String description;
 
@@ -29,7 +31,7 @@ public final class Filter {
         lyrics = filterInput.getLyrics();
         genre = filterInput.getGenre();
         releaseYear = filterInput.getReleaseYear();
-        artist = filterInput.getArtist();
+        artistName = filterInput.getArtist();
         owner = filterInput.getOwner();
         description = filterInput.getDescription();
     }
@@ -44,6 +46,30 @@ public final class Filter {
      */
     public boolean filterByName(final AudioTrack audioTrack) {
         return name == null || audioTrack.getName().startsWith(name);
+    }
+
+    /**
+     * Tests if this artist starts with the specified name filter.
+     *
+     * @param   artist the artist to be filtered.
+     * @return  true if the artist name starts with the text specified in the filter;
+     *          false otherwise.
+     *          Note also that true will be returned if the filter is null.
+     */
+    public boolean filterByName(final Artist artist) {
+        return name == null || artist.getUsername().startsWith(name);
+    }
+
+    /**
+     * Tests if this host starts with the specified name filter.
+     *
+     * @param   host the host to be filtered.
+     * @return  true if the host name starts with the text specified in the filter;
+     *          false otherwise.
+     *          Note also that true will be returned if the filter is null.
+     */
+    public boolean filterByName(final Host host) {
+        return name == null || host.getUsername().startsWith(name);
     }
 
     /**
@@ -151,7 +177,7 @@ public final class Filter {
      *          Note also that true will be returned if the filter is null.
      */
     public boolean filterByArtist(final Song song) {
-        return artist == null || song.getArtist().equals(artist);
+        return artistName == null || song.getArtist().equals(artistName);
     }
 
     /**
