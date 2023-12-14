@@ -23,7 +23,7 @@ public final class AddMerch extends Command {
 
     @Override
     protected ObjectNode executeCommand() {
-        // TODO: solve duplicate
+        // TODO solve duplicate
 
         Client client = Library.getLibrary().getClient(username);
         if (client == null) {

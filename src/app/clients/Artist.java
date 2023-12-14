@@ -3,6 +3,7 @@ package app.clients;
 import app.Event;
 import app.Merch;
 import app.audio.collections.Album;
+import app.management.Library;
 import fileio.input.UserInput;
 import lombok.Getter;
 
@@ -16,6 +17,19 @@ public class Artist extends Client {
 
     public Artist(final UserInput userInput) {
         super(userInput);
+    }
+
+    @Override
+    public void deleteClient() {
+        for (Album album : albums) {
+            Library.getLibrary().getUsers().values()
+                    .forEach(user -> user.getLikedSongs().removeAll(album.getSongs()));
+
+            Library.getLibrary().getSongs().removeAll(album.getSongs());
+        }
+
+        Library.getLibrary().getAlbums().removeAll(albums);
+        Library.getLibrary().getArtists().remove(username);
     }
 
     /**

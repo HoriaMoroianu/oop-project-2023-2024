@@ -1,5 +1,7 @@
 package app;
 
+import app.clients.Client;
+import app.clients.User;
 import app.management.Library;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import app.audio.files.AudioFile;
@@ -20,12 +22,13 @@ public final class MusicPlayer {
     @Getter @Setter
     private Integer remainedTime;
     @Setter
-    private Integer repeat;
+    private int repeat;
     @Getter
     private boolean shuffle;
     @Getter
     private boolean paused;
 
+    private final User owner;
     @Getter @JsonIgnore
     private AudioTrack loadedTrack;
     @Getter @Setter @JsonIgnore
@@ -38,6 +41,10 @@ public final class MusicPlayer {
     private final int skippTime = 90;
     private final HashMap<String, Integer> podcastHistory = new HashMap<>();
 
+    public MusicPlayer(final User owner) {
+        this.owner = owner;
+    }
+
     /**
      * Loads audioTrack into this musicPlayer
      * @param audioTrack the track that is loaded
@@ -47,6 +54,7 @@ public final class MusicPlayer {
 
         name = audioTrack.getName();
         loadedTrack = audioTrack;
+        loadedTrack.updateClientGuests(Client.UpdateMode.ADD_GUEST, owner);
         audioFile = loadedTrack.loadAudioFile(podcastHistory.get(name));
         remainedTime = audioFile.getDuration(podcastHistory.get(name));
 
@@ -60,7 +68,12 @@ public final class MusicPlayer {
      * Removes the current loaded track
      */
     public void removeTrack() {
+        if (loadedTrack == null) {
+            return;
+        }
+
         savePodcastHistory();
+        loadedTrack.updateClientGuests(Client.UpdateMode.REMOVE_GUEST, owner);
 
         name = "";
         loadedTrack = null;

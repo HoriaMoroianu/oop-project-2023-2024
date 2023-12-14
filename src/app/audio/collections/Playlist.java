@@ -1,6 +1,8 @@
 package app.audio.collections;
 
 import app.audio.files.AudioFile;
+import app.clients.Client;
+import app.management.Library;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import app.MusicPlayer;
@@ -18,7 +20,6 @@ public class Playlist implements AudioTrack {
     protected ArrayList<String> songsNames = new ArrayList<>();
     @Setter
     private String visibility;
-    @Setter
     private Integer followers;
 
     @JsonIgnore
@@ -31,6 +32,22 @@ public class Playlist implements AudioTrack {
         this.owner = owner;
         visibility = "public";
         followers = 0;
+    }
+
+    public void follow() {
+        followers++;
+    }
+
+    public void unfollow() {
+        followers--;
+    }
+
+    @Override
+    public void updateClientGuests(final Client.UpdateMode mode, final Client guest) {
+        Client playlistOwner = Library.getLibrary().getUsers().get(owner);
+        if (playlistOwner != null) {
+            playlistOwner.updateGuests(mode, guest);
+        }
     }
 
     /**

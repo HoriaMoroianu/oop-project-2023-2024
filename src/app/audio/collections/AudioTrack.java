@@ -2,6 +2,7 @@ package app.audio.collections;
 
 import app.MusicPlayer;
 import app.audio.files.AudioFile;
+import app.clients.Client;
 
 import java.util.ArrayList;
 
@@ -28,4 +29,6 @@ public interface AudioTrack {
      * @param timePassed since last update
      */
     void updateAudioFile(MusicPlayer musicPlayer, int timePassed);
+
+    void updateClientGuests(Client.UpdateMode mode, Client guest);
 }

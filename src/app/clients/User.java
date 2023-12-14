@@ -14,14 +14,14 @@ import java.util.ArrayList;
 @Getter
 public class User extends Client {
     private final SearchBar searchBar = new SearchBar();
-    private final MusicPlayer musicPlayer = new MusicPlayer();
+    private final MusicPlayer musicPlayer = new MusicPlayer(this);
 
     private final ArrayList<Playlist> playlists = new ArrayList<>();
     private final ArrayList<Song> likedSongs = new ArrayList<>();
     private final ArrayList<Playlist> followedPlaylists = new ArrayList<>();
 
     private boolean onlineStatus;
-    private Page currentPage;
+    private final Page currentPage;
 
     public User(final UserInput userInput) {
         super(userInput);
@@ -29,6 +29,13 @@ public class User extends Client {
         switchOnlineStatus();
     }
 
+    @Override
+    public void deleteClient() {
+        Library.getLibrary().getPlaylists().removeAll(playlists);
+        likedSongs.forEach(Song::dislike);
+        followedPlaylists.forEach(Playlist::unfollow);
+        Library.getLibrary().getUsers().remove(username);
+    }
 
     /**
      * Changes the online status of this user;

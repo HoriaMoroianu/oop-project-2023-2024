@@ -49,15 +49,13 @@ public final class Select extends Command {
 
             case "artist":
                 Artist artist = (Artist) searchBar.getSearchedClients().get((itemNumber - 1));
-                currentPage.setType(Page.Type.ARTIST);
-                currentPage.setPageOwner(artist);
+                currentPage.switchPage(Page.Type.ARTIST, artist, user);
                 message = "Successfully selected " + artist.getUsername() + "'s page.";
                 break;
 
             case "host":
                 Host host = (Host) searchBar.getSearchedClients().get((itemNumber - 1));
-                currentPage.setType(Page.Type.HOST);
-                currentPage.setPageOwner(host);
+                currentPage.switchPage(Page.Type.HOST, host, user);
                 message = "Successfully selected " + host.getUsername() + "'s page.";
                 break;
 

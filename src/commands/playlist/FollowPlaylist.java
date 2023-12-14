@@ -37,11 +37,11 @@ public final class FollowPlaylist extends Command {
 
         if (user.getFollowedPlaylists().contains(playlist)) {
             user.getFollowedPlaylists().remove(playlist);
-            playlist.setFollowers(playlist.getFollowers() - 1);
+            playlist.unfollow();
             message = "Playlist unfollowed successfully.";
         } else {
             user.getFollowedPlaylists().add(playlist);
-            playlist.setFollowers(playlist.getFollowers() + 1);
+            playlist.follow();
             message = "Playlist followed successfully.";
         }
         return new ObjectMapper().valueToTree(this);

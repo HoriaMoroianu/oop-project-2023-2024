@@ -1,5 +1,7 @@
 package app.audio.collections;
 
+import app.clients.Client;
+import app.management.Library;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 
@@ -14,5 +16,13 @@ public class Album extends Playlist {
         super(name, owner);
         this.releaseYear = releaseYear;
         this.description = description;
+    }
+
+    @Override
+    public void updateClientGuests(final Client.UpdateMode mode, final Client guest) {
+        Client albumOwner = Library.getLibrary().getArtists().get(owner);
+        if (albumOwner != null) {
+            albumOwner.updateGuests(mode, guest);
+        }
     }
 }

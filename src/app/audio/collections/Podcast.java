@@ -3,6 +3,8 @@ package app.audio.collections;
 import app.MusicPlayer;
 import app.audio.files.AudioFile;
 import app.audio.files.Episode;
+import app.clients.Client;
+import app.management.Library;
 import fileio.input.EpisodeInput;
 import fileio.input.PodcastInput;
 import lombok.Getter;
@@ -25,6 +27,14 @@ public class Podcast implements AudioTrack {
             episodes.add(new Episode(episodeInput));
             playtime += episodeInput.getDuration();
             elapsedTime.add(playtime);
+        }
+    }
+
+    @Override
+    public void updateClientGuests(final Client.UpdateMode mode, final Client guest) {
+        Client podcastOwner = Library.getLibrary().getHosts().get(owner);
+        if (podcastOwner != null) {
+            podcastOwner.updateGuests(mode, guest);
         }
     }
 

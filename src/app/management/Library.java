@@ -17,6 +17,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 @Getter
 public final class Library {
@@ -29,7 +30,7 @@ public final class Library {
     private final ArrayList<Playlist> playlists = new ArrayList<>();
     private final ArrayList<Album> albums = new ArrayList<>();
 
-    private final HashMap<String, User> users = new HashMap<>();
+    private final LinkedHashMap<String, User> users = new LinkedHashMap<>();
     private final HashMap<String, Artist> artists = new HashMap<>();
     private final HashMap<String, Host> hosts = new HashMap<>();
 

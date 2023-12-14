@@ -18,7 +18,7 @@ public final class PrintCurrentPage extends Command {
         User user = Library.getLibrary().getUsers().get(username);
         Page page = user.getCurrentPage();
 
-        // TODO: restul de cazuri
+        // TODO restul de cazuri
 
         switch (page.getType()) {
             case HOME:

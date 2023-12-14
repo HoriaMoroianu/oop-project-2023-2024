@@ -6,7 +6,6 @@ import app.clients.Artist;
 import app.clients.Client;
 import app.clients.User;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 
@@ -18,14 +17,22 @@ public class Page {
         HOST
     }
 
-    @Getter @Setter
+    @Getter
     private Type type;
-    @Getter @Setter
+    @Getter
     private Client pageOwner;
 
     public Page(final Type type, final Client pageOwner) {
         this.type = type;
         this.pageOwner = pageOwner;
+    }
+
+    public void switchPage(final Type newType, final Client newOwner, final Client guest) {
+        pageOwner.updateGuests(Client.UpdateMode.REMOVE_GUEST, guest);
+        newOwner.updateGuests(Client.UpdateMode.ADD_GUEST, guest);
+
+        type = newType;
+        pageOwner = newOwner;
     }
 
     public String printHomePage() {
@@ -50,18 +57,14 @@ public class Page {
 
         ArrayList<String> merchFormatting = new ArrayList<>();
         for (Merch merch : artist.getMerches()) {
-            merchFormatting.add(
-                    merch.getName() + " - "
-                    + merch.getPrice() + ":\n\t"
-                    + merch.getDescription());
+            merchFormatting.add(merch.getName() + " - "
+                    + merch.getPrice() + ":\n\t" + merch.getDescription());
         }
 
         ArrayList<String> eventFormatting = new ArrayList<>();
         for (Event event : artist.getEvents()) {
-            eventFormatting.add(
-                    event.getName() + " - "
-                            + event.getDate() + ":\n\t"
-                            + event.getDescription());
+            eventFormatting.add(event.getName() + " - "
+                    + event.getDate() + ":\n\t" + event.getDescription());
         }
 
         return "Albums:\n\t" + artist.getAlbumsNames()

@@ -2,9 +2,10 @@ package app.audio.files;
 
 import app.MusicPlayer;
 import app.audio.collections.AudioTrack;
+import app.clients.Client;
+import app.management.Library;
 import fileio.input.SongInput;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,6 @@ public class Song extends AudioFile implements AudioTrack {
     private final String genre;
     private final Integer releaseYear;
     private final String artist;
-    @Setter
     private Integer likesReceived;
 
     public Song(final SongInput songInput) {
@@ -29,6 +29,22 @@ public class Song extends AudioFile implements AudioTrack {
         releaseYear = songInput.getReleaseYear();
         artist = songInput.getArtist();
         likesReceived = 0;
+    }
+
+    @Override
+    public void updateClientGuests(final Client.UpdateMode mode, final Client guest) {
+        Client songArtist = Library.getLibrary().getArtists().get(artist);
+        if (songArtist != null) {
+            songArtist.updateGuests(mode, guest);
+        }
+    }
+
+    public void like() {
+        likesReceived++;
+    }
+
+    public void dislike() {
+        likesReceived--;
     }
 
     /**

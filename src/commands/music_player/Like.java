@@ -32,11 +32,11 @@ public final class Like extends Command {
         Song song = (Song) loadedAudio;
 
         if (user.getLikedSongs().contains(song)) {
-            song.setLikesReceived(song.getLikesReceived() - 1);
+            song.dislike();
             user.getLikedSongs().remove(song);
             message = "Unlike registered successfully.";
         } else {
-            song.setLikesReceived(song.getLikesReceived() + 1);
+            song.like();
             user.getLikedSongs().add(song);
             message = "Like registered successfully.";
         }
