@@ -5,7 +5,8 @@ import app.audio.files.AudioFile;
 import app.audio.files.Episode;
 import app.clients.Client;
 import app.management.Library;
-import fileio.input.EpisodeInput;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import fileio.input.PodcastInput;
 import lombok.Getter;
 
@@ -14,28 +15,44 @@ import java.util.ArrayList;
 @Getter
 public class Podcast implements AudioTrack {
     private final String name;
+    @JsonIgnore
     private final String owner;
+    @JsonIgnore
     private final ArrayList<AudioFile> episodes = new ArrayList<>();
+    @JsonIgnore
     private final ArrayList<Integer> elapsedTime = new ArrayList<>();
+
+    @JsonProperty("episodes")
+    private final ArrayList<String> episodeNames = new ArrayList<>();
+
+    public Podcast(final String name, final String owner, final ArrayList<Episode> episodeInput) {
+        this.name = name;
+        this.owner = owner;
+        episodes.addAll(episodeInput);
+        calculateElapsedTime();
+    }
 
     public Podcast(final PodcastInput podcastInput) {
         name = podcastInput.getName();
         owner = podcastInput.getOwner();
-
-        int playtime = 0;
-        for (final EpisodeInput episodeInput : podcastInput.getEpisodes()) {
-            episodes.add(new Episode(episodeInput));
-            playtime += episodeInput.getDuration();
-            elapsedTime.add(playtime);
-        }
+        podcastInput.getEpisodes().stream().map(Episode::new).forEach(episodes::add);
+        calculateElapsedTime();
     }
 
     @Override
-    public void updateClientGuests(final Client.UpdateMode mode, final Client guest) {
+    public void updateClientGuests(final Client.GuestMode mode, final Client guest) {
         Client podcastOwner = Library.getLibrary().getHosts().get(owner);
         if (podcastOwner != null) {
             podcastOwner.updateGuests(mode, guest);
         }
+    }
+
+    public ArrayList<String> getEpisodeNames() {
+        ArrayList<String> names = new ArrayList<>();
+        for (AudioFile episode : episodes) {
+            names.add(episode.getName());
+        }
+        return names;
     }
 
     /**
@@ -100,6 +117,14 @@ public class Podcast implements AudioTrack {
                 break;
             default:
                 break;
+        }
+    }
+
+    private void calculateElapsedTime() {
+        int playtime = 0;
+        for (AudioFile episode : episodes) {
+            playtime += episode.getDuration();
+            elapsedTime.add(playtime);
         }
     }
 }

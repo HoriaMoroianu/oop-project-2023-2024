@@ -34,7 +34,6 @@ public class Artist extends Client {
 
     /**
      * Get a list with the names of all the albums of this artist
-     *
      * @return the list with album's names
      */
     public ArrayList<String> getAlbumsNames() {
@@ -46,8 +45,7 @@ public class Artist extends Client {
     }
 
     /**
-     * Get a list with the names of all the events of this artist
-     *
+     * Get a list with the names of all the events of this artis
      * @return the list with event's names
      */
     public ArrayList<String> getEventsNames() {
@@ -60,7 +58,6 @@ public class Artist extends Client {
 
     /**
      * Get a list with the names of all the merchandises of this artist
-     *
      * @return the list with merchandise's names
      */
     public ArrayList<String> getMerchesNames() {

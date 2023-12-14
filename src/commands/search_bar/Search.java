@@ -39,6 +39,7 @@ public final class Search extends Command {
     @Override
     public ObjectNode executeCommand() {
         User user = Library.getLibrary().getUsers().get(username);
+        user.getMusicPlayer().updateMusicPlayer();
         user.getMusicPlayer().removeTrack();
 
         ArrayList<AudioTrack> audioTracks = new ArrayList<>();

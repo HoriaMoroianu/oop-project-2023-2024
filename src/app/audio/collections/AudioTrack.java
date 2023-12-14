@@ -30,5 +30,5 @@ public interface AudioTrack {
      */
     void updateAudioFile(MusicPlayer musicPlayer, int timePassed);
 
-    void updateClientGuests(Client.UpdateMode mode, Client guest);
+    void updateClientGuests(Client.GuestMode mode, Client guest);
 }

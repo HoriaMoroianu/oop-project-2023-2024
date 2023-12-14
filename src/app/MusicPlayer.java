@@ -54,7 +54,7 @@ public final class MusicPlayer {
 
         name = audioTrack.getName();
         loadedTrack = audioTrack;
-        loadedTrack.updateClientGuests(Client.UpdateMode.ADD_GUEST, owner);
+        loadedTrack.updateClientGuests(Client.GuestMode.ADD_GUEST, owner);
         audioFile = loadedTrack.loadAudioFile(podcastHistory.get(name));
         remainedTime = audioFile.getDuration(podcastHistory.get(name));
 
@@ -73,7 +73,7 @@ public final class MusicPlayer {
         }
 
         savePodcastHistory();
-        loadedTrack.updateClientGuests(Client.UpdateMode.REMOVE_GUEST, owner);
+        loadedTrack.updateClientGuests(Client.GuestMode.REMOVE_GUEST, owner);
 
         name = "";
         loadedTrack = null;
@@ -105,7 +105,6 @@ public final class MusicPlayer {
         lastUpdateTime = currentTime;
     }
 
-
     /**
      * Saves in history the view-time of the current loaded track if it's a podcast
      */
@@ -113,7 +112,6 @@ public final class MusicPlayer {
         if (loadedTrack == null || loadedTrack.getClass() != Podcast.class) {
             return;
         }
-        updateMusicPlayer();
         Podcast podcast = (Podcast) loadedTrack;
 
         // Time from the start of the podcast to the end of the current episode

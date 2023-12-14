@@ -19,7 +19,7 @@ public class Album extends Playlist {
     }
 
     @Override
-    public void updateClientGuests(final Client.UpdateMode mode, final Client guest) {
+    public void updateClientGuests(final Client.GuestMode mode, final Client guest) {
         Client albumOwner = Library.getLibrary().getArtists().get(owner);
         if (albumOwner != null) {
             albumOwner.updateGuests(mode, guest);

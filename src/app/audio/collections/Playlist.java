@@ -43,7 +43,7 @@ public class Playlist implements AudioTrack {
     }
 
     @Override
-    public void updateClientGuests(final Client.UpdateMode mode, final Client guest) {
+    public void updateClientGuests(final Client.GuestMode mode, final Client guest) {
         Client playlistOwner = Library.getLibrary().getUsers().get(owner);
         if (playlistOwner != null) {
             playlistOwner.updateGuests(mode, guest);

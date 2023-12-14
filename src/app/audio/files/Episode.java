@@ -1,7 +1,9 @@
 package app.audio.files;
 
 import fileio.input.EpisodeInput;
+import lombok.Getter;
 
+@Getter
 public class Episode extends AudioFile {
     private final String description;
 

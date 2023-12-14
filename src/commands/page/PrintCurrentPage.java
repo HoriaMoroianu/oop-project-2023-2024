@@ -18,20 +18,18 @@ public final class PrintCurrentPage extends Command {
         User user = Library.getLibrary().getUsers().get(username);
         Page page = user.getCurrentPage();
 
-        // TODO restul de cazuri
-
         switch (page.getType()) {
             case HOME:
                 message = page.printHomePage();
                 break;
             case LIKED_CONTENT:
-                message = null;
+                message = page.printLikedContentPage();
                 break;
             case ARTIST:
                 message = page.printArtistPage();
                 break;
             case HOST:
-                message = null;
+                message = page.printHostPage();
                 break;
             default:
                 break;

@@ -32,7 +32,7 @@ public class Song extends AudioFile implements AudioTrack {
     }
 
     @Override
-    public void updateClientGuests(final Client.UpdateMode mode, final Client guest) {
+    public void updateClientGuests(final Client.GuestMode mode, final Client guest) {
         Client songArtist = Library.getLibrary().getArtists().get(artist);
         if (songArtist != null) {
             songArtist.updateGuests(mode, guest);

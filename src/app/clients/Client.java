@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 @Getter
 public abstract class Client {
-    public enum UpdateMode {
+    public enum GuestMode {
         ADD_GUEST,
         REMOVE_GUEST
     }
@@ -23,7 +23,7 @@ public abstract class Client {
         city = userInput.getCity();
     }
 
-    public void updateGuests(final UpdateMode mode, final Client guest) {
+    public void updateGuests(final GuestMode mode, final Client guest) {
         if (this == guest) {
             // client is not counted when he accesses his own content
             return;
