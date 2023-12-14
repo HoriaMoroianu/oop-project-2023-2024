@@ -16,7 +16,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 @Getter
@@ -31,8 +30,8 @@ public final class Library {
     private final ArrayList<Album> albums = new ArrayList<>();
 
     private final LinkedHashMap<String, User> users = new LinkedHashMap<>();
-    private final HashMap<String, Artist> artists = new HashMap<>();
-    private final HashMap<String, Host> hosts = new HashMap<>();
+    private final LinkedHashMap<String, Artist> artists = new LinkedHashMap<>();
+    private final LinkedHashMap<String, Host> hosts = new LinkedHashMap<>();
 
     private final ArrayList<String> onlineUsers = new ArrayList<>();
 
@@ -47,14 +46,6 @@ public final class Library {
             instance = new Library();
         }
         return instance;
-    }
-
-    /**
-     * Adds this playlist into the database
-     * @param playlist user created playlist
-     */
-    public void addPlaylist(final Playlist playlist) {
-        playlists.add(playlist);
     }
 
     /**
@@ -90,7 +81,6 @@ public final class Library {
         }
     }
 
-
     /**
      * Search by name a client from the library
      * @param username the name by which the client is searched
@@ -109,5 +99,11 @@ public final class Library {
 
         client = hosts.get(username);
         return client;
+    }
+
+    public void updateMusicPlayers() {
+        for (User user : Library.getLibrary().getUsers().values()) {
+            user.getMusicPlayer().updateMusicPlayer();
+        }
     }
 }

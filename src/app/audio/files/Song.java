@@ -20,6 +20,8 @@ public class Song extends AudioFile implements AudioTrack {
     private final String artist;
     private Integer likesReceived;
 
+    private final ArrayList<Client> listeners = new ArrayList<>();
+
     public Song(final SongInput songInput) {
         super(songInput.getName(), songInput.getDuration());
         album = songInput.getAlbum();
@@ -36,6 +38,12 @@ public class Song extends AudioFile implements AudioTrack {
         Client songArtist = Library.getLibrary().getArtists().get(artist);
         if (songArtist != null) {
             songArtist.updateGuests(mode, guest);
+
+            switch (mode) {
+                case ADD_GUEST -> listeners.add(guest);
+                case REMOVE_GUEST -> listeners.remove(guest);
+                default -> { }
+            }
         }
     }
 

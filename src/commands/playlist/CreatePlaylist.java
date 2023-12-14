@@ -29,7 +29,7 @@ public final class CreatePlaylist extends Command {
 
         Playlist playlist = new Playlist(playlistName, this.getUsername());
         user.getPlaylists().add(playlist);
-        Library.getLibrary().addPlaylist(playlist);
+        Library.getLibrary().getPlaylists().add(playlist);
 
         message = "Playlist created successfully.";
         return new ObjectMapper().valueToTree(this);

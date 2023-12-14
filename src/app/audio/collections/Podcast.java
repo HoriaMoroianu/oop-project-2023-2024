@@ -6,24 +6,25 @@ import app.audio.files.Episode;
 import app.clients.Client;
 import app.management.Library;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fileio.input.PodcastInput;
 import lombok.Getter;
 
 import java.util.ArrayList;
 
-@Getter
+@Getter @JsonIgnoreProperties({"owner", "elapsedTime", "listeners"})
 public class Podcast implements AudioTrack {
     private final String name;
-    @JsonIgnore
     private final String owner;
+
     @JsonIgnore
     private final ArrayList<AudioFile> episodes = new ArrayList<>();
-    @JsonIgnore
-    private final ArrayList<Integer> elapsedTime = new ArrayList<>();
-
     @JsonProperty("episodes")
     private final ArrayList<String> episodeNames = new ArrayList<>();
+
+    private final ArrayList<Integer> elapsedTime = new ArrayList<>();
+    private final ArrayList<Client> listeners = new ArrayList<>();
 
     public Podcast(final String name, final String owner, final ArrayList<Episode> episodeInput) {
         this.name = name;
@@ -44,6 +45,12 @@ public class Podcast implements AudioTrack {
         Client podcastOwner = Library.getLibrary().getHosts().get(owner);
         if (podcastOwner != null) {
             podcastOwner.updateGuests(mode, guest);
+
+            switch (mode) {
+                case ADD_GUEST -> listeners.add(guest);
+                case REMOVE_GUEST -> listeners.remove(guest);
+                default -> { }
+            }
         }
     }
 

@@ -31,9 +31,17 @@ public class User extends Client {
 
     @Override
     public void deleteClient() {
-        Library.getLibrary().getPlaylists().removeAll(playlists);
-        likedSongs.forEach(Song::dislike);
+        musicPlayer.removeTrack();
+        currentPage.switchPage(Page.Type.HOST, this, this);
+
         followedPlaylists.forEach(Playlist::unfollow);
+        likedSongs.forEach(Song::dislike);
+
+        Library.getLibrary().getUsers().values()
+                .forEach(user -> playlists.forEach(user.followedPlaylists::remove));
+
+        Library.getLibrary().getPlaylists().removeAll(playlists);
+
         Library.getLibrary().getUsers().remove(username);
     }
 

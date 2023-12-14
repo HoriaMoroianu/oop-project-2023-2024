@@ -85,6 +85,7 @@ public class Playlist implements AudioTrack {
     @Override
     public void updateAudioFile(final MusicPlayer musicPlayer, final int timePassed) {
         ArrayList<AudioFile> playQueue = new ArrayList<>(songs);
+        int remainedTime = 0;
 
         if (musicPlayer.isShuffle()) {
             Collections.shuffle(playQueue, new Random(musicPlayer.getSeed()));
@@ -99,7 +100,7 @@ public class Playlist implements AudioTrack {
                 }
                 break;
             case "Repeat All":
-                int remainedTime = musicPlayer.simulatePlayQueue(playQueue, timePassed);
+                remainedTime = musicPlayer.simulatePlayQueue(playQueue, timePassed);
                 while (remainedTime != musicPlayer.getRemainedTime()) {
                     // Reached the end of playQueue after the simulation -> simulate again
                     musicPlayer.setAudioFile(playQueue.get(0));
@@ -108,10 +109,15 @@ public class Playlist implements AudioTrack {
                 }
                 break;
             case "Repeat Current Song":
-                // Current song is added to the playQueue once more
-                playQueue.add(playQueue.indexOf(musicPlayer.getAudioFile()),
-                        musicPlayer.getAudioFile());
-                musicPlayer.simulatePlayQueue(playQueue, timePassed);
+                remainedTime = musicPlayer.getRemainedTime();
+                if (timePassed <= remainedTime) {
+                    musicPlayer.setRemainedTime(remainedTime - timePassed);
+                    break;
+                }
+
+                int loadedFileDuration = musicPlayer.getAudioFile().getDuration();
+                remainedTime = (timePassed - remainedTime) % loadedFileDuration;
+                musicPlayer.setRemainedTime(loadedFileDuration - remainedTime);
                 break;
             default:
                 break;

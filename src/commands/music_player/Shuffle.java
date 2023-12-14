@@ -1,5 +1,6 @@
 package commands.music_player;
 
+import app.audio.collections.Album;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import app.management.Library;
@@ -26,8 +27,10 @@ public final class Shuffle extends Command {
             return new ObjectMapper().valueToTree(this);
         }
 
-        if (musicPlayer.getLoadedTrack().getClass() != Playlist.class) {
-            message = "The loaded source is not a playlist.";
+        // TODO common ancestor
+        if (musicPlayer.getLoadedTrack().getClass() != Playlist.class
+            && musicPlayer.getLoadedTrack().getClass() != Album.class) {
+            message = "The loaded source is not a playlist or an album.";
             return new ObjectMapper().valueToTree(this);
         }
 

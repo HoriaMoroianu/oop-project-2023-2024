@@ -1,7 +1,6 @@
 package commands.admin;
 
 import app.clients.Client;
-import app.clients.User;
 import app.management.Library;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -15,11 +14,9 @@ public final class DeleteUser extends Command {
 
     @Override
     protected ObjectNode executeCommand() {
-        for (User user : Library.getLibrary().getUsers().values()) {
-            user.getMusicPlayer().updateMusicPlayer();
-        }
-
+        Library.getLibrary().updateMusicPlayers();
         Client client = Library.getLibrary().getClient(username);
+
         if (client == null) {
             message = "The username " + username + " doesn't exist.";
             return new ObjectMapper().valueToTree(this);
