@@ -1,6 +1,7 @@
 package app.audio.collections;
 
 import app.audio.files.AudioFile;
+import app.audio.files.Song;
 import app.clients.Client;
 import app.management.Library;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -47,6 +48,9 @@ public class Playlist implements AudioTrack {
         Client playlistOwner = Library.getLibrary().getUsers().get(owner);
         if (playlistOwner != null) {
             playlistOwner.updateGuests(mode, guest);
+
+            songs.stream().map(audioFile -> (Song) audioFile)
+                    .forEach(song -> song.updateClientGuests(mode, guest));
         }
     }
 
@@ -110,12 +114,18 @@ public class Playlist implements AudioTrack {
                 break;
             case "Repeat Current Song":
                 remainedTime = musicPlayer.getRemainedTime();
-                if (timePassed <= remainedTime) {
+                int loadedFileDuration = musicPlayer.getAudioFile().getDuration();
+
+                if (timePassed == remainedTime) {
+                    musicPlayer.setRemainedTime(loadedFileDuration);
+                    break;
+                }
+
+                if (timePassed < remainedTime) {
                     musicPlayer.setRemainedTime(remainedTime - timePassed);
                     break;
                 }
 
-                int loadedFileDuration = musicPlayer.getAudioFile().getDuration();
                 remainedTime = (timePassed - remainedTime) % loadedFileDuration;
                 musicPlayer.setRemainedTime(loadedFileDuration - remainedTime);
                 break;

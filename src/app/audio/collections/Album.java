@@ -1,5 +1,6 @@
 package app.audio.collections;
 
+import app.audio.files.Song;
 import app.clients.Client;
 import app.management.Library;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -20,6 +21,11 @@ public class Album extends Playlist {
         super(name, owner);
         this.releaseYear = releaseYear;
         this.description = description;
+    }
+
+    public Integer likesReceived() {
+        return songs.stream().map(audioFile -> (Song) audioFile)
+                .mapToInt(Song::getLikesReceived).sum();
     }
 
     @Override

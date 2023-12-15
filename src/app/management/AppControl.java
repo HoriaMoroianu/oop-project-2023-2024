@@ -36,6 +36,8 @@ import commands.music_player.Status;
 import commands.playlist.SwitchVisibility;
 import commands.statistics.GetAllUsers;
 import commands.statistics.GetOnlineUsers;
+import commands.statistics.GetTopAlbums;
+import commands.statistics.GetTopArtists;
 import commands.statistics.GetTopPlaylists;
 import commands.statistics.GetTopSongs;
 import commands.statistics.ShowPreferredSongs;
@@ -80,6 +82,8 @@ public final class AppControl {
                 case "forward", "backward" -> commands.add(new ForwardBackward(commandInput));
                 case "getAllUsers" -> commands.add(new GetAllUsers(commandInput));
                 case "getOnlineUsers" -> commands.add(new GetOnlineUsers(commandInput));
+                case "getTop5Albums" -> commands.add(new GetTopAlbums(commandInput));
+                case "getTop5Artists" -> commands.add(new GetTopArtists(commandInput));
                 case "getTop5Playlists" -> commands.add(new GetTopPlaylists(commandInput));
                 case "getTop5Songs" -> commands.add(new GetTopSongs(commandInput));
                 case "like" -> commands.add(new Like(commandInput));

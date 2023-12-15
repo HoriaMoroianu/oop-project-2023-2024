@@ -9,6 +9,7 @@ import fileio.input.CommandInput;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Getter @JsonInclude(JsonInclude.Include.NON_NULL)
 public final class GetOnlineUsers extends Command {
@@ -19,7 +20,8 @@ public final class GetOnlineUsers extends Command {
 
     @Override
     protected ObjectNode executeCommand() {
-        result = Library.getLibrary().getOnlineUsers();
+        result = (ArrayList<String>) Library.getLibrary().getOnlineUsers()
+                .stream().sorted(String::compareTo).collect(Collectors.toList());
         return new ObjectMapper().valueToTree(this);
     }
 }
