@@ -1,5 +1,6 @@
 package app;
 
+import app.audio.collections.AudioTrack;
 import app.audio.collections.Playlist;
 import app.audio.collections.Podcast;
 import app.audio.files.AudioFile;
@@ -12,6 +13,7 @@ import app.clients.User;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Page {
     public enum Type {
@@ -25,6 +27,7 @@ public class Page {
     private Type type;
     @Getter
     private Client pageOwner;
+    private final Integer maxResults = 5;
 
     public Page(final Type type, final Client pageOwner) {
         this.type = type;
@@ -45,16 +48,16 @@ public class Page {
      */
     public String printHomePage() {
         User user = (User) pageOwner;
-
         ArrayList<String> likedSongsNames = new ArrayList<>();
-        for (Song song : user.getLikedSongs()) {
-            likedSongsNames.add(song.getName());
-        }
-
         ArrayList<String> followedPlaylistsNames = new ArrayList<>();
-        for (Playlist playlist : user.getFollowedPlaylists()) {
-            followedPlaylistsNames.add(playlist.getName());
-        }
+
+        user.getLikedSongs().stream()
+                .sorted(Comparator.comparingInt(Song::getLikesReceived).reversed())
+                .limit(maxResults).map(AudioFile::getName).forEach(likedSongsNames::add);
+
+        user.getFollowedPlaylists().stream()
+                .sorted(Comparator.comparingInt(Playlist::likesReceived).reversed())
+                .limit(maxResults).map(AudioTrack::getName).forEach(followedPlaylistsNames::add);
 
         return "Liked songs:\n\t" + likedSongsNames
                 + "\n\nFollowed playlists:\n\t" + followedPlaylistsNames;

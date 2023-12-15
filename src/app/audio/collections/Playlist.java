@@ -43,6 +43,11 @@ public class Playlist implements AudioTrack {
         followers--;
     }
 
+    public Integer likesReceived() {
+        return songs.stream().map(audioFile -> (Song) audioFile)
+                .mapToInt(Song::getLikesReceived).sum();
+    }
+
     @Override
     public void updateClientGuests(final Client.GuestMode mode, final Client guest) {
         Client playlistOwner = Library.getLibrary().getUsers().get(owner);
