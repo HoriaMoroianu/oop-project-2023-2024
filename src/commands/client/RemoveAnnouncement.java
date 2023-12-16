@@ -19,7 +19,6 @@ public final class RemoveAnnouncement extends Command {
 
     @Override
     protected ObjectNode executeCommand() {
-        // TODO duplicate
         Client client = Library.getLibrary().getClient(username);
         if (client == null) {
             message = "The username " + username + " doesn't exist.";

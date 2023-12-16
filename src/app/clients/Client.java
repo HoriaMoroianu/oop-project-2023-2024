@@ -30,7 +30,7 @@ public abstract class Client {
      */
     public void updateGuests(final GuestMode mode, final Client guest) {
         if (this == guest) {
-            // client is not counted when he accesses his own content
+            // Client is not counted when he accesses his own content
             return;
         }
 
