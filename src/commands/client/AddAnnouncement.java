@@ -1,6 +1,6 @@
 package commands.client;
 
-import app.Announcement;
+import app.clients.services.Announcement;
 import app.clients.Client;
 import app.clients.Host;
 import app.management.Library;
@@ -21,7 +21,6 @@ public final class AddAnnouncement extends Command {
 
     @Override
     protected ObjectNode executeCommand() {
-        // TODO solve duplicate
         Client client = Library.getLibrary().getClient(username);
         if (client == null) {
             message = "The username " + username + " doesn't exist.";
@@ -32,7 +31,6 @@ public final class AddAnnouncement extends Command {
             message = username + " is not a host.";
             return new ObjectMapper().valueToTree(this);
         }
-
         Host host = (Host) client;
 
         if (host.getAnnouncementsNames().contains(name)) {

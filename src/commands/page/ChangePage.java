@@ -1,6 +1,6 @@
 package commands.page;
 
-import app.Page;
+import app.clients.services.Page;
 import app.clients.User;
 import app.management.Library;
 import com.fasterxml.jackson.databind.ObjectMapper;

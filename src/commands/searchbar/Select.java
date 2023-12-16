@@ -1,6 +1,6 @@
-package commands.search_bar;
+package commands.searchbar;
 
-import app.Page;
+import app.clients.services.Page;
 import app.clients.Artist;
 import app.clients.Host;
 import app.clients.User;
@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import app.audio.collections.AudioTrack;
 import app.management.Library;
-import app.SearchBar;
+import app.clients.services.SearchBar;
 import commands.Command;
 import fileio.input.CommandInput;
 

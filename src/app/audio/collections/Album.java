@@ -22,6 +22,11 @@ public class Album extends Playlist {
         this.description = description;
     }
 
+    /**
+     * Updates the guest list of the artist of this album and its listeners
+     * @param mode  for setting the list update mode - add/remove guest
+     * @param guest that interacts with the content
+     */
     @Override
     public void updateClientGuests(final Client.GuestMode mode, final Client guest) {
         Client albumOwner = Library.getLibrary().getArtists().get(owner);

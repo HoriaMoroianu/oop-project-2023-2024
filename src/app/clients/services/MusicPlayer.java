@@ -1,4 +1,4 @@
-package app;
+package app.clients.services;
 
 import app.clients.Client;
 import app.clients.User;

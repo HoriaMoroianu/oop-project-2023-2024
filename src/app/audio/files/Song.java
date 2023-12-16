@@ -1,6 +1,6 @@
 package app.audio.files;
 
-import app.MusicPlayer;
+import app.clients.services.MusicPlayer;
 import app.audio.collections.AudioTrack;
 import app.clients.Client;
 import app.management.Library;
@@ -33,6 +33,25 @@ public class Song extends AudioFile implements AudioTrack {
         likesReceived = 0;
     }
 
+    /**
+     * Increments the number of likes received
+     */
+    public void like() {
+        likesReceived++;
+    }
+
+    /**
+     * Decrements the number of likes received
+     */
+    public void dislike() {
+        likesReceived--;
+    }
+
+    /**
+     * Updates the guest list of the artist of this song and its listeners
+     * @param mode  for setting the list update mode - add/remove guest
+     * @param guest that interacts with the content
+     */
     @Override
     public void updateClientGuests(final Client.GuestMode mode, final Client guest) {
         Client songArtist = Library.getLibrary().getArtists().get(artist);
@@ -45,14 +64,6 @@ public class Song extends AudioFile implements AudioTrack {
                 default -> { }
             }
         }
-    }
-
-    public void like() {
-        likesReceived++;
-    }
-
-    public void dislike() {
-        likesReceived--;
     }
 
     /**

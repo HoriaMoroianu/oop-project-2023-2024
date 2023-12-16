@@ -1,6 +1,6 @@
 package commands.client;
 
-import app.Event;
+import app.clients.services.Event;
 import app.clients.Artist;
 import app.clients.Client;
 import app.management.Library;
@@ -36,6 +36,7 @@ public final class AddEvent extends Command {
             message = "The username " + username + " doesn't exist.";
             return new ObjectMapper().valueToTree(this);
         }
+
         if (client.getClass() != Artist.class) {
             message = username + " is not an artist.";
             return new ObjectMapper().valueToTree(this);

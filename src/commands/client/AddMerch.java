@@ -1,6 +1,6 @@
 package commands.client;
 
-import app.Merch;
+import app.clients.services.Merch;
 import app.clients.Artist;
 import app.clients.Client;
 import app.management.Library;
@@ -23,13 +23,12 @@ public final class AddMerch extends Command {
 
     @Override
     protected ObjectNode executeCommand() {
-        // TODO solve duplicate
-
         Client client = Library.getLibrary().getClient(username);
         if (client == null) {
             message = "The username " + username + " doesn't exist.";
             return new ObjectMapper().valueToTree(this);
         }
+
         if (client.getClass() != Artist.class) {
             message = username + " is not an artist.";
             return new ObjectMapper().valueToTree(this);

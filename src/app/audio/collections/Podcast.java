@@ -1,6 +1,6 @@
 package app.audio.collections;
 
-import app.MusicPlayer;
+import app.clients.services.MusicPlayer;
 import app.audio.files.AudioFile;
 import app.audio.files.Episode;
 import app.clients.Client;
@@ -26,13 +26,6 @@ public class Podcast implements AudioTrack {
     private final ArrayList<Integer> elapsedTime = new ArrayList<>();
     private final ArrayList<Client> listeners = new ArrayList<>();
 
-    public Podcast(final String name, final String owner, final ArrayList<Episode> episodeInput) {
-        this.name = name;
-        this.owner = owner;
-        episodes.addAll(episodeInput);
-        calculateElapsedTime();
-    }
-
     public Podcast(final PodcastInput podcastInput) {
         name = podcastInput.getName();
         owner = podcastInput.getOwner();
@@ -40,6 +33,41 @@ public class Podcast implements AudioTrack {
         calculateElapsedTime();
     }
 
+    public Podcast(final String name, final String owner, final ArrayList<Episode> episodeInput) {
+        this.name = name;
+        this.owner = owner;
+        episodes.addAll(episodeInput);
+        calculateElapsedTime();
+    }
+
+    /**
+     * @return array list containing the names of episodes of this podcast
+     */
+    public ArrayList<String> getEpisodeNames() {
+        ArrayList<String> names = new ArrayList<>();
+        for (AudioFile episode : episodes) {
+            names.add(episode.getName());
+        }
+        return names;
+    }
+
+    /**
+     * Calculates an array of partial sums with the
+     * viewing time required to reach a certain episode
+     */
+    private void calculateElapsedTime() {
+        int playtime = 0;
+        for (AudioFile episode : episodes) {
+            playtime += episode.getDuration();
+            elapsedTime.add(playtime);
+        }
+    }
+
+    /**
+     * Updates the guest list of the host of this podcast and its listeners
+     * @param mode  for setting the list update mode - add/remove guest
+     * @param guest that interacts with the content
+     */
     @Override
     public void updateClientGuests(final Client.GuestMode mode, final Client guest) {
         Client podcastOwner = Library.getLibrary().getHosts().get(owner);
@@ -52,14 +80,6 @@ public class Podcast implements AudioTrack {
                 default -> { }
             }
         }
-    }
-
-    public ArrayList<String> getEpisodeNames() {
-        ArrayList<String> names = new ArrayList<>();
-        for (AudioFile episode : episodes) {
-            names.add(episode.getName());
-        }
-        return names;
     }
 
     /**
@@ -124,14 +144,6 @@ public class Podcast implements AudioTrack {
                 break;
             default:
                 break;
-        }
-    }
-
-    private void calculateElapsedTime() {
-        int playtime = 0;
-        for (AudioFile episode : episodes) {
-            playtime += episode.getDuration();
-            elapsedTime.add(playtime);
         }
     }
 }

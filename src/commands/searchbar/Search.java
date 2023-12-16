@@ -1,4 +1,4 @@
-package commands.search_bar;
+package commands.searchbar;
 
 import app.audio.collections.Album;
 import app.clients.Artist;
@@ -85,8 +85,7 @@ public final class Search extends Command {
         ArrayList<Playlist> userAccessible = new ArrayList<>();
 
         for (Playlist playlist : Library.getLibrary().getPlaylists()) {
-            if (playlist.getOwner().equals(username)
-                    || playlist.getVisibility().equals("public")) {
+            if (playlist.getOwner().equals(username) || playlist.getVisibility().equals("public")) {
                 userAccessible.add(playlist);
             }
         }
@@ -124,24 +123,24 @@ public final class Search extends Command {
 
     private ArrayList<AudioTrack> searchAlbum(final ArrayList<Album> albums) {
         return albums.stream()
-                .filter(filter::filterByName)
-                .filter(filter::filterByOwner)
-                .filter(filter::filterByDescription)
-                .limit(maxSearchResults)
-                .collect(Collectors.toCollection(ArrayList::new));
+            .filter(filter::filterByName)
+            .filter(filter::filterByOwner)
+            .filter(filter::filterByDescription)
+            .limit(maxSearchResults)
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private ArrayList<Client> searchArtist(final HashMap<String, Artist> artists) {
         return artists.values().stream()
-                .filter(filter::filterByName)
-                .limit(maxSearchResults)
-                .collect(Collectors.toCollection(ArrayList::new));
+            .filter(filter::filterByName)
+            .limit(maxSearchResults)
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private ArrayList<Client> searchHost(final HashMap<String, Host> hosts) {
         return hosts.values().stream()
-                .filter(filter::filterByName)
-                .limit(maxSearchResults)
-                .collect(Collectors.toCollection(ArrayList::new));
+            .filter(filter::filterByName)
+            .limit(maxSearchResults)
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 }

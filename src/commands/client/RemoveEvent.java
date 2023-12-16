@@ -1,6 +1,6 @@
 package commands.client;
 
-import app.Event;
+import app.clients.services.Event;
 import app.clients.Artist;
 import app.clients.Client;
 import app.management.Library;
@@ -10,7 +10,7 @@ import commands.Command;
 import fileio.input.CommandInput;
 
 public final class RemoveEvent extends Command {
-    private String name;
+    private final String name;
 
     public RemoveEvent(final CommandInput commandInput) {
         super(commandInput);
@@ -19,7 +19,6 @@ public final class RemoveEvent extends Command {
 
     @Override
     protected ObjectNode executeCommand() {
-        // TODO duplicate
         Client client = Library.getLibrary().getClient(username);
         if (client == null) {
             message = "The username " + username + " doesn't exist.";
@@ -30,7 +29,6 @@ public final class RemoveEvent extends Command {
             message = username + " is not an artist.";
             return new ObjectMapper().valueToTree(this);
         }
-
         Artist artist = (Artist) client;
 
         if (!artist.getEventsNames().contains(name)) {

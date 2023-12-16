@@ -1,6 +1,6 @@
 package app.audio.collections;
 
-import app.MusicPlayer;
+import app.clients.services.MusicPlayer;
 import app.audio.files.AudioFile;
 import app.clients.Client;
 
@@ -30,5 +30,10 @@ public interface AudioTrack {
      */
     void updateAudioFile(MusicPlayer musicPlayer, int timePassed);
 
+    /**
+     * Updates the guest list of the owner of this audio track
+     * @param mode for setting the list update mode - add/remove guest
+     * @param guest that interacts with the content
+     */
     void updateClientGuests(Client.GuestMode mode, Client guest);
 }

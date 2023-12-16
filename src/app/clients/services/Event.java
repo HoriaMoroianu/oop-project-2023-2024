@@ -1,4 +1,4 @@
-package app;
+package app.clients.services;
 
 import lombok.Getter;
 

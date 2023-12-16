@@ -1,14 +1,14 @@
-package commands.music_player;
+package commands.musicplayer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import app.management.Library;
-import app.MusicPlayer;
+import app.clients.services.MusicPlayer;
 import commands.Command;
 import fileio.input.CommandInput;
 
-public final class Previous extends Command {
-    public Previous(final CommandInput commandInput) {
+public final class Next extends Command {
+    public Next(final CommandInput commandInput) {
         super(commandInput);
     }
 
@@ -18,15 +18,16 @@ public final class Previous extends Command {
         musicPlayer.updateMusicPlayer();
 
         if (musicPlayer.getLoadedTrack() == null) {
-            message = "Please load a source before returning to the previous track.";
+            message = "Please load a source before skipping to the next track.";
             return new ObjectMapper().valueToTree(this);
         }
 
-        musicPlayer.previousAudioFile();
+        musicPlayer.nextAudioFile();
+
         message = (musicPlayer.getLoadedTrack() == null)
-                ? "Please load a source before returning to the previous track."
-                : "Returned to previous track successfully. "
-                + "The current track is " + musicPlayer.getAudioFile().getName() + ".";
+                ? "Please load a source before skipping to the next track."
+                : "Skipped to next track successfully. "
+                    + "The current track is " + musicPlayer.getAudioFile().getName() + ".";
 
         return new ObjectMapper().valueToTree(this);
     }

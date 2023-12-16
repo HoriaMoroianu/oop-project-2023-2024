@@ -53,7 +53,6 @@ public final class AddAlbum extends Command {
         for (SongInput songInput : songs) {
             Song song = new Song(songInput);
 
-            // TODO trebuie verificat si in library ?
             if (songNames.contains(song.getName())) {
                 message = username + " has the same song at least twice in this album.";
                 return new ObjectMapper().valueToTree(this);

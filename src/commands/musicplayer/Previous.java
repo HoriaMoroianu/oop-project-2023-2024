@@ -1,14 +1,14 @@
-package commands.music_player;
+package commands.musicplayer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import app.management.Library;
-import app.MusicPlayer;
+import app.clients.services.MusicPlayer;
 import commands.Command;
 import fileio.input.CommandInput;
 
-public final class Repeat extends Command {
-    public Repeat(final CommandInput commandInput) {
+public final class Previous extends Command {
+    public Previous(final CommandInput commandInput) {
         super(commandInput);
     }
 
@@ -18,12 +18,16 @@ public final class Repeat extends Command {
         musicPlayer.updateMusicPlayer();
 
         if (musicPlayer.getLoadedTrack() == null) {
-            message = "Please load a source before setting the repeat status.";
+            message = "Please load a source before returning to the previous track.";
             return new ObjectMapper().valueToTree(this);
         }
 
-        musicPlayer.changeRepeat();
-        message = "Repeat mode changed to " + musicPlayer.getRepeat().toLowerCase() + ".";
+        musicPlayer.previousAudioFile();
+        message = (musicPlayer.getLoadedTrack() == null)
+                ? "Please load a source before returning to the previous track."
+                : "Returned to previous track successfully. "
+                + "The current track is " + musicPlayer.getAudioFile().getName() + ".";
+
         return new ObjectMapper().valueToTree(this);
     }
 }

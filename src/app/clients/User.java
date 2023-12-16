@@ -1,8 +1,8 @@
 package app.clients;
 
-import app.MusicPlayer;
-import app.Page;
-import app.SearchBar;
+import app.clients.services.MusicPlayer;
+import app.clients.services.Page;
+import app.clients.services.SearchBar;
 import app.audio.collections.Playlist;
 import app.audio.files.Song;
 import app.management.Library;
@@ -29,6 +29,9 @@ public class User extends Client {
         switchOnlineStatus();
     }
 
+    /**
+     * Deletes this user and all his entries from the application
+     */
     @Override
     public void deleteClient() {
         musicPlayer.removeTrack();
@@ -41,7 +44,6 @@ public class User extends Client {
                 .forEach(user -> playlists.forEach(user.followedPlaylists::remove));
 
         Library.getLibrary().getPlaylists().removeAll(playlists);
-
         Library.getLibrary().getUsers().remove(username);
     }
 

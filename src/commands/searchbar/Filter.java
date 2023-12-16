@@ -1,4 +1,4 @@
-package commands.search_bar;
+package commands.searchbar;
 
 import app.audio.collections.Album;
 import app.audio.collections.AudioTrack;

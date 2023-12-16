@@ -1,4 +1,4 @@
-package app;
+package app.clients.services;
 
 import app.audio.collections.AudioTrack;
 import app.audio.collections.Playlist;
@@ -34,6 +34,12 @@ public class Page {
         this.pageOwner = pageOwner;
     }
 
+    /**
+     * Changes the type of the current page
+     * @param newType of the page
+     * @param newOwner owner of the new page that will be loaded
+     * @param guest the client who wants to access the content on the page
+     */
     public void switchPage(final Type newType, final Client newOwner, final Client guest) {
         pageOwner.updateGuests(Client.GuestMode.REMOVE_GUEST, guest);
         newOwner.updateGuests(Client.GuestMode.ADD_GUEST, guest);

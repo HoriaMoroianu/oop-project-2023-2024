@@ -82,6 +82,15 @@ public final class Library {
     }
 
     /**
+     * Updates all users' players in the application
+     */
+    public void updateMusicPlayers() {
+        for (User user : Library.getLibrary().getUsers().values()) {
+            user.getMusicPlayer().updateMusicPlayer();
+        }
+    }
+
+    /**
      * Search by name a client from the library
      * @param username the name by which the client is searched
      * @return the client with the searched name; null if it was not found
@@ -99,11 +108,5 @@ public final class Library {
 
         client = hosts.get(username);
         return client;
-    }
-
-    public void updateMusicPlayers() {
-        for (User user : Library.getLibrary().getUsers().values()) {
-            user.getMusicPlayer().updateMusicPlayer();
-        }
     }
 }

@@ -1,7 +1,7 @@
 package app.clients;
 
-import app.Event;
-import app.Merch;
+import app.clients.services.Event;
+import app.clients.services.Merch;
 import app.audio.collections.Album;
 import app.management.Library;
 import fileio.input.UserInput;
@@ -19,6 +19,9 @@ public class Artist extends Client {
         super(userInput);
     }
 
+    /**
+     * Deletes this artist and all his entries from the application
+     */
     @Override
     public void deleteClient() {
         for (Album album : albums) {

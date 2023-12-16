@@ -6,7 +6,7 @@ import app.clients.Client;
 import app.management.Library;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import app.MusicPlayer;
+import app.clients.services.MusicPlayer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,19 +35,34 @@ public class Playlist implements AudioTrack {
         followers = 0;
     }
 
+    /**
+     * Increments the number of followers of this playlist
+     */
     public void follow() {
         followers++;
     }
 
+    /**
+     * Decrements the number of followers of this playlist
+     */
     public void unfollow() {
         followers--;
     }
 
+    /**
+     * @return the sum of all the likes received for this playlist
+     */
     public Integer likesReceived() {
         return songs.stream().map(audioFile -> (Song) audioFile)
                 .mapToInt(Song::getLikesReceived).sum();
     }
 
+    /**
+     * Updates the guest list of the owner of this playlist and
+     * the guest list of the artists of the songs in it
+     * @param mode  for setting the list update mode - add/remove guest
+     * @param guest that interacts with the content
+     */
     @Override
     public void updateClientGuests(final Client.GuestMode mode, final Client guest) {
         Client playlistOwner = Library.getLibrary().getUsers().get(owner);

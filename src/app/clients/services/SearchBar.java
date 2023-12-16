@@ -1,4 +1,4 @@
-package app;
+package app.clients.services;
 
 import app.audio.collections.AudioTrack;
 import app.clients.Client;

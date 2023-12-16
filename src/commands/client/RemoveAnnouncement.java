@@ -1,6 +1,6 @@
 package commands.client;
 
-import app.Announcement;
+import app.clients.services.Announcement;
 import app.clients.Client;
 import app.clients.Host;
 import app.management.Library;

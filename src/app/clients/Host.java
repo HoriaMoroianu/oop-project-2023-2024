@@ -1,6 +1,6 @@
 package app.clients;
 
-import app.Announcement;
+import app.clients.services.Announcement;
 import app.audio.collections.Podcast;
 import app.management.Library;
 import fileio.input.UserInput;
@@ -17,6 +17,9 @@ public class Host extends Client {
         super(userInput);
     }
 
+    /**
+     * Deletes this host and all his entries from the application
+     */
     @Override
     public void deleteClient() {
         Library.getLibrary().getHosts().remove(username);
