@@ -17,6 +17,7 @@ public class User extends Client {
     private final MusicPlayer musicPlayer = new MusicPlayer(this);
 
     private final ArrayList<Playlist> playlists = new ArrayList<>();
+    // TODO can only use song name?
     private final ArrayList<Song> likedSongs = new ArrayList<>();
     private final ArrayList<Playlist> followedPlaylists = new ArrayList<>();
 

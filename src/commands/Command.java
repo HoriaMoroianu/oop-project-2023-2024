@@ -1,28 +1,27 @@
 package commands;
 
 import app.clients.User;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import app.management.Library;
 import fileio.input.CommandInput;
-import lombok.Getter;
 
 import java.util.ArrayList;
 
-@Getter
 public abstract class Command {
     protected final String command;
     protected final Integer timestamp;
+    protected final String username;
 
-    @JsonProperty("user")
-    protected String username;
     protected String message;
+    protected ObjectMapper objectMapper = new ObjectMapper();
+    protected ObjectNode outputNode;
 
     public Command(final CommandInput commandInput) {
         command = commandInput.getCommand();
         username = commandInput.getUsername();
         timestamp = commandInput.getTimestamp();
+        outputNode = objectMapper.createObjectNode();
     }
 
     protected abstract ObjectNode executeCommand();
@@ -34,11 +33,14 @@ public abstract class Command {
     public ObjectNode performCommand() {
         Library.getLibrary().setTimestamp(timestamp);
 
-        ObjectNode userDisabledNode = userDisabled();
-        return (userDisabledNode != null) ? userDisabledNode : executeCommand();
+        outputNode.put("command", command);
+        outputNode.put("user", username);
+        outputNode.put("timestamp", timestamp);
+
+        return userDisabled() ? outputNode : executeCommand();
     }
 
-    private ObjectNode userDisabled() {
+    private boolean userDisabled() {
         User user = Library.getLibrary().getUsers().get(username);
 
         String userDisabledCommands = "search, select, load, playPause, repeat, shuffle, "
@@ -46,23 +48,17 @@ public abstract class Command {
                 + "switchVisibility, follow, changePage, printCurrentPage";
 
         if (user == null || user.isOnlineStatus() || !userDisabledCommands.contains(command)) {
-            return null;
+            return false;
         }
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        ObjectNode objectNode = objectMapper.createObjectNode();
 
         message = username + " is offline.";
-        objectNode.put("command", command);
-        objectNode.put("user", username);
-        objectNode.put("timestamp", timestamp);
-        objectNode.put("message", message);
+        outputNode.put("message", message);
 
         if (command.equals("search")) {
-            objectNode.put("results",
-                    objectMapper.valueToTree(new ArrayList<String>()));
+            ArrayList<String> results = new ArrayList<>();
+            outputNode.put("results", objectMapper.valueToTree(results));
         }
 
-        return objectNode;
+        return true;
     }
 }

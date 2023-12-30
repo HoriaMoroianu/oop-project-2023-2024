@@ -21,7 +21,7 @@ public interface AudioTrack {
     /**
      * @return list of audio files contained in the current track
      */
-    ArrayList<AudioFile> loadAudioList();
+    ArrayList<AudioFile> loadedAudioFiles();
 
     /**
      * Loads in the music player the audio file played at this moment

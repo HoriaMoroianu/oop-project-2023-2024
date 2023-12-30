@@ -4,8 +4,6 @@ import app.audio.files.AudioFile;
 import app.audio.files.Song;
 import app.clients.Client;
 import app.management.Library;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import app.clients.services.MusicPlayer;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,15 +15,13 @@ import java.util.Random;
 @Getter
 public class Playlist implements AudioTrack {
     protected final String name;
-    @JsonProperty("songs")
     protected ArrayList<String> songsNames = new ArrayList<>();
+
     @Setter
     private String visibility;
     private Integer followers;
 
-    @JsonIgnore
     protected final String owner;
-    @JsonIgnore
     protected final ArrayList<AudioFile> songs = new ArrayList<>();
 
     public Playlist(final String name, final String owner) {
@@ -96,7 +92,7 @@ public class Playlist implements AudioTrack {
      * @return song list as the audio file list of current track
      */
     @Override
-    public ArrayList<AudioFile> loadAudioList() {
+    public ArrayList<AudioFile> loadedAudioFiles() {
         return songs;
     }
 

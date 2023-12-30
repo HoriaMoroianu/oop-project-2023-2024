@@ -86,7 +86,7 @@ public class Podcast implements AudioTrack {
      * @return podcast episodes as the audio file list of current track
      */
     @Override
-    public ArrayList<AudioFile> loadAudioList() {
+    public ArrayList<AudioFile> loadedAudioFiles() {
         return episodes;
     }
 

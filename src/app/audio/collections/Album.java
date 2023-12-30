@@ -2,13 +2,11 @@ package app.audio.collections;
 
 import app.clients.Client;
 import app.management.Library;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 
 import java.util.ArrayList;
 
 @Getter
-@JsonIgnoreProperties({"followers", "visibility", "description", "releaseYear", "listeners"})
 public class Album extends Playlist {
     private final Integer releaseYear;
     private final String description;

@@ -239,7 +239,7 @@ public final class MusicPlayer {
     }
 
     private void loadPreviousAudioFile() {
-        ArrayList<AudioFile> playQueue = new ArrayList<>(loadedTrack.loadAudioList());
+        ArrayList<AudioFile> playQueue = new ArrayList<>(loadedTrack.loadedAudioFiles());
         if (shuffle) {
             Collections.shuffle(playQueue, new Random(seed));
         }
@@ -249,7 +249,7 @@ public final class MusicPlayer {
     }
 
     private boolean atFirstAudioFile() {
-        ArrayList<AudioFile> playQueue = new ArrayList<>(loadedTrack.loadAudioList());
+        ArrayList<AudioFile> playQueue = new ArrayList<>(loadedTrack.loadedAudioFiles());
         if (shuffle) {
             Collections.shuffle(playQueue, new Random(seed));
         }

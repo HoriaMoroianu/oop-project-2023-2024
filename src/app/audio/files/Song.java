@@ -79,7 +79,7 @@ public class Song extends AudioFile implements AudioTrack {
      * @return this song as the audio file list of current track
      */
     @Override
-    public ArrayList<AudioFile> loadAudioList() {
+    public ArrayList<AudioFile> loadedAudioFiles() {
         return new ArrayList<>(List.of(this));
     }
 
