@@ -12,7 +12,7 @@ import fileio.input.CommandInput;
 
 import java.util.ArrayList;
 
-public final class UserCommands extends Command {
+public final class UserCommands extends CommandStrategy {
     private User user;
     private final String playlistName;
     private final Integer playlistId;

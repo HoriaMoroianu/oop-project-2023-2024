@@ -15,7 +15,7 @@ import fileio.output.PodcastOutput;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public final class AdminCommands extends Command {
+public final class AdminCommands extends CommandStrategy {
     private final String type;
     private final Integer age;
     private final String city;

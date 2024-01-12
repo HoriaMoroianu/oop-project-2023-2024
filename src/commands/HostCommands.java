@@ -12,7 +12,7 @@ import fileio.input.EpisodeInput;
 
 import java.util.ArrayList;
 
-public final class HostCommands extends Command {
+public final class HostCommands extends CommandStrategy {
     private Client client;
     private Host host;
     private final String name;

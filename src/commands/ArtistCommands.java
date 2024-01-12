@@ -15,7 +15,7 @@ import fileio.input.SongInput;
 
 import java.util.ArrayList;
 
-public final class ArtistCommands extends Command {
+public final class ArtistCommands extends CommandStrategy {
     private Client client;
     private Artist artist;
     private final String name;

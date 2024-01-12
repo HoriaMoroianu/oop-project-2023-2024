@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public final class SearchbarCommands extends Command {
+public final class SearchbarCommands extends CommandStrategy {
     private final String type;
     private final Filter filter;
     private final Integer itemNumber;

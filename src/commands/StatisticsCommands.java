@@ -14,7 +14,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class StatisticsCommands extends Command {
+public final class StatisticsCommands extends CommandStrategy {
     private final ArrayList<String> result = new ArrayList<>();
     private static final int MAX_RESULTS = 5;
 

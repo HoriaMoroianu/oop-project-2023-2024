@@ -12,7 +12,7 @@ import app.management.Library;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fileio.input.CommandInput;
 
-public final class PlayerCommands extends Command {
+public final class PlayerCommands extends CommandStrategy {
     private User user;
     private MusicPlayer musicPlayer;
     private final Integer seed;

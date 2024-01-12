@@ -8,7 +8,7 @@ import fileio.input.CommandInput;
 
 import java.util.ArrayList;
 
-public abstract class Command {
+public abstract class CommandStrategy {
     protected final String command;
     protected final Integer timestamp;
     protected final String username;
@@ -17,7 +17,7 @@ public abstract class Command {
     protected ObjectMapper objectMapper = new ObjectMapper();
     protected ObjectNode outputNode;
 
-    public Command(final CommandInput commandInput) {
+    public CommandStrategy(final CommandInput commandInput) {
         command = commandInput.getCommand();
         username = commandInput.getUsername();
         timestamp = commandInput.getTimestamp();
