@@ -1,5 +1,9 @@
 package app.clients;
 
+import app.audio.collections.AudioTrack;
+import app.audio.collections.Podcast;
+import app.audio.files.AudioFile;
+import app.clients.services.ClientStats;
 import app.clients.services.MusicPlayer;
 import app.clients.services.Page;
 import app.clients.services.SearchBar;
@@ -62,5 +66,30 @@ public class User extends Client {
         }
         musicPlayer.updateMusicPlayer();
         musicPlayer.setOnline(onlineStatus);
+    }
+
+    public void listenAudioFile(final AudioTrack audioTrack, final AudioFile audioFile) {
+        if (audioFile.getType().equals("episode")) {
+            clientStats.addListen(ClientStats.ListenType.EPISODE, audioFile.getName());
+
+            Host host = Library.getLibrary().getHosts().get(((Podcast) audioTrack).getOwner());
+            if (host != null) {
+                // TODO host function
+                host.getClientStats().addListen(ClientStats.ListenType.EPISODE, audioFile.getName());
+                host.getClientStats().addListen(ClientStats.ListenType.LISTENER, username);
+            }
+            return;
+        }
+
+        Song song = (Song) audioFile;
+        clientStats.addListen(ClientStats.ListenType.ARTIST, song.getArtist());
+        clientStats.addListen(ClientStats.ListenType.GENRE, song.getGenre());
+        clientStats.addListen(ClientStats.ListenType.SONG, song.getName());
+        clientStats.addListen(ClientStats.ListenType.ALBUM, song.getAlbum());
+
+        Artist artist = Library.getLibrary().getArtists().get(song.getArtist());
+        artist.getClientStats().addListen(ClientStats.ListenType.ALBUM, song.getAlbum());
+        artist.getClientStats().addListen(ClientStats.ListenType.SONG, song.getName());
+        artist.getClientStats().addListen(ClientStats.ListenType.LISTENER, username);
     }
 }

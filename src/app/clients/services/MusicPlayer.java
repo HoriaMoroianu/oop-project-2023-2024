@@ -54,9 +54,11 @@ public final class MusicPlayer {
 
         name = audioTrack.getName();
         loadedTrack = audioTrack;
-        loadedTrack.updateClientGuests(Client.GuestMode.ADD_GUEST, owner);
         audioFile = loadedTrack.loadAudioFile(podcastHistory.get(name));
         remainedTime = audioFile.getDuration(podcastHistory.get(name));
+
+        loadedTrack.updateClientGuests(Client.GuestMode.ADD_GUEST, owner);
+        owner.listenAudioFile(loadedTrack, audioFile);
 
         repeat = 0;
         shuffle = false;
@@ -138,11 +140,21 @@ public final class MusicPlayer {
         for (AudioFile file : audioFiles.subList(startIndex, audioFiles.size())) {
             timeUntilNextFile = (timeUntilNextFile == -1) ? remainedTime : file.getDuration();
 
+            // TODO check with tests
             if (timeUntilNextFile - timePassed > 0) {
+                if (file != audioFile) {
+                    owner.listenAudioFile(loadedTrack, file);
+                }
+
                 audioFile = file;
                 name = audioFile.getName();
                 remainedTime = timeUntilNextFile - timePassed;
+
                 return timeUntilNextFile - timePassed;
+            }
+
+            if (file != audioFile) {
+                owner.listenAudioFile(loadedTrack, file);
             }
             timePassed -= timeUntilNextFile;
         }
@@ -168,8 +180,9 @@ public final class MusicPlayer {
      * file or to the previous one.
      */
     public void previousAudioFile() {
+        // TODO check with listen update
         if (atFirstAudioFile() || audioFile.getDuration() > remainedTime) {
-            remainedTime = audioFile.getDuration(); //restart the current file
+            remainedTime = audioFile.getDuration(); // restart the current file
         } else {
             loadPreviousAudioFile();
         }
@@ -193,8 +206,9 @@ public final class MusicPlayer {
      * Goes back in time with a set skipTime
      */
     public void skipBackward() {
+        // TODO check with listen update
         if (audioFile.getDuration() - remainedTime < skippTime) {
-            remainedTime = audioFile.getDuration(); //restart the current file
+            remainedTime = audioFile.getDuration(); // restart the current file
         } else {
             remainedTime += skippTime;
         }
@@ -239,6 +253,7 @@ public final class MusicPlayer {
     }
 
     private void loadPreviousAudioFile() {
+        // TODO check with listen update
         ArrayList<AudioFile> playQueue = new ArrayList<>(loadedTrack.loadedAudioFiles());
         if (shuffle) {
             Collections.shuffle(playQueue, new Random(seed));

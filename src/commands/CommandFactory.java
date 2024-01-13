@@ -16,6 +16,7 @@ public final class CommandFactory {
     public static CommandStrategy createCommand(final CommandInput commandInput) throws Exception {
         return switch (commandInput.getCommand()) {
             case "search", "select" -> new SearchbarCommands(commandInput);
+            case "wrapped" -> new WrappedCommands(commandInput);
 
             case "load", "playPause", "repeat", "shuffle", "forward", "backward", "next", "prev",
                  "like", "addRemoveInPlaylist", "status"
@@ -39,7 +40,7 @@ public final class CommandFactory {
                 -> new HostCommands(commandInput);
 
             default
-                -> throw new Exception("Command" + commandInput.getCommand() + " is unknown!");
+                -> throw new Exception("Command " + commandInput.getCommand() + " is unknown!");
         };
     }
 }

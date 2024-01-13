@@ -13,6 +13,11 @@ public interface AudioTrack {
     String getName();
 
     /**
+     * @return type of this audio track
+     */
+    String getType();
+
+    /**
      * @param watchTime the watched time from the beginning of current audio track
      * @return the first audio file to be played in musicPlayer
      */

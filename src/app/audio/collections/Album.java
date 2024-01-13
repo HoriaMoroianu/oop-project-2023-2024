@@ -20,6 +20,11 @@ public class Album extends Playlist {
         this.description = description;
     }
 
+    @Override
+    public String getType() {
+        return "album";
+    }
+
     /**
      * Updates the guest list of the artist of this album and its listeners
      * @param mode  for setting the list update mode - add/remove guest

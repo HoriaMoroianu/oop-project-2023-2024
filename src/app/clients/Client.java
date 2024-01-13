@@ -1,5 +1,6 @@
 package app.clients;
 
+import app.clients.services.ClientStats;
 import fileio.input.UserInput;
 import lombok.Getter;
 
@@ -16,6 +17,7 @@ public abstract class Client implements GuestObserver {
     protected final Integer age;
     protected final String city;
     protected ArrayList<Client> contentGuests = new ArrayList<>();
+    protected ClientStats clientStats = new ClientStats();
 
     public Client(final UserInput userInput) {
         username = userInput.getUsername();

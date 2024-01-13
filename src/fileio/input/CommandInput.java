@@ -17,7 +17,6 @@ public final class CommandInput {
     private String playlistName;
     private Integer playlistId;
     private Integer seed;
-
     private Integer age;
     private String city;
     private String name;
@@ -28,4 +27,5 @@ public final class CommandInput {
     private Integer price;
     private ArrayList<EpisodeInput> episodes;
     private String nextPage;
+    private String recommendationType;
 }

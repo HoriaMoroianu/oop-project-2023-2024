@@ -40,6 +40,11 @@ public class Podcast implements AudioTrack {
         calculateElapsedTime();
     }
 
+    @Override
+    public String getType() {
+        return "podcast";
+    }
+
     /**
      * @return array list containing the names of episodes of this podcast
      */

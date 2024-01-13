@@ -13,6 +13,11 @@ public abstract class AudioFile {
     }
 
     /**
+     * @return type of this audio file
+     */
+    public abstract String getType();
+
+    /**
      * @param watchTime the watched time from the beginning of current audio file
      * @return remaining duration of this audio file or null is watchTime is not defined
      */

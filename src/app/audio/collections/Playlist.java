@@ -31,6 +31,11 @@ public class Playlist implements AudioTrack {
         followers = 0;
     }
 
+    @Override
+    public String getType() {
+        return "playlist";
+    }
+
     /**
      * Increments the number of followers of this playlist
      */
