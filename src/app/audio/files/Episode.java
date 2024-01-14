@@ -12,6 +12,9 @@ public class Episode extends AudioFile {
         description = episodeInput.getDescription();
     }
 
+    /**
+     * @return type of this audio track
+     */
     @Override
     public String getType() {
         return "episode";

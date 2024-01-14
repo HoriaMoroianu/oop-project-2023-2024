@@ -45,7 +45,7 @@ public final class Filter {
      *          Note also that true will be returned if the filter is null.
      */
     public boolean filterByName(final AudioTrack audioTrack) {
-        return name == null || audioTrack.getName().startsWith(name);
+        return name == null || audioTrack.getName().toLowerCase().startsWith(name.toLowerCase());
     }
 
     /**
@@ -57,7 +57,7 @@ public final class Filter {
      *          Note also that true will be returned if the filter is null.
      */
     public boolean filterByName(final Artist artist) {
-        return name == null || artist.getUsername().startsWith(name);
+        return name == null || artist.getUsername().toLowerCase().startsWith(name.toLowerCase());
     }
 
     /**
@@ -69,7 +69,7 @@ public final class Filter {
      *          Note also that true will be returned if the filter is null.
      */
     public boolean filterByName(final Host host) {
-        return name == null || host.getUsername().startsWith(name);
+        return name == null || host.getUsername().toLowerCase().startsWith(name.toLowerCase());
     }
 
     /**
@@ -81,7 +81,7 @@ public final class Filter {
      *          Note also that true will be returned if the filter is null.
      */
     public boolean filterByOwner(final Playlist playlist) {
-        return owner == null || playlist.getOwner().equals(owner);
+        return owner == null || playlist.getOwner().equalsIgnoreCase(owner);
     }
 
     /**
@@ -93,7 +93,7 @@ public final class Filter {
      *          Note also that true will be returned if the filter is null.
      */
     public boolean filterByOwner(final Podcast podcast) {
-        return owner == null || podcast.getOwner().equals(owner);
+        return owner == null || podcast.getOwner().equalsIgnoreCase(owner);
     }
 
     /**
@@ -105,7 +105,7 @@ public final class Filter {
      *          Note also that true will be returned if the filter is null.
      */
     public boolean filterByOwner(final Album album) {
-        return owner == null || album.getOwner().equals(owner);
+        return owner == null || album.getOwner().equalsIgnoreCase(owner);
     }
 
     /**
@@ -117,7 +117,8 @@ public final class Filter {
      *          Note also that true will be returned if the filter is null.
      */
     public boolean filterByDescription(final Album album) {
-        return description == null || album.getDescription().startsWith(description);
+        return description == null || album.getDescription().toLowerCase()
+                                        .startsWith(description.toLowerCase());
     }
 
     /**
@@ -129,7 +130,7 @@ public final class Filter {
      *          Note also that true will be returned if the filter is null.
      */
     public boolean filterByAlbum(final Song song) {
-        return albumName == null || song.getAlbum().equals(albumName);
+        return albumName == null || song.getAlbum().equalsIgnoreCase(albumName);
     }
 
     /**
@@ -177,7 +178,7 @@ public final class Filter {
      *          Note also that true will be returned if the filter is null.
      */
     public boolean filterByArtist(final Song song) {
-        return artistName == null || song.getArtist().equals(artistName);
+        return artistName == null || song.getArtist().equalsIgnoreCase(artistName);
     }
 
     /**

@@ -33,6 +33,9 @@ public class Song extends AudioFile implements AudioTrack {
         likesReceived = 0;
     }
 
+    /**
+     * @return type of this audio track
+     */
     @Override
     public String getType() {
         return "song";

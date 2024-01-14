@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import fileio.input.CommandInput;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
@@ -60,7 +61,7 @@ public final class SearchbarCommands extends CommandStrategy {
                 audioTracks = searchPlaylist(userAccessiblePlaylists());
                 break;
             case "album":
-                audioTracks = searchAlbum(Library.getLibrary().getAlbums());
+                audioTracks = searchAlbum(getAlbumsByArtistOrder());
                 break;
             case "artist":
                 clients = searchArtist(Library.getLibrary().getArtists());
@@ -145,6 +146,13 @@ public final class SearchbarCommands extends CommandStrategy {
             }
         }
         return userAccessible;
+    }
+
+    private ArrayList<Album> getAlbumsByArtistOrder() {
+        ArrayList<String> artistNames = new ArrayList<>(Library.getLibrary().getArtists().keySet());
+        return Library.getLibrary().getAlbums().stream()
+                .sorted(Comparator.comparingInt(o -> artistNames.indexOf(o.getOwner())))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private ArrayList<AudioTrack> searchSongs(final ArrayList<Song> songs) {

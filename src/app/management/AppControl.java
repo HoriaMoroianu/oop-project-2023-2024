@@ -22,6 +22,10 @@ public final class AppControl {
 
         Library.getLibrary().loadLibrary(library);
 
+        CommandInput endCommand = new CommandInput();
+        endCommand.setCommand("endProgram");
+        commandInputArrayList.add(endCommand);
+
         commandInputArrayList.stream()
             .map(commandInput -> {
                 try {

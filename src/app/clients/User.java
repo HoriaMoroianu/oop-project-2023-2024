@@ -69,12 +69,13 @@ public class User extends Client {
     }
 
     public void listenAudioFile(final AudioTrack audioTrack, final AudioFile audioFile) {
+        // TODO host + artist functions
+
         if (audioFile.getType().equals("episode")) {
             clientStats.addListen(ClientStats.ListenType.EPISODE, audioFile.getName());
 
             Host host = Library.getLibrary().getHosts().get(((Podcast) audioTrack).getOwner());
             if (host != null) {
-                // TODO host function
                 host.getClientStats().addListen(ClientStats.ListenType.EPISODE, audioFile.getName());
                 host.getClientStats().addListen(ClientStats.ListenType.LISTENER, username);
             }

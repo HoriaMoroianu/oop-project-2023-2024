@@ -35,6 +35,7 @@ public final class AdminCommands extends CommandStrategy {
             case "showPlaylists" -> showPlaylists();
             case "showAlbums" -> showAlbums();
             case "showPodcasts" -> showPodcasts();
+            case "endProgram" -> endProgram();
             default -> null;
         };
     }
@@ -109,6 +110,32 @@ public final class AdminCommands extends CommandStrategy {
                 .collect(Collectors.toCollection(ArrayList::new));
 
         outputNode.put("result", objectMapper.valueToTree(result));
+        return outputNode;
+    }
+
+    private ObjectNode endProgram() {
+        ObjectNode artistsNode = objectMapper.createObjectNode();
+        ObjectNode dataNode = objectMapper.createObjectNode();
+
+        ArrayList<String> listenedArtists = Library.getLibrary().getUsers().values().stream()
+                .flatMap(user -> user.getClientStats().getArtistsListened().keySet().stream())
+                .distinct().sorted(String::compareTo)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        for (String artistName : listenedArtists) {
+            // No monetization
+            dataNode.put("merchRevenue", 0.0d);
+            dataNode.put("songRevenue", 0.0d);
+            dataNode.put("ranking", listenedArtists.indexOf(artistName) + 1);
+            dataNode.put("mostProfitableSong", "N/A");
+
+            artistsNode.put(artistName, dataNode);
+            dataNode = objectMapper.createObjectNode();
+        }
+
+        outputNode.remove("timestamp");
+        outputNode.remove("user");
+        outputNode.put("result", artistsNode);
         return outputNode;
     }
 }

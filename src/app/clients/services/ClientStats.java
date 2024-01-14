@@ -36,6 +36,8 @@ public class ClientStats {
                 episodesListened.put(name, episodesListened.getOrDefault(name, 0) + 1);
             case LISTENER ->
                 listeners.put(name, listeners.getOrDefault(name, 0) + 1);
+            default ->
+                System.err.println("Wrong listen type");
         }
     }
 }

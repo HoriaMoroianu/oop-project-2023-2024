@@ -22,7 +22,8 @@ public final class CommandFactory {
                  "like", "addRemoveInPlaylist", "status"
                 -> new PlayerCommands(commandInput);
 
-            case "addUser", "deleteUser", "showPlaylists", "showAlbums", "showPodcasts"
+            case "addUser", "deleteUser", "showPlaylists", "showAlbums", "showPodcasts",
+                 "endProgram"
                 -> new AdminCommands(commandInput);
 
             case "getAllUsers", "getOnlineUsers", "getTop5Songs", "getTop5Albums",

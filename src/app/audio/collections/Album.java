@@ -20,6 +20,9 @@ public class Album extends Playlist {
         this.description = description;
     }
 
+    /**
+     * @return type of this audio track
+     */
     @Override
     public String getType() {
         return "album";

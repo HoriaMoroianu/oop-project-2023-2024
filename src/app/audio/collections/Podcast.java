@@ -40,6 +40,9 @@ public class Podcast implements AudioTrack {
         calculateElapsedTime();
     }
 
+    /**
+     * @return type of this audio track
+     */
     @Override
     public String getType() {
         return "podcast";

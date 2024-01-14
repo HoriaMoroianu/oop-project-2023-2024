@@ -31,6 +31,9 @@ public class Playlist implements AudioTrack {
         followers = 0;
     }
 
+    /**
+     * @return type of this audio track
+     */
     @Override
     public String getType() {
         return "playlist";

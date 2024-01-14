@@ -2,6 +2,7 @@ package commands;
 
 import app.clients.Artist;
 import app.clients.Client;
+import app.clients.Host;
 import app.clients.User;
 import app.clients.services.ClientStats;
 import app.management.Library;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 public final class WrappedCommands extends CommandStrategy {
     private ObjectNode resultNode = objectMapper.createObjectNode();
+    private static final Integer MAX_RESULTS = 5;
 
     public WrappedCommands(final CommandInput commandInput) {
         super(commandInput);
@@ -29,13 +31,11 @@ public final class WrappedCommands extends CommandStrategy {
         if (Library.getLibrary().getUsers().get(username) != null) {
             return userWrapped((User) client);
         }
-
         if (Library.getLibrary().getArtists().get(username) != null) {
             return artistWrapped((Artist) client);
         }
-
         if (Library.getLibrary().getHosts().get(username) != null) {
-//            return ...
+            return hostWrapped((Host) client);
         }
         return null;
     }
@@ -49,30 +49,20 @@ public final class WrappedCommands extends CommandStrategy {
             return outputNode;
         }
 
-        if (!userStats.getArtistsListened().isEmpty()) {
-            LinkedHashMap<String, Integer> topArtists = getTopStats(userStats.getArtistsListened());
-            resultNode.put("topArtists", objectMapper.valueToTree(topArtists));
-        }
+        LinkedHashMap<String, Integer> topArtists = getTopStats(userStats.getArtistsListened());
+        resultNode.put("topArtists", objectMapper.valueToTree(topArtists));
 
-        if (!userStats.getGenresListened().isEmpty()) {
-            LinkedHashMap<String, Integer> topGenres = getTopStats(userStats.getGenresListened());
-            resultNode.put("topGenres", objectMapper.valueToTree(topGenres));
-        }
+        LinkedHashMap<String, Integer> topGenres = getTopStats(userStats.getGenresListened());
+        resultNode.put("topGenres", objectMapper.valueToTree(topGenres));
 
-        if (!userStats.getSongsListened().isEmpty()) {
-            LinkedHashMap<String, Integer> topSongs = getTopStats(userStats.getSongsListened());
-            resultNode.put("topSongs", objectMapper.valueToTree(topSongs));
-        }
+        LinkedHashMap<String, Integer> topSongs = getTopStats(userStats.getSongsListened());
+        resultNode.put("topSongs", objectMapper.valueToTree(topSongs));
 
-        if (!userStats.getAlbumsListened().isEmpty()) {
-            LinkedHashMap<String, Integer> topAlbums = getTopStats(userStats.getAlbumsListened());
-            resultNode.put("topAlbums", objectMapper.valueToTree(topAlbums));
-        }
+        LinkedHashMap<String, Integer> topAlbums = getTopStats(userStats.getAlbumsListened());
+        resultNode.put("topAlbums", objectMapper.valueToTree(topAlbums));
 
-        if (!userStats.getEpisodesListened().isEmpty()) {
-            LinkedHashMap<String, Integer> topEpisodes = getTopStats(userStats.getEpisodesListened());
-            resultNode.put("topEpisodes", objectMapper.valueToTree(topEpisodes));
-        }
+        LinkedHashMap<String, Integer> topEpisodes = getTopStats(userStats.getEpisodesListened());
+        resultNode.put("topEpisodes", objectMapper.valueToTree(topEpisodes));
 
         outputNode.put("result", objectMapper.valueToTree(resultNode));
         return outputNode;
@@ -105,14 +95,32 @@ public final class WrappedCommands extends CommandStrategy {
         return outputNode;
     }
 
-    // TODO host
+    private ObjectNode hostWrapped(final Host host) {
+        ClientStats hostStats = host.getClientStats();
+
+        if (hostStats.getListeners().isEmpty()) {
+            message = "No data to show for user " + username + ".";
+            outputNode.put("message", message);
+            return outputNode;
+        }
+
+        if (!hostStats.getEpisodesListened().isEmpty()) {
+            LinkedHashMap<String, Integer> topEpisodes = getTopStats(hostStats.getEpisodesListened());
+            resultNode.put("topEpisodes", objectMapper.valueToTree(topEpisodes));
+        }
+
+        resultNode.put("listeners", hostStats.getListeners().size());
+
+        outputNode.put("result", objectMapper.valueToTree(resultNode));
+        return outputNode;
+    }
 
     private LinkedHashMap<String, Integer> getTopStats(final HashMap<String, Integer> stats) {
         return stats.entrySet().stream().sorted((o1, o2) ->
                 !o1.getValue().equals(o2.getValue())
                         ? Integer.compare(o2.getValue(), o1.getValue())
                         : o1.getKey().compareTo(o2.getKey()))
-                .limit(5)
+                .limit(MAX_RESULTS)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (x, y) -> y, LinkedHashMap::new));
     }
