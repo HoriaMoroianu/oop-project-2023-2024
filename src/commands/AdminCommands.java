@@ -13,6 +13,7 @@ import fileio.output.PlaylistOutput;
 import fileio.output.PodcastOutput;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public final class AdminCommands extends CommandStrategy {
@@ -117,19 +118,20 @@ public final class AdminCommands extends CommandStrategy {
         ObjectNode artistsNode = objectMapper.createObjectNode();
         ObjectNode dataNode = objectMapper.createObjectNode();
 
-        ArrayList<String> listenedArtists = Library.getLibrary().getUsers().values().stream()
-                .flatMap(user -> user.getClientStats().getArtistsListened().keySet().stream())
-                .distinct().sorted(String::compareTo)
-                .collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<Artist> artists = Library.getLibrary().getEndProgramArtists()
+                .stream().distinct()
+                .sorted(Comparator.comparing(Artist::getMerchRevenue).reversed()
+                        .thenComparing(Artist::getUsername))
+                .collect(Collectors.toCollection(ArrayList<Artist>::new));
 
-        for (String artistName : listenedArtists) {
-            // No monetization
-            dataNode.put("merchRevenue", 0.0d);
+        for (Artist artist : artists) {
+            // No song monetization
+            dataNode.put("merchRevenue", artist.getMerchRevenue());
             dataNode.put("songRevenue", 0.0d);
-            dataNode.put("ranking", listenedArtists.indexOf(artistName) + 1);
+            dataNode.put("ranking", artists.indexOf(artist) + 1);
             dataNode.put("mostProfitableSong", "N/A");
 
-            artistsNode.put(artistName, dataNode);
+            artistsNode.put(artist.getUsername(), dataNode);
             dataNode = objectMapper.createObjectNode();
         }
 

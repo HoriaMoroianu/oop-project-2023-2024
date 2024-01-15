@@ -3,10 +3,7 @@ package app.clients;
 import app.audio.collections.AudioTrack;
 import app.audio.collections.Podcast;
 import app.audio.files.AudioFile;
-import app.clients.services.ClientStats;
-import app.clients.services.MusicPlayer;
-import app.clients.services.Page;
-import app.clients.services.SearchBar;
+import app.clients.services.*;
 import app.audio.collections.Playlist;
 import app.audio.files.Song;
 import app.management.Library;
@@ -24,6 +21,7 @@ public class User extends Client {
     // TODO can only use song name?
     private final ArrayList<Song> likedSongs = new ArrayList<>();
     private final ArrayList<Playlist> followedPlaylists = new ArrayList<>();
+    private final ArrayList<String> ownedMerch = new ArrayList<>();
 
     private boolean onlineStatus;
     private final Page currentPage;
@@ -89,6 +87,8 @@ public class User extends Client {
         clientStats.addListen(ClientStats.ListenType.ALBUM, song.getAlbum());
 
         Artist artist = Library.getLibrary().getArtists().get(song.getArtist());
+        Library.getLibrary().getEndProgramArtists().add(artist);
+
         artist.getClientStats().addListen(ClientStats.ListenType.ALBUM, song.getAlbum());
         artist.getClientStats().addListen(ClientStats.ListenType.SONG, song.getName());
         artist.getClientStats().addListen(ClientStats.ListenType.LISTENER, username);

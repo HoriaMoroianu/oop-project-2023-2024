@@ -188,7 +188,10 @@ public final class ArtistCommands extends CommandStrategy {
             return outputNode;
         }
 
-        artist.getMerches().add(new Merch(name, description, price));
+        Merch merch = new Merch(name, description, price, artist);
+        artist.getMerches().add(merch);
+        Library.getLibrary().getAppMerch().put(merch.getName(), merch);
+
         message = username + " has added new merchandise successfully.";
         outputNode.put("message", message);
         return outputNode;

@@ -31,7 +31,7 @@ public final class CommandFactory {
                 -> new StatisticsCommands(commandInput);
 
             case "createPlaylist", "follow", "showPreferredSongs", "switchVisibility",
-                 "switchConnectionStatus", "changePage", "printCurrentPage"
+                 "switchConnectionStatus", "changePage", "printCurrentPage", "buyMerch", "seeMerch"
                 -> new UserCommands(commandInput);
 
             case "addAlbum", "removeAlbum", "addEvent", "removeEvent", "addMerch"

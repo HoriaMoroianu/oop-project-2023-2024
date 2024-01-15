@@ -8,6 +8,7 @@ import app.clients.User;
 import app.audio.collections.Playlist;
 import app.audio.collections.Podcast;
 import app.audio.files.Song;
+import app.clients.services.Merch;
 import fileio.input.LibraryInput;
 import fileio.input.PodcastInput;
 import fileio.input.SongInput;
@@ -16,6 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 @Getter
@@ -34,6 +36,8 @@ public final class Library {
     private final LinkedHashMap<String, Host> hosts = new LinkedHashMap<>();
 
     private final ArrayList<String> onlineUsers = new ArrayList<>();
+    private final ArrayList<Artist> endProgramArtists = new ArrayList<>();
+    private final HashMap<String, Merch> appMerch = new HashMap<>();
 
     private Library() {
     }
@@ -61,6 +65,8 @@ public final class Library {
         artists.clear();
         hosts.clear();
         onlineUsers.clear();
+        endProgramArtists.clear();
+        appMerch.clear();
     }
 
     /**

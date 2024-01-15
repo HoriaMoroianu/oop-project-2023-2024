@@ -2,8 +2,10 @@ package commands;
 
 import app.audio.collections.Playlist;
 import app.audio.files.Song;
+import app.clients.Artist;
 import app.clients.Client;
 import app.clients.User;
+import app.clients.services.Merch;
 import app.clients.services.Page;
 import app.clients.services.SearchBar;
 import app.management.Library;
@@ -17,12 +19,14 @@ public final class UserCommands extends CommandStrategy {
     private final String playlistName;
     private final Integer playlistId;
     private final String nextPage;
+    private final String name;
 
     public UserCommands(final CommandInput commandInput) {
         super(commandInput);
         playlistName = commandInput.getPlaylistName();
         playlistId = commandInput.getPlaylistId();
         nextPage = commandInput.getNextPage();
+        name = commandInput.getName();
     }
 
     @Override
@@ -37,6 +41,8 @@ public final class UserCommands extends CommandStrategy {
             case "switchConnectionStatus" -> switchConnectionStatus();
             case "changePage" -> changePage();
             case "printCurrentPage" -> printCurrentPage();
+            case "buyMerch" -> buyMerch();
+            case "seeMerch" -> seeMerch();
             default -> null;
         };
     }
@@ -185,6 +191,48 @@ public final class UserCommands extends CommandStrategy {
                 break;
         }
         outputNode.put("message", message);
+        return outputNode;
+    }
+
+    private ObjectNode buyMerch() {
+        if (user == null) {
+            message = "The username " + username + " doesn't exist.";
+            outputNode.put("message", message);
+            return outputNode;
+        }
+
+        if (!user.getCurrentPage().getType().equals(Page.Type.ARTIST)) {
+            message = "Cannot buy merch from this page.";
+            outputNode.put("message", message);
+            return outputNode;
+        }
+
+        Merch merch = Library.getLibrary().getAppMerch().get(name);
+        if (merch == null) {
+            message = "The merch " + name + " doesn't exist.";
+            outputNode.put("message", message);
+            return outputNode;
+        }
+
+        Artist artist = merch.getOwner();
+        artist.setMerchRevenue(artist.getMerchRevenue() + merch.getPrice());
+        Library.getLibrary().getEndProgramArtists().add(artist);
+
+        user.getOwnedMerch().add(merch.getName());
+
+        message = username + " has added new merch successfully.";
+        outputNode.put("message", message);
+        return outputNode;
+    }
+
+    private ObjectNode seeMerch() {
+        if (user == null) {
+            message = "The username " + username + " doesn't exist.";
+            outputNode.put("message", message);
+            return outputNode;
+        }
+
+        outputNode.put("result", objectMapper.valueToTree(user.getOwnedMerch()));
         return outputNode;
     }
 }
