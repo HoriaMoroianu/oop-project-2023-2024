@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 
 @Getter
-public abstract class Client implements GuestObserver {
+public abstract class Client {
     public enum GuestMode {
         ADD_GUEST,
         REMOVE_GUEST

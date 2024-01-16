@@ -81,7 +81,6 @@ public class User extends Client {
         musicPlayer.setOnline(onlineStatus);
     }
 
-
     /**
      * Updates the listening log for this user and for the creator whose content was listened
      * @param audioTrack which was listened by this user
@@ -117,16 +116,5 @@ public class User extends Client {
         artist.getClientStats().addListen(ClientStats.ListenType.ALBUM, song.getAlbum());
         artist.getClientStats().addListen(ClientStats.ListenType.SONG, song.getName());
         artist.getClientStats().addListen(ClientStats.ListenType.LISTENER, username);
-    }
-
-    /**
-     * Adds the received notification to this user's history
-     * @param type the type of notification that was received
-     * @param creatorName the name of the content creator from whom the notification was received
-     */
-    public void updateNotifications(final String type, final String creatorName) {
-        HashMap<String, String> notification = new HashMap<>();
-        notification.put(type, type + " from " + creatorName + ".");
-        notifications.add(notification);
     }
 }

@@ -260,9 +260,9 @@ public final class UserCommands extends CommandStrategy {
         if (user.getFollowedCreators().contains(client)) {
             // Unsubscribe
             if (client.getType().equals("artist")) {
-                ((Artist) client).getSubscribedUsers().remove(user);
+                ((Artist) client).unsubscribe(user);
             } else {
-                ((Host) client).getSubscribedUsers().remove(user);
+                ((Host) client).unsubscribe(user);
             }
 
             user.getFollowedCreators().remove(client);
@@ -273,9 +273,9 @@ public final class UserCommands extends CommandStrategy {
 
         // Subscribe
         if (client.getType().equals("artist")) {
-            ((Artist) client).getSubscribedUsers().add(user);
+            ((Artist) client).subscribe(user);
         } else {
-            ((Host) client).getSubscribedUsers().add(user);
+            ((Host) client).subscribe(user);
         }
 
         user.getFollowedCreators().add(client);

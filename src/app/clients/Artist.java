@@ -3,19 +3,22 @@ package app.clients;
 import app.clients.services.Event;
 import app.clients.services.Merch;
 import app.audio.collections.Album;
+import app.clients.services.NotificationsObserver;
 import app.management.Library;
 import fileio.input.UserInput;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Getter
 public class Artist extends Client {
     private final ArrayList<Album> albums = new ArrayList<>();
     private final ArrayList<Event> events = new ArrayList<>();
     private final ArrayList<Merch> merches = new ArrayList<>();
-    private final ArrayList<User> subscribedUsers = new ArrayList<>();
+
+    private final HashMap<String, NotificationsObserver> subscribedUsers = new HashMap<>();
 
     @Setter
     private Double merchRevenue = 0.0d;
@@ -82,5 +85,29 @@ public class Artist extends Client {
             names.add(merch.getName());
         }
         return names;
+    }
+
+    /**
+     * Adds a user to the subscriber list of this artist
+     * @param user the user who will receive the notifications
+     */
+    public void subscribe(final User user) {
+        subscribedUsers.put(user.getUsername(), new NotificationsObserver(user));
+    }
+
+    /**
+     * Removes a user from the subscriber list of this artist
+     * @param user the user who receives the notifications
+     */
+    public void unsubscribe(final User user) {
+        subscribedUsers.remove(user.getUsername());
+    }
+
+    /**
+     * Notify all subscribers about new content
+     * @param type the type of notification
+     */
+    public void notifySubscribers(final String type) {
+        subscribedUsers.values().forEach(observer -> observer.updateNotifications(type, username));
     }
 }

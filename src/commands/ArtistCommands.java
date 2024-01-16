@@ -92,8 +92,7 @@ public final class ArtistCommands extends CommandStrategy {
         Library.getLibrary().getSongs().addAll(albumSongs);
 
         message = username + " has added new album successfully.";
-        artist.getSubscribedUsers().forEach(user ->
-                user.updateNotifications("New Album", username));
+        artist.notifySubscribers("New Album");
 
         outputNode.put("message", message);
         return outputNode;
@@ -148,8 +147,7 @@ public final class ArtistCommands extends CommandStrategy {
         }
 
         artist.getEvents().add(new Event(name, description, date));
-        artist.getSubscribedUsers().forEach(user ->
-                user.updateNotifications("New Event", username));
+        artist.notifySubscribers("New Event");
 
         message = username + " has added new event successfully.";
         outputNode.put("message", message);
@@ -198,8 +196,7 @@ public final class ArtistCommands extends CommandStrategy {
         Library.getLibrary().getAppMerch().put(merch.getName(), merch);
 
         artist.getMerches().add(merch);
-        artist.getSubscribedUsers().forEach(user ->
-                user.updateNotifications("New Merchandise", username));
+        artist.notifySubscribers("New Merchandise");
 
         message = username + " has added new merchandise successfully.";
         outputNode.put("message", message);
