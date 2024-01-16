@@ -15,12 +15,18 @@ public class Artist extends Client {
     private final ArrayList<Album> albums = new ArrayList<>();
     private final ArrayList<Event> events = new ArrayList<>();
     private final ArrayList<Merch> merches = new ArrayList<>();
+    private final ArrayList<User> subscribedUsers = new ArrayList<>();
 
     @Setter
     private Double merchRevenue = 0.0d;
 
     public Artist(final UserInput userInput) {
         super(userInput);
+    }
+
+    @Override
+    public String getType() {
+        return "artist";
     }
 
     /**

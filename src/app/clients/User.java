@@ -11,17 +11,22 @@ import fileio.input.UserInput;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 @Getter
 public class User extends Client {
     private final SearchBar searchBar = new SearchBar();
     private final MusicPlayer musicPlayer = new MusicPlayer(this);
 
-    private final ArrayList<Playlist> playlists = new ArrayList<>();
-    // TODO can only use song name?
     private final ArrayList<Song> likedSongs = new ArrayList<>();
+    private final ArrayList<Playlist> playlists = new ArrayList<>();
+
     private final ArrayList<Playlist> followedPlaylists = new ArrayList<>();
+    private final ArrayList<Client> followedCreators = new ArrayList<>();
+
     private final ArrayList<String> ownedMerch = new ArrayList<>();
+    private final ArrayList<HashMap<String, String>> notifications = new ArrayList<>();
 
     private boolean onlineStatus;
     private final Page currentPage;
@@ -30,6 +35,11 @@ public class User extends Client {
         super(userInput);
         currentPage = new Page(Page.Type.HOME, this);
         switchOnlineStatus();
+    }
+
+    @Override
+    public String getType() {
+        return "user";
     }
 
     /**
@@ -92,5 +102,11 @@ public class User extends Client {
         artist.getClientStats().addListen(ClientStats.ListenType.ALBUM, song.getAlbum());
         artist.getClientStats().addListen(ClientStats.ListenType.SONG, song.getName());
         artist.getClientStats().addListen(ClientStats.ListenType.LISTENER, username);
+    }
+
+    public void updateNotifications(final String type, final String creatorName) {
+        HashMap<String, String> notification = new HashMap<>();
+        notification.put(type, type + " from " + creatorName + ".");
+        notifications.add(notification);
     }
 }

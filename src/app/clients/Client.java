@@ -25,6 +25,8 @@ public abstract class Client implements GuestObserver {
         city = userInput.getCity();
     }
 
+    public abstract String getType();
+
     /**
      * Updates the guest list of this client
      * @param mode for setting the list update mode - add/remove guest

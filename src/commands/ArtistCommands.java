@@ -6,6 +6,7 @@ import app.audio.files.AudioFile;
 import app.audio.files.Song;
 import app.clients.Artist;
 import app.clients.Client;
+import app.clients.User;
 import app.clients.services.Event;
 import app.clients.services.Merch;
 import app.management.Library;
@@ -92,6 +93,9 @@ public final class ArtistCommands extends CommandStrategy {
         Library.getLibrary().getSongs().addAll(albumSongs);
 
         message = username + " has added new album successfully.";
+        artist.getSubscribedUsers().forEach(user ->
+                user.updateNotifications("New Album", username));
+
         outputNode.put("message", message);
         return outputNode;
     }
@@ -145,6 +149,9 @@ public final class ArtistCommands extends CommandStrategy {
         }
 
         artist.getEvents().add(new Event(name, description, date));
+        artist.getSubscribedUsers().forEach(user ->
+                user.updateNotifications("New Event", username));
+
         message = username + " has added new event successfully.";
         outputNode.put("message", message);
         return outputNode;
@@ -189,8 +196,11 @@ public final class ArtistCommands extends CommandStrategy {
         }
 
         Merch merch = new Merch(name, description, price, artist);
-        artist.getMerches().add(merch);
         Library.getLibrary().getAppMerch().put(merch.getName(), merch);
+
+        artist.getMerches().add(merch);
+        artist.getSubscribedUsers().forEach(user ->
+                user.updateNotifications("New Merchandise", username));
 
         message = username + " has added new merchandise successfully.";
         outputNode.put("message", message);

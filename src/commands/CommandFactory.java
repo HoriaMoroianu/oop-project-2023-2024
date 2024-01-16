@@ -30,8 +30,9 @@ public final class CommandFactory {
                  "getTop5Playlists", "getTop5Artists"
                 -> new StatisticsCommands(commandInput);
 
-            case "createPlaylist", "follow", "showPreferredSongs", "switchVisibility",
-                 "switchConnectionStatus", "changePage", "printCurrentPage", "buyMerch", "seeMerch"
+            case "createPlaylist", "follow", "showPreferredSongs", "switchVisibility", "subscribe",
+                 "switchConnectionStatus", "changePage", "printCurrentPage", "buyMerch", "seeMerch",
+                 "getNotifications"
                 -> new UserCommands(commandInput);
 
             case "addAlbum", "removeAlbum", "addEvent", "removeEvent", "addMerch"

@@ -12,9 +12,15 @@ import java.util.ArrayList;
 public class Host extends Client {
     private final ArrayList<Podcast> podcasts = new ArrayList<>();
     private final ArrayList<Announcement> announcements = new ArrayList<>();
+    private final ArrayList<User> subscribedUsers = new ArrayList<>();
 
     public Host(final UserInput userInput) {
         super(userInput);
+    }
+
+    @Override
+    public String getType() {
+        return "host";
     }
 
     /**

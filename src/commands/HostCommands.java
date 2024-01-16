@@ -69,8 +69,11 @@ public final class HostCommands extends CommandStrategy {
         }
 
         Podcast podcast = new Podcast(name, host.getUsername(), podcastEpisodes);
-        host.getPodcasts().add(podcast);
         Library.getLibrary().getPodcasts().add(podcast);
+
+        host.getPodcasts().add(podcast);
+        host.getSubscribedUsers().forEach(user ->
+                user.updateNotifications("New Podcast", username));
 
         message = username + " has added new podcast successfully.";
         outputNode.put("message", message);
@@ -120,6 +123,9 @@ public final class HostCommands extends CommandStrategy {
         }
 
         host.getAnnouncements().add(new Announcement(name, description));
+        host.getSubscribedUsers().forEach(user ->
+                user.updateNotifications("New Announcement", username));
+
         message = username + " has successfully added new announcement.";
         outputNode.put("message", message);
         return outputNode;

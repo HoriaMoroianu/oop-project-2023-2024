@@ -4,6 +4,7 @@ import app.audio.collections.Playlist;
 import app.audio.files.Song;
 import app.clients.Artist;
 import app.clients.Client;
+import app.clients.Host;
 import app.clients.User;
 import app.clients.services.Merch;
 import app.clients.services.Page;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import fileio.input.CommandInput;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class UserCommands extends CommandStrategy {
     private User user;
@@ -43,6 +45,8 @@ public final class UserCommands extends CommandStrategy {
             case "printCurrentPage" -> printCurrentPage();
             case "buyMerch" -> buyMerch();
             case "seeMerch" -> seeMerch();
+            case "subscribe" -> subscribe();
+            case "getNotifications" -> seeNotifications();
             default -> null;
         };
     }
@@ -233,6 +237,67 @@ public final class UserCommands extends CommandStrategy {
         }
 
         outputNode.put("result", objectMapper.valueToTree(user.getOwnedMerch()));
+        return outputNode;
+    }
+
+    private ObjectNode subscribe() {
+        if (user == null) {
+            message = "The username " + username + " doesn't exist.";
+            outputNode.put("message", message);
+            return outputNode;
+        }
+
+        Page userPage = user.getCurrentPage();
+
+        if (!userPage.getType().equals(Page.Type.ARTIST)
+                && !userPage.getType().equals(Page.Type.HOST)) {
+            message = "To subscribe you need to be on the page of an artist or host.";
+            outputNode.put("message", message);
+            return outputNode;
+        }
+
+        Client client = userPage.getPageOwner();
+        if (user.getFollowedCreators().contains(client)) {
+            // Unsubscribe
+            if (client.getType().equals("artist")) {
+                ((Artist) client).getSubscribedUsers().remove(user);
+            } else {
+                ((Host) client).getSubscribedUsers().remove(user);
+            }
+
+            user.getFollowedCreators().remove(client);
+            message = username + " unsubscribed from " + client.getUsername() + " successfully.";
+            outputNode.put("message", message);
+            return outputNode;
+        }
+
+        // Subscribe
+        if (client.getType().equals("artist")) {
+            ((Artist) client).getSubscribedUsers().add(user);
+        } else {
+            ((Host) client).getSubscribedUsers().add(user);
+        }
+
+        user.getFollowedCreators().add(client);
+        message = username + " subscribed to " + client.getUsername() + " successfully.";
+        outputNode.put("message", message);
+        return outputNode;
+    }
+
+    private ObjectNode seeNotifications() {
+        ArrayList<ObjectNode> dataNodes = new ArrayList<>();
+
+        for (HashMap<String, String> notification : user.getNotifications()) {
+            ObjectNode node = objectMapper.createObjectNode();
+
+            node.put("name", notification.keySet().stream().findFirst().orElse(null));
+            node.put("description", notification.values().stream().findFirst().orElse(null));
+
+            dataNodes.add(node);
+        }
+
+        user.getNotifications().clear();
+        outputNode.put("notifications", objectMapper.valueToTree(dataNodes));
         return outputNode;
     }
 }
