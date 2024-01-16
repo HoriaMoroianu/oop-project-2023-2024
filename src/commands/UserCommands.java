@@ -45,7 +45,7 @@ public final class UserCommands extends CommandStrategy {
             case "printCurrentPage" -> printCurrentPage();
             case "buyMerch" -> buyMerch();
             case "seeMerch" -> seeMerch();
-            case "subscribe" -> subscribe();
+            case "subscribe" -> subscribeToCreator();
             case "getNotifications" -> seeNotifications();
             default -> null;
         };
@@ -240,7 +240,7 @@ public final class UserCommands extends CommandStrategy {
         return outputNode;
     }
 
-    private ObjectNode subscribe() {
+    private ObjectNode subscribeToCreator() {
         if (user == null) {
             message = "The username " + username + " doesn't exist.";
             outputNode.put("message", message);

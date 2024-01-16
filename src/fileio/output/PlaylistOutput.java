@@ -14,7 +14,6 @@ public final class PlaylistOutput {
 
     public PlaylistOutput(final Playlist playlist) {
         name = playlist.getName();
-        // TODO songs names here?
         songs = playlist.getSongsNames();
         visibility = playlist.getVisibility();
         followers = playlist.getFollowers();

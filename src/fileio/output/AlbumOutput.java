@@ -12,7 +12,6 @@ public final class AlbumOutput {
 
     public AlbumOutput(final Album album) {
         name = album.getName();
-        // TODO songs names here?
         songs = album.getSongsNames();
     }
 }

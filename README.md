@@ -2,7 +2,7 @@
 
 **Grupa: 324 CA**
 
-# Proiect GlobalWaves  - Etapa 2
+# Proiect GlobalWaves  - Etapa 3
 
 ---
 ### Fluxul de executie:
@@ -37,18 +37,22 @@ src/
 │   │           ├── Page
 │   │           ├── Event
 │   │           ├── Announcement
-│   │           └── Merch
+│   │           ├── Merch
+│   │           ├── ClientStats
+│   │           └── Interfata Observer implementata de NotificationsObserver
 │   └── management/
 │       ├── Clasa Singleton Library care este trata ca baza de date a aplicatiei
 │       └── AppControl care se ocupa de I/O si prelucrarea comenzilor
 ├── commands/
-│   └── Clasa abstracta Command extinsa de toate comenzile aplicatiei:
-│       ├── Search
-│       ├── Select
+│   ├── Clasa CommandFactory cu care se creeaza comenzi noi
+│   └── Clasa abstracta CommandStrategy extinsa de toate comenzile aplicatiei:
+│       ├── AdminCommands
+│       ├── StatisticsCommands
 │       ├── ... 
-│       └── (comenzile sunt grupate in pachete in functie de categoria din care fac parte)
-├── fileio.input/
-│   └── Clase folosite pentru a citi datele din fisierele json
+│       └── (comenzile sunt grupate in clase in functie de categoria din care fac parte)
+├── fileio/
+│   ├── input - Clase folosite pentru a citi datele din fisierele json
+│   └── output - Clase folosite pentru afisarea rezultatelor dupa executie
 └── main/
     ├── Main ruleaza mai multe teste cu comenzi pentru aplicatie
     └── Test ruleaza un singur test cu comenzi pentru aplicatie
@@ -75,7 +79,24 @@ Deoarece a fost nevoie de afisarea clientilor in ordinea in care au fost adaugat
 Probabil cea mai controversata comanda de la aceasta etapa a fost DeleteUser, insa am reusit sa o implementez relativ usor retinand pentru fiecare client o lista cu clientii care ii acceseaza continutul. Aceasta lista este actulizata de fiecare data cand se incarca si se scoate ceva din music player sau cand se acceseaza o noua pagina.
 
 ---
-### Comentarii asupra temei:
-Dupa o analiza finala a structurii codului am constatat ca se incarca foarte mult ierarhia avand clase pentru fiecare comanda, care in anumite cazuri au si o implementare restransa, asa ca intentionez pentru urmatoarea etapa sa restructurez partea de executie a comenzilor.
+#### Etapa 3:
+Deoarece numarul comenzilor a crescut de la etapa la etapa, nu am mai putut pastra sistemul de o clasa per comanda asa ca acestea sunt acum grupate in clase functie de tipul lor.
 
-Lucrand la aceasta etapa am ajuns sa ma plictisesc destul de repede si sa simt ca fac acelasi lucru din nou si din nou, si nu consider ca am invatat foarte multe lucruri noi fata de cea precedenta. Asta nu cred neaparat ca e o problema de "task-uri prea usoare" ci mai mult de task-uri prea repetitive si pe alocuri structuri care par a fi adaugate doar de umplutura (Merch, Event, chiar si Host care nu are un impact foarte mare asupra aplicatiei spre deosebire de user sau artist).
+La aceasta etapa, comenzile sunt create cu ajutorul unui factory care arunca o exceptie daca tipul acestora nu este recunoscut, exceptie prinsa si trata in `AppControl`.
+
+Tot in `AppControl` este adaugata la lista de comenzi de input si comanda "endProgram" pentru afisarea statisticilor la finalul fiecarui test.
+
+Pentru comanda "wrapped" a fost adaugata si clasa `ClientStats` ce este folosita de fiecare client si serveste drept registru pentru ascultarile acestora.
+
+---
+#### Design pattern-uri:
+- Singleton (`Library`) folosit drept baza de date a aplicatiei;
+- Factory Method (`CommandFactory`) creeaza comenzi noi pe baza tipului acestora;
+- Strategy (`CommandStrategy`) cu ajutorul caruia sunt executate comenzile in functie de tipul lor;
+- Observer (`Observer` + `NotificationsObserver`) cu ajutorul caruia am implementat sistemul de notificari catre abonati.
+
+---
+### Comentarii asupra temei:
+Fiind un proiect mare cu 3 etape, sunt de parere ca deja a intervenit o lipsa de interes pentru el, revazand mereu si mereu acelasi cod. Inteleg si avantajele acestui tip de proiect insa asta a adus la mici neconcordante intre etape, task-uri prea repetitive sau pe alocuri structuri care par a fi adaugate doar de umplutura.
+
+Per total, mi-a placut tema abordata, am invatat foarte multe lucrand la acest proiect si regret ca nu am putut face de maxim si etapa asta din cauza programului incarcat si a organizarii mele cam proaste.
