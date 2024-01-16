@@ -18,6 +18,9 @@ public class Host extends Client {
         super(userInput);
     }
 
+    /**
+     * @return type of this host
+     */
     @Override
     public String getType() {
         return "host";

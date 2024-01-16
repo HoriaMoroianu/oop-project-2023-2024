@@ -6,7 +6,6 @@ import app.audio.files.AudioFile;
 import app.audio.files.Song;
 import app.clients.Artist;
 import app.clients.Client;
-import app.clients.User;
 import app.clients.services.Event;
 import app.clients.services.Merch;
 import app.management.Library;
@@ -214,7 +213,7 @@ public final class ArtistCommands extends CommandStrategy {
             return true;
         }
 
-        if (client.getClass() != Artist.class) {
+        if (!client.getType().equals("artist")) {
             message = username + " is not an artist.";
             outputNode.put("message", message);
             return true;

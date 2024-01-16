@@ -22,6 +22,12 @@ public class ClientStats {
     private final HashMap<String, Integer> episodesListened = new HashMap<>();
     private final HashMap<String, Integer> listeners = new HashMap<>();
 
+    /**
+     * Adds a new listening according to its type to this registry,
+     * for an audio file or a content creator
+     * @param listenType of audio file or content creator that was listened
+     * @param name of the content creator or audio file that was listened
+     */
     public void addListen(final ListenType listenType, final String name) {
         switch (listenType) {
             case ARTIST ->

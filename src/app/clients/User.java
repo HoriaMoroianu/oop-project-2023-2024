@@ -3,16 +3,18 @@ package app.clients;
 import app.audio.collections.AudioTrack;
 import app.audio.collections.Podcast;
 import app.audio.files.AudioFile;
-import app.clients.services.*;
 import app.audio.collections.Playlist;
 import app.audio.files.Song;
+import app.clients.services.ClientStats;
+import app.clients.services.MusicPlayer;
+import app.clients.services.Page;
+import app.clients.services.SearchBar;
 import app.management.Library;
 import fileio.input.UserInput;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 @Getter
 public class User extends Client {
@@ -37,6 +39,9 @@ public class User extends Client {
         switchOnlineStatus();
     }
 
+    /**
+     * @return type of this user
+     */
     @Override
     public String getType() {
         return "user";
@@ -76,26 +81,36 @@ public class User extends Client {
         musicPlayer.setOnline(onlineStatus);
     }
 
-    public void listenAudioFile(final AudioTrack audioTrack, final AudioFile audioFile) {
-        // TODO host + artist functions
 
+    /**
+     * Updates the listening log for this user and for the creator whose content was listened
+     * @param audioTrack which was listened by this user
+     * @param audioFile which was listened by this user
+     */
+    public void listenAudioFile(final AudioTrack audioTrack, final AudioFile audioFile) {
         if (audioFile.getType().equals("episode")) {
+            // Add listen for user
             clientStats.addListen(ClientStats.ListenType.EPISODE, audioFile.getName());
 
+            // Add listen for host
             Host host = Library.getLibrary().getHosts().get(((Podcast) audioTrack).getOwner());
+
             if (host != null) {
-                host.getClientStats().addListen(ClientStats.ListenType.EPISODE, audioFile.getName());
-                host.getClientStats().addListen(ClientStats.ListenType.LISTENER, username);
+                ClientStats hostStats = host.getClientStats();
+                hostStats.addListen(ClientStats.ListenType.EPISODE, audioFile.getName());
+                hostStats.addListen(ClientStats.ListenType.LISTENER, username);
             }
             return;
         }
 
+        // Add listen for user
         Song song = (Song) audioFile;
         clientStats.addListen(ClientStats.ListenType.ARTIST, song.getArtist());
         clientStats.addListen(ClientStats.ListenType.GENRE, song.getGenre());
         clientStats.addListen(ClientStats.ListenType.SONG, song.getName());
         clientStats.addListen(ClientStats.ListenType.ALBUM, song.getAlbum());
 
+        // Add listen for artist
         Artist artist = Library.getLibrary().getArtists().get(song.getArtist());
         Library.getLibrary().getEndProgramArtists().add(artist);
 
@@ -104,6 +119,11 @@ public class User extends Client {
         artist.getClientStats().addListen(ClientStats.ListenType.LISTENER, username);
     }
 
+    /**
+     * Adds the received notification to this user's history
+     * @param type the type of notification that was received
+     * @param creatorName the name of the content creator from whom the notification was received
+     */
     public void updateNotifications(final String type, final String creatorName) {
         HashMap<String, String> notification = new HashMap<>();
         notification.put(type, type + " from " + creatorName + ".");

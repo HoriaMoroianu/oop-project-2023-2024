@@ -25,6 +25,9 @@ public abstract class Client implements GuestObserver {
         city = userInput.getCity();
     }
 
+    /**
+     * @return type of this client
+     */
     public abstract String getType();
 
     /**

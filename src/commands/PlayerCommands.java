@@ -1,8 +1,6 @@
 package commands;
 
-import app.audio.collections.Album;
 import app.audio.collections.Playlist;
-import app.audio.collections.Podcast;
 import app.audio.files.AudioFile;
 import app.audio.files.Song;
 import app.clients.User;
@@ -103,8 +101,8 @@ public final class PlayerCommands extends CommandStrategy {
             return outputNode;
         }
 
-        if (musicPlayer.getLoadedTrack().getClass() != Playlist.class
-                && musicPlayer.getLoadedTrack().getClass() != Album.class) {
+        if (!musicPlayer.getLoadedTrack().getType().equals("playlist")
+                && !musicPlayer.getLoadedTrack().getType().equals("album")) {
             message = "The loaded source is not a playlist or an album.";
             outputNode.put("message", message);
             return outputNode;
@@ -124,7 +122,7 @@ public final class PlayerCommands extends CommandStrategy {
             return outputNode;
         }
 
-        if (musicPlayer.getLoadedTrack().getClass() != Podcast.class) {
+        if (!musicPlayer.getLoadedTrack().getType().equals("podcast")) {
             message = "The loaded source is not a podcast.";
             outputNode.put("message", message);
             return outputNode;
@@ -143,7 +141,7 @@ public final class PlayerCommands extends CommandStrategy {
             return outputNode;
         }
 
-        if (musicPlayer.getLoadedTrack().getClass() != Podcast.class) {
+        if (!musicPlayer.getLoadedTrack().getType().equals("podcast")) {
             message = "The loaded source is not a podcast.";
             outputNode.put("message", message);
             return outputNode;
@@ -198,7 +196,7 @@ public final class PlayerCommands extends CommandStrategy {
             return outputNode;
         }
 
-        if (loadedAudio.getClass() != Song.class) {
+        if (!loadedAudio.getType().equals("song")) {
             message = "Loaded source is not a song.";
             outputNode.put("message", message);
             return outputNode;
@@ -228,7 +226,7 @@ public final class PlayerCommands extends CommandStrategy {
             return outputNode;
         }
 
-        if (loadedAudio.getClass() != Song.class) {
+        if (!loadedAudio.getType().equals("song")) {
             message = "The loaded source is not a song.";
             outputNode.put("message", message);
             return outputNode;

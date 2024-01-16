@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public final class WrappedCommands extends CommandStrategy {
-    private ObjectNode resultNode = objectMapper.createObjectNode();
+    private final ObjectNode resultNode = objectMapper.createObjectNode();
     private static final Integer MAX_RESULTS = 5;
 
     public WrappedCommands(final CommandInput commandInput) {
@@ -78,16 +78,18 @@ public final class WrappedCommands extends CommandStrategy {
         }
 
         if (!artistStats.getAlbumsListened().isEmpty()) {
-            LinkedHashMap<String, Integer> topAlbums = getTopStats(artistStats.getAlbumsListened());
-            resultNode.put("topAlbums", objectMapper.valueToTree(topAlbums));
+            resultNode.put("topAlbums",
+                    objectMapper.valueToTree(getTopStats(artistStats.getAlbumsListened())));
         }
 
         if (!artistStats.getSongsListened().isEmpty()) {
-            LinkedHashMap<String, Integer> topSongs = getTopStats(artistStats.getSongsListened());
-            resultNode.put("topSongs", objectMapper.valueToTree(topSongs));
+            resultNode.put("topSongs",
+                    objectMapper.valueToTree(getTopStats(artistStats.getSongsListened())));
         }
 
-        ArrayList<String> topFans = new ArrayList<>(getTopStats(artistStats.getListeners()).keySet());
+        ArrayList<String> topFans = new ArrayList<>();
+        topFans.addAll(getTopStats(artistStats.getListeners()).keySet());
+
         resultNode.put("topFans", objectMapper.valueToTree(topFans));
         resultNode.put("listeners", artistStats.getListeners().size());
 
@@ -105,8 +107,8 @@ public final class WrappedCommands extends CommandStrategy {
         }
 
         if (!hostStats.getEpisodesListened().isEmpty()) {
-            LinkedHashMap<String, Integer> topEpisodes = getTopStats(hostStats.getEpisodesListened());
-            resultNode.put("topEpisodes", objectMapper.valueToTree(topEpisodes));
+            resultNode.put("topEpisodes",
+                    objectMapper.valueToTree(getTopStats(hostStats.getEpisodesListened())));
         }
 
         resultNode.put("listeners", hostStats.getListeners().size());

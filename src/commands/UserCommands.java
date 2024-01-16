@@ -78,7 +78,7 @@ public final class UserCommands extends CommandStrategy {
             return outputNode;
         }
 
-        if (searchBar.getSelectedTrack().getClass() != Playlist.class) {
+        if (!searchBar.getSelectedTrack().getType().equals("playlist")) {
             message = "The selected source is not a playlist.";
             outputNode.put("message", message);
             return outputNode;
@@ -145,7 +145,7 @@ public final class UserCommands extends CommandStrategy {
             return outputNode;
         }
 
-        if (client.getClass() != User.class) {
+        if (!client.getType().equals("user")) {
             message = username + " is not a normal user.";
             outputNode.put("message", message);
             return outputNode;

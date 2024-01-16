@@ -24,6 +24,9 @@ public class Artist extends Client {
         super(userInput);
     }
 
+    /**
+     * @return type of this artist
+     */
     @Override
     public String getType() {
         return "artist";

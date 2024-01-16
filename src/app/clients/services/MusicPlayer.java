@@ -6,7 +6,6 @@ import app.management.Library;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import app.audio.files.AudioFile;
 import app.audio.collections.AudioTrack;
-import app.audio.collections.Playlist;
 import app.audio.collections.Podcast;
 import lombok.Getter;
 import lombok.Setter;
@@ -111,7 +110,7 @@ public final class MusicPlayer {
      * Saves in history the view-time of the current loaded track if it's a podcast
      */
     private void savePodcastHistory() {
-        if (loadedTrack == null || loadedTrack.getClass() != Podcast.class) {
+        if (loadedTrack == null || !loadedTrack.getType().equals("podcast")) {
             return;
         }
         Podcast podcast = (Podcast) loadedTrack;
@@ -140,7 +139,6 @@ public final class MusicPlayer {
         for (AudioFile file : audioFiles.subList(startIndex, audioFiles.size())) {
             timeUntilNextFile = (timeUntilNextFile == -1) ? remainedTime : file.getDuration();
 
-            // TODO check with tests
             if (timeUntilNextFile - timePassed > 0) {
                 if (file != audioFile) {
                     owner.listenAudioFile(loadedTrack, file);
@@ -180,7 +178,6 @@ public final class MusicPlayer {
      * file or to the previous one.
      */
     public void previousAudioFile() {
-        // TODO check with listen update
         if (atFirstAudioFile() || audioFile.getDuration() > remainedTime) {
             remainedTime = audioFile.getDuration(); // restart the current file
         } else {
@@ -206,7 +203,6 @@ public final class MusicPlayer {
      * Goes back in time with a set skipTime
      */
     public void skipBackward() {
-        // TODO check with listen update
         if (audioFile.getDuration() - remainedTime < skippTime) {
             remainedTime = audioFile.getDuration(); // restart the current file
         } else {
@@ -245,7 +241,7 @@ public final class MusicPlayer {
         if (repeat == 0) {
             return "No Repeat";
         }
-        if (loadedTrack.getClass() == Playlist.class) {
+        if (loadedTrack.getType().equals("playlist")) {
             return (repeat == 1) ? "Repeat All" : "Repeat Current Song";
         } else {
             return (repeat == 1) ? "Repeat Once" : "Repeat Infinite";
@@ -253,7 +249,6 @@ public final class MusicPlayer {
     }
 
     private void loadPreviousAudioFile() {
-        // TODO check with listen update
         ArrayList<AudioFile> playQueue = new ArrayList<>(loadedTrack.loadedAudioFiles());
         if (shuffle) {
             Collections.shuffle(playQueue, new Random(seed));

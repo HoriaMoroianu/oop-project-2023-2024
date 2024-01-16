@@ -159,7 +159,7 @@ public final class HostCommands extends CommandStrategy {
             return true;
         }
 
-        if (client.getClass() != Host.class) {
+        if (!client.getType().equals("host")) {
             message = username + " is not a host.";
             outputNode.put("message", message);
             return true;

@@ -12,7 +12,6 @@ public final class PodcastOutput {
 
     public PodcastOutput(final Podcast podcast) {
         name = podcast.getName();
-        // TODO episode names here?
         episodes = podcast.getEpisodeNames();
     }
 }
