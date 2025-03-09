@@ -94,9 +94,3 @@ Pentru comanda "wrapped" a fost adaugata si clasa `ClientStats` ce este folosita
 - Factory Method (`CommandFactory`) creeaza comenzi noi pe baza tipului acestora;
 - Strategy (`CommandStrategy`) cu ajutorul caruia sunt executate comenzile in functie de tipul lor;
 - Observer (`Observer` + `NotificationsObserver`) cu ajutorul caruia am implementat sistemul de notificari catre abonati.
-
----
-### Comentarii asupra temei:
-Fiind un proiect mare cu 3 etape, sunt de parere ca deja a intervenit o lipsa de interes pentru el, revazand mereu si mereu acelasi cod. Inteleg si avantajele acestui tip de proiect insa asta a adus la mici neconcordante intre etape, task-uri prea repetitive sau pe alocuri structuri care par a fi adaugate doar de umplutura.
-
-Per total, mi-a placut tema abordata, am invatat foarte multe lucrand la acest proiect si regret ca nu am putut face de maxim si etapa asta din cauza programului incarcat si a organizarii mele cam proaste.
